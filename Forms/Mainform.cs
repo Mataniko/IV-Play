@@ -51,6 +51,13 @@ namespace IV_Play
             Location = new Point(Settings.Default.Window_x, Settings.Default.Window_y);
             Size = new Size(Settings.Default.window_width, Settings.Default.window_height);
 
+            if (Settings.Default.full_screen)
+            {
+                TopMost = true;
+                FormBorderStyle = FormBorderStyle.None;
+                Bounds = Screen.PrimaryScreen.Bounds;
+            }
+
             //If we don't have a dat file, we need to create one. The progress form is responsible for that.
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);

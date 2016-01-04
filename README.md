@@ -83,6 +83,20 @@ Display of the year and manufacturer is configurable through **F1**.
 
 Typing ‘donkey kong’ in the game list goes to the first instance depending where focus is when typing; if there are no instances downward it will go to the first instance of ‘donkey kong’ which may be all the way at the top in the favorites.
 
+### Auditing the Game List
+
+By default, IV/Play will display all roms, whether they exist in the roms folder or not.
+
+To limit the display to only those roms which are available and playable, place a MAME_g.ini file in the same directory as IV-Play.exe. The file MAME_g.ini is produced by MameUI64 after running an audit of all games.
+
+To produce this file, follow these steps:
+
+1. Run MameUI64.
+2. Select File->Audit all games.
+3. Copy MAME_g.ini into the same folder as IV-Play.exe.
+
+IV-Play will then limit the game list to only games that are available for play.
+
 ### Favorites
 
 IV/Play supports the use of a .\\favorites.ini file. This is a text file with one game per line, for example:

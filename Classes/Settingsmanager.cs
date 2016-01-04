@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 using IV_Play.Properties;
 
@@ -30,13 +31,41 @@ namespace IV_Play
         public static List<string> ArtPaths = new List<string>();
         public static MameCommands MameCommands;
         public static int[] CustomColors = new int[16];
-        
+        public static List<string> WorkingRoms = new List<string>();
+
         static SettingsManager()
         {
             if (File.Exists(cfgPath))
                 ReadSettingsFromFile(cfgPath);
             else
                 SetDefaultSettings();
+
+            if (File.Exists("MAME_g.ini"))
+            {
+                ReadAuditFromFile("MAME_g.ini");
+            }
+        }
+
+        public static void ReadAuditFromFile(string fileName)
+        {
+            WorkingRoms.Clear();
+
+            string[] lines = File.ReadAllLines(fileName);
+            foreach (var line in lines)
+            {
+                string query = " [012],";
+                Regex regEx = new Regex(query);
+                Match match = regEx.Match(line);
+                if (match.Success)
+                {
+                    // Valid and working rom.
+                    int end = line.IndexOf(' ');
+                    if (end != -1)
+                    {
+                        WorkingRoms.Add(line.Substring(0, end));
+                    }
+                }
+            }
         }
 
         public static void ResetSettings()

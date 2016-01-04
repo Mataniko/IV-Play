@@ -307,8 +307,10 @@ namespace IV_Play
                     {
                         string s = stringReader.ReadToEnd();
                         if (s != null)
-                            if (s.Contains("ERROR")) // Check is MAME returned an error and display it.
+                            if (s.Contains("ERROR") && Settings.Default.show_error) // Check is MAME returned an error and display it.
+                            {
                                 MessageBox.Show(s);
+                            }
                     }
                     parent.WindowState = windowState;
                 }
@@ -392,8 +394,9 @@ namespace IV_Play
         {
           
                 var sortedDict = (from entry in _games                                     
-                                  where (!Settings.Default.hide_nonworking_mechanical_games)
-                                  || ((Settings.Default.hide_nonworking_mechanical_games && !entry.Value.IsMechanical) || (entry.Value.IsMechanical && entry.Value.Working))
+                                  where ((!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.IsWorking)) && 
+                                      ((!Settings.Default.hide_nonworking_mechanical_games) ||
+                                        ((Settings.Default.hide_nonworking_mechanical_games && !entry.Value.IsMechanical) || (entry.Value.IsMechanical && entry.Value.Working))))
                                   orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
                                   select entry);
            
@@ -448,14 +451,17 @@ namespace IV_Play
                         child.Value.Description.Contains(_filter,
                                                          StringComparison.InvariantCultureIgnoreCase))
                     {
-                        child.Value.Index = i++;
-                        Games.Add(child.Key, child.Value);
-                        if (prevGame != null)
+                        if (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && child.Value.IsWorking))
                         {
-                            prevGame.NextGame = child.Value;
-                            fGame.Value.PreviousGame = prevGame;
+                            child.Value.Index = i++;
+                            Games.Add(child.Key, child.Value);
+                            if (prevGame != null)
+                            {
+                                prevGame.NextGame = child.Value;
+                                fGame.Value.PreviousGame = prevGame;
+                            }
+                            prevGame = child.Value;
                         }
-                        prevGame = child.Value;
                     }
                 }
             }
