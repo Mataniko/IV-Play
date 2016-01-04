@@ -15,7 +15,7 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [Display XML Data in UI](#display-xml-data-in-ui)
 		- [Title Bar](#title-bar)
 		- [Game List](#game-list)
-        - [Auditing Game List](#auditing-the-game-list)
+        - [Auditing the Game List](#auditing-the-game-list)
 		- [Favorites](#favorites)
 		- [Icons](#icons)
 		- [Art Area](#art-area)
@@ -96,7 +96,7 @@ To produce this file, follow these steps:
 2. Select File->Audit all games.
 3. Copy MAME_g.ini into the same folder as IV-Play.exe.
 
-IV-Play will then limit the game list to only games that are available for play.
+IV/Play will then limit the game list to only games that are available for play.
 
 ### Favorites
 
