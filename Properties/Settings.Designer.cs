@@ -411,12 +411,12 @@ namespace IV_Play.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool hide_nonworking_mechanical_games {
+        public bool hide_mechanical_games {
             get {
-                return ((bool)(this["hide_nonworking_mechanical_games"]));
+                return ((bool)(this["hide_mechanical_games"]));
             }
             set {
-                this["hide_nonworking_mechanical_games"] = value;
+                this["hide_mechanical_games"] = value;
             }
         }
         
@@ -470,6 +470,18 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool audit_games {
+            get {
+                return ((bool)(this["audit_games"]));
+            }
+            set {
+                this["audit_games"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool allow_grouping {
             get {
@@ -489,6 +501,18 @@ namespace IV_Play.Properties {
             }
             set {
                 this["full_screen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool hide_clones {
+            get {
+                return ((bool)(this["hide_clones"]));
+            }
+            set {
+                this["hide_clones"] = value;
             }
         }
         

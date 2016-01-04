@@ -110,11 +110,13 @@ namespace IV_Play
             _chkRotateBackground.Checked = Settings.Default.rotate_background;
             _chkItemZoom.Checked = Settings.Default.large_icon;
             _chkArtNonWorking.Checked = Settings.Default.non_working_overlay;
-            _chkShowMechanical.Checked = Settings.Default.hide_nonworking_mechanical_games;
+            _chkHideNonWorkingMechanical.Checked = Settings.Default.hide_mechanical_games;
+            _chkHideNonWorking.Checked = Settings.Default.hide_nonworking;
+            _chkHideClones.Checked = Settings.Default.hide_clones;
             _chkInputFilter.Checked = Settings.Default.filter_on_input;
             _chkShowError.Checked = Settings.Default.show_error;
             _chkFilterSearch.Checked = Settings.Default.filter_search;
-            _chkHideNonWorking.Checked = Settings.Default.hide_nonworking;
+            _chkAuditGames.Checked = Settings.Default.audit_games;
             _chkAllowGrouping.Checked = Settings.Default.allow_grouping;
             _chkFullscreen.Checked = Settings.Default.full_screen;
             _chkBackgroundRepeat.Checked = Settings.Default.background_repeat;
@@ -146,8 +148,8 @@ namespace IV_Play
 
         private void _btnOK_Click(object sender, EventArgs e)
         {
-            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
-            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking;
+            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.audit_games;
 
             SaveSettings();
             UpdateWindow(reloadGames, reloadAudit);
@@ -162,8 +164,8 @@ namespace IV_Play
 
         private void _btnApply_Click(object sender, EventArgs e)
         {
-            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
-            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking;
+            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.audit_games;
 
             SaveSettings();
             UpdateWindow(reloadGames, reloadAudit);
@@ -210,11 +212,13 @@ namespace IV_Play
             Settings.Default.rotate_background = _chkRotateBackground.Checked;
             Settings.Default.large_icon = _chkItemZoom.Checked;
             Settings.Default.non_working_overlay = _chkArtNonWorking.Checked;
-            Settings.Default.hide_nonworking_mechanical_games = _chkShowMechanical.Checked;
+            Settings.Default.hide_mechanical_games = _chkHideNonWorkingMechanical.Checked;
+            Settings.Default.hide_nonworking = _chkHideNonWorking.Checked;
+            Settings.Default.hide_clones = _chkHideClones.Checked;
             Settings.Default.filter_on_input = _chkInputFilter.Checked;
             Settings.Default.show_error = _chkShowError.Checked;
             Settings.Default.filter_search = _chkFilterSearch.Checked;
-            Settings.Default.hide_nonworking = _chkHideNonWorking.Checked;
+            Settings.Default.audit_games = _chkAuditGames.Checked;
             Settings.Default.allow_grouping = _chkAllowGrouping.Checked;
             Settings.Default.full_screen = _chkFullscreen.Checked;
             Settings.Default.background_repeat = _chkBackgroundRepeat.Checked;

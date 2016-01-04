@@ -388,18 +388,17 @@ namespace IV_Play
         }
 
         /// <summary>
-        /// This parses our gamelist using the current filter to what were actually displaying.
+        /// This parses our gamelist using the current filters to what were actually displaying.
         /// </summary>
         private void LoadGamesAndFavorites()
         {
           
-                var sortedDict = (from entry in _games                                     
-                                  where ((!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.IsWorking)) && 
-                                      ((!Settings.Default.hide_nonworking_mechanical_games) ||
-                                        ((Settings.Default.hide_nonworking_mechanical_games && !entry.Value.IsMechanical) || (entry.Value.IsMechanical && entry.Value.Working))))
+                var sortedDict = (from entry in _games
+                                  where ((!Settings.Default.audit_games || (Settings.Default.audit_games && entry.Value.IsWorking))
+                                  && (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
+                                  && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working)))
                                   orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
                                   select entry);
-           
 
             int i = FavoritesMode != FavoritesMode.Games ? LoadFavorites() : 0;
             
@@ -419,7 +418,7 @@ namespace IV_Play
                 return;
             }
             foreach (var fGame in sortedDict)
-            {
+            {              
                 if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Manufacturer.Contains(_filter,
                                                       StringComparison.InvariantCultureIgnoreCase) ||
@@ -439,28 +438,31 @@ namespace IV_Play
                     fGame.Value.PreviousGame = prevGame;
                     prevGame = fGame.Value;
                 }
-                foreach (var child in fGame.Value.Children)
+                if (!Settings.Default.hide_clones)
                 {
-                    if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
-                        child.Value.Manufacturer.Contains(_filter,
-                                                          StringComparison.InvariantCultureIgnoreCase) ||
-                        child.Value.SourceFile.Contains(_filter,
-                                                        StringComparison.InvariantCultureIgnoreCase) ||
-                        child.Value.Year.Contains(_filter,
-                                                  StringComparison.InvariantCultureIgnoreCase) ||
-                        child.Value.Description.Contains(_filter,
-                                                         StringComparison.InvariantCultureIgnoreCase))
+                    foreach (var child in fGame.Value.Children)
                     {
-                        if (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && child.Value.IsWorking))
+                        if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                            child.Value.Manufacturer.Contains(_filter,
+                                                              StringComparison.InvariantCultureIgnoreCase) ||
+                            child.Value.SourceFile.Contains(_filter,
+                                                            StringComparison.InvariantCultureIgnoreCase) ||
+                            child.Value.Year.Contains(_filter,
+                                                      StringComparison.InvariantCultureIgnoreCase) ||
+                            child.Value.Description.Contains(_filter,
+                                                             StringComparison.InvariantCultureIgnoreCase))
                         {
-                            child.Value.Index = i++;
-                            Games.Add(child.Key, child.Value);
-                            if (prevGame != null)
-                            {
-                                prevGame.NextGame = child.Value;
-                                fGame.Value.PreviousGame = prevGame;
-                            }
-                            prevGame = child.Value;
+                            if (!Settings.Default.audit_games || (Settings.Default.audit_games && child.Value.IsWorking))
+							{
+	                            child.Value.Index = i++;
+	                            Games.Add(child.Key, child.Value);
+	                            if (prevGame != null)
+	                            {
+	                                prevGame.NextGame = child.Value;
+	                                fGame.Value.PreviousGame = prevGame;
+	                            }
+	                            prevGame = child.Value;
+							}
                         }
                     }
                 }
