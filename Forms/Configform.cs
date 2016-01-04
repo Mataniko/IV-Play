@@ -112,6 +112,13 @@ namespace IV_Play
             _chkArtNonWorking.Checked = Settings.Default.non_working_overlay;
             _chkShowMechanical.Checked = Settings.Default.hide_nonworking_mechanical_games;
             _chkInputFilter.Checked = Settings.Default.filter_on_input;
+            _chkShowError.Checked = Settings.Default.show_error;
+            _chkFilterSearch.Checked = Settings.Default.filter_search;
+            _chkHideNonWorking.Checked = Settings.Default.hide_nonworking;
+            _chkAllowGrouping.Checked = Settings.Default.allow_grouping;
+            _chkFullscreen.Checked = Settings.Default.full_screen;
+            _chkBackgroundRepeat.Checked = Settings.Default.background_repeat;
+            _chkArrowKeyPaging.Checked = Settings.Default.arrow_key_paging;
 
             //Favorites
             _cmdFavMode.SelectedIndex= Settings.Default.favorites_mode;
@@ -139,7 +146,11 @@ namespace IV_Play
 
         private void _btnOK_Click(object sender, EventArgs e)
         {
+            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+
             SaveSettings();
+            UpdateWindow(reloadGames);
+
             Close();
         }
 
@@ -150,9 +161,10 @@ namespace IV_Play
 
         private void _btnApply_Click(object sender, EventArgs e)
         {
+            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.hide_nonworking || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+
             SaveSettings();
-            Refresh();
-            Owner.Refresh();
+            UpdateWindow(reloadGames);
         }
 
         private void _picBG_Click(object sender, EventArgs e)
@@ -198,6 +210,13 @@ namespace IV_Play
             Settings.Default.non_working_overlay = _chkArtNonWorking.Checked;
             Settings.Default.hide_nonworking_mechanical_games = _chkShowMechanical.Checked;
             Settings.Default.filter_on_input = _chkInputFilter.Checked;
+            Settings.Default.show_error = _chkShowError.Checked;
+            Settings.Default.filter_search = _chkFilterSearch.Checked;
+            Settings.Default.hide_nonworking = _chkHideNonWorking.Checked;
+            Settings.Default.allow_grouping = _chkAllowGrouping.Checked;
+            Settings.Default.full_screen = _chkFullscreen.Checked;
+            Settings.Default.background_repeat = _chkBackgroundRepeat.Checked;
+            Settings.Default.arrow_key_paging = _chkArrowKeyPaging.Checked;
 
             //Favorites
             Settings.Default.favorites_mode = _cmdFavMode.SelectedIndex;
@@ -445,10 +464,32 @@ namespace IV_Play
             }
         }
 
-       
+        private void UpdateWindow(bool reloadGames = false)
+        {
+            Cursor.Current = Cursors.WaitCursor;
 
-       
-        
+            // Toggle full-screen.
+            if (Settings.Default.full_screen)
+            {
+                Owner.TopMost = true;
+                Owner.FormBorderStyle = FormBorderStyle.None;
+                Owner.Bounds = Screen.PrimaryScreen.Bounds;
+            }
+            else
+            {
+                Owner.TopMost = false;
+                Owner.FormBorderStyle = FormBorderStyle.Sizable;
+                Owner.Location = new Point(Settings.Default.Window_x, Settings.Default.Window_y);
+                Owner.Size = new Size(Settings.Default.window_width, Settings.Default.window_height);
+            }
 
+            if (reloadGames)
+            {
+                // Refresh game list.
+                ((MainForm)Owner).RefreshGames();
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
     }
 }

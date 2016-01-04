@@ -62,6 +62,13 @@ namespace IV_Play
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
+            RefreshGames();
+
+            //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
+        }
+
+        public void RefreshGames()
+        {
             try
             {
                 if (!File.Exists("IV-Play.dat") && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
@@ -88,8 +95,6 @@ namespace IV_Play
             _gameList.Filter = "";
 
             UpdateTitleBar();
-
-            //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
         }
 
         private void GameList_GameListChanged(object sender, EventArgs e)

@@ -79,6 +79,13 @@
             this._colorPickerFav = new IV_Play.ColorPicker();
             this._colorPickerParent = new IV_Play.ColorPicker();
             this._colorPickerClone = new IV_Play.ColorPicker();
+            this._chkHideNonWorking = new System.Windows.Forms.CheckBox();
+            this._chkShowError = new System.Windows.Forms.CheckBox();
+            this._chkFullscreen = new System.Windows.Forms.CheckBox();
+            this._chkAllowGrouping = new System.Windows.Forms.CheckBox();
+            this._chkBackgroundRepeat = new System.Windows.Forms.CheckBox();
+            this._chkArrowKeyPaging = new System.Windows.Forms.CheckBox();
+            this._chkFilterSearch = new System.Windows.Forms.CheckBox();
             this._groupGameList.SuspendLayout();
             this._groupArt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._picBG)).BeginInit();
@@ -185,6 +192,13 @@
             // 
             // _groupGameList
             // 
+            this._groupGameList.Controls.Add(this._chkFilterSearch);
+            this._groupGameList.Controls.Add(this._chkArrowKeyPaging);
+            this._groupGameList.Controls.Add(this._chkBackgroundRepeat);
+            this._groupGameList.Controls.Add(this._chkAllowGrouping);
+            this._groupGameList.Controls.Add(this._chkFullscreen);
+            this._groupGameList.Controls.Add(this._chkShowError);
+            this._groupGameList.Controls.Add(this._chkHideNonWorking);
             this._groupGameList.Controls.Add(this._chkInputFilter);
             this._groupGameList.Controls.Add(this._chkShowMechanical);
             this._groupGameList.Controls.Add(this._chkArtNonWorking);
@@ -204,7 +218,7 @@
             this._groupGameList.Controls.Add(this._lblParentsColor);
             this._groupGameList.Location = new System.Drawing.Point(12, 12);
             this._groupGameList.Name = "_groupGameList";
-            this._groupGameList.Size = new System.Drawing.Size(342, 222);
+            this._groupGameList.Size = new System.Drawing.Size(342, 318);
             this._groupGameList.TabIndex = 0;
             this._groupGameList.TabStop = false;
             this._groupGameList.Text = "Game List:";
@@ -222,17 +236,17 @@
             // _chkShowMechanical
             // 
             this._chkShowMechanical.AutoSize = true;
-            this._chkShowMechanical.Location = new System.Drawing.Point(9, 153);
+            this._chkShowMechanical.Location = new System.Drawing.Point(9, 221);
             this._chkShowMechanical.Name = "_chkShowMechanical";
             this._chkShowMechanical.Size = new System.Drawing.Size(208, 17);
             this._chkShowMechanical.TabIndex = 37;
-            this._chkShowMechanical.Text = "Hide Non Working Mechanical Games";
+            this._chkShowMechanical.Text = "Hide Non-Working Mechanical Games";
             this._chkShowMechanical.UseVisualStyleBackColor = true;
             // 
             // _chkArtNonWorking
             // 
             this._chkArtNonWorking.AutoSize = true;
-            this._chkArtNonWorking.Location = new System.Drawing.Point(9, 130);
+            this._chkArtNonWorking.Location = new System.Drawing.Point(9, 198);
             this._chkArtNonWorking.Name = "_chkArtNonWorking";
             this._chkArtNonWorking.Size = new System.Drawing.Size(156, 17);
             this._chkArtNonWorking.TabIndex = 36;
@@ -247,7 +261,7 @@
             "No Favorites",
             "Favorites and Games",
             "Only Favorites"});
-            this._cmdFavMode.Location = new System.Drawing.Point(6, 195);
+            this._cmdFavMode.Location = new System.Drawing.Point(6, 291);
             this._cmdFavMode.Name = "_cmdFavMode";
             this._cmdFavMode.Size = new System.Drawing.Size(328, 21);
             this._cmdFavMode.TabIndex = 8;
@@ -255,7 +269,7 @@
             // _lblFavMode
             // 
             this._lblFavMode.AutoSize = true;
-            this._lblFavMode.Location = new System.Drawing.Point(6, 179);
+            this._lblFavMode.Location = new System.Drawing.Point(6, 275);
             this._lblFavMode.Name = "_lblFavMode";
             this._lblFavMode.Size = new System.Drawing.Size(83, 13);
             this._lblFavMode.TabIndex = 35;
@@ -312,7 +326,6 @@
             this._groupArt.Controls.Add(this._lblOpacityPercentage);
             this._groupArt.Controls.Add(this._picBG);
             this._groupArt.Controls.Add(this._borderWidth);
-            this._groupArt.Controls.Add(this._colorPickerBorder);
             this._groupArt.Controls.Add(this._lblBackground);
             this._groupArt.Controls.Add(this._lblBorderColor);
             this._groupArt.Controls.Add(this._lblBorderWidth);
@@ -322,7 +335,7 @@
             this._groupArt.Controls.Add(this._lblArtView);
             this._groupArt.Controls.Add(this._lblOpacity);
             this._groupArt.Controls.Add(this._lblArtType);
-            this._groupArt.Location = new System.Drawing.Point(12, 240);
+            this._groupArt.Location = new System.Drawing.Point(12, 336);
             this._groupArt.Name = "_groupArt";
             this._groupArt.Size = new System.Drawing.Size(342, 202);
             this._groupArt.TabIndex = 1;
@@ -546,7 +559,7 @@
             // 
             // _btnReset
             // 
-            this._btnReset.Location = new System.Drawing.Point(12, 448);
+            this._btnReset.Location = new System.Drawing.Point(12, 544);
             this._btnReset.Name = "_btnReset";
             this._btnReset.Size = new System.Drawing.Size(101, 23);
             this._btnReset.TabIndex = 6;
@@ -626,13 +639,83 @@
             this._colorPickerClone.TabIndex = 2;
             this._colorPickerClone.TabStop = false;
             // 
+            // _chkHideNonWorking
+            // 
+            this._chkHideNonWorking.AutoSize = true;
+            this._chkHideNonWorking.Location = new System.Drawing.Point(9, 244);
+            this._chkHideNonWorking.Name = "_chkHideNonWorking";
+            this._chkHideNonWorking.Size = new System.Drawing.Size(219, 17);
+            this._chkHideNonWorking.TabIndex = 39;
+            this._chkHideNonWorking.Text = "Hide Non-Available Games (MAME_g.ini)";
+            this._chkHideNonWorking.UseVisualStyleBackColor = true;
+            // 
+            // _chkShowError
+            // 
+            this._chkShowError.AutoSize = true;
+            this._chkShowError.Location = new System.Drawing.Point(9, 130);
+            this._chkShowError.Name = "_chkShowError";
+            this._chkShowError.Size = new System.Drawing.Size(83, 17);
+            this._chkShowError.TabIndex = 40;
+            this._chkShowError.Text = "Show Errors";
+            this._chkShowError.UseVisualStyleBackColor = true;
+            // 
+            // _chkFullscreen
+            // 
+            this._chkFullscreen.AutoSize = true;
+            this._chkFullscreen.Location = new System.Drawing.Point(183, 153);
+            this._chkFullscreen.Name = "_chkFullscreen";
+            this._chkFullscreen.Size = new System.Drawing.Size(116, 17);
+            this._chkFullscreen.TabIndex = 41;
+            this._chkFullscreen.Text = "Fullscreen Window";
+            this._chkFullscreen.UseVisualStyleBackColor = true;
+            // 
+            // _chkAllowGrouping
+            // 
+            this._chkAllowGrouping.AutoSize = true;
+            this._chkAllowGrouping.Location = new System.Drawing.Point(183, 176);
+            this._chkAllowGrouping.Name = "_chkAllowGrouping";
+            this._chkAllowGrouping.Size = new System.Drawing.Size(147, 17);
+            this._chkAllowGrouping.TabIndex = 42;
+            this._chkAllowGrouping.Text = "Group Parent/Child Roms";
+            this._chkAllowGrouping.UseVisualStyleBackColor = true;
+            // 
+            // _chkBackgroundRepeat
+            // 
+            this._chkBackgroundRepeat.AutoSize = true;
+            this._chkBackgroundRepeat.Location = new System.Drawing.Point(9, 153);
+            this._chkBackgroundRepeat.Name = "_chkBackgroundRepeat";
+            this._chkBackgroundRepeat.Size = new System.Drawing.Size(136, 17);
+            this._chkBackgroundRepeat.TabIndex = 43;
+            this._chkBackgroundRepeat.Text = "Tile Background Image";
+            this._chkBackgroundRepeat.UseVisualStyleBackColor = true;
+            // 
+            // _chkArrowKeyPaging
+            // 
+            this._chkArrowKeyPaging.AutoSize = true;
+            this._chkArrowKeyPaging.Location = new System.Drawing.Point(183, 199);
+            this._chkArrowKeyPaging.Name = "_chkArrowKeyPaging";
+            this._chkArrowKeyPaging.Size = new System.Drawing.Size(140, 17);
+            this._chkArrowKeyPaging.TabIndex = 44;
+            this._chkArrowKeyPaging.Text = "Left/Right Arrow Paging";
+            this._chkArrowKeyPaging.UseVisualStyleBackColor = true;
+            // 
+            // _chkFilterSearch
+            // 
+            this._chkFilterSearch.AutoSize = true;
+            this._chkFilterSearch.Location = new System.Drawing.Point(9, 175);
+            this._chkFilterSearch.Name = "_chkFilterSearch";
+            this._chkFilterSearch.Size = new System.Drawing.Size(121, 17);
+            this._chkFilterSearch.TabIndex = 45;
+            this._chkFilterSearch.Text = "Enable Filter Search";
+            this._chkFilterSearch.UseVisualStyleBackColor = true;
+            // 
             // ConfigForm
             // 
             this.AcceptButton = this._btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
-            this.ClientSize = new System.Drawing.Size(806, 483);
+            this.ClientSize = new System.Drawing.Size(806, 579);
             this.Controls.Add(this._groupMame);
             this.Controls.Add(this._btnReset);
             this.Controls.Add(this._groupArtTypes);
@@ -716,5 +799,12 @@
         private AutoCompleteTextBox autoCompleteTextBox1;
         private System.Windows.Forms.CheckBox _chkShowMechanical;
         private System.Windows.Forms.CheckBox _chkInputFilter;
+        private System.Windows.Forms.CheckBox _chkFilterSearch;
+        private System.Windows.Forms.CheckBox _chkArrowKeyPaging;
+        private System.Windows.Forms.CheckBox _chkBackgroundRepeat;
+        private System.Windows.Forms.CheckBox _chkAllowGrouping;
+        private System.Windows.Forms.CheckBox _chkFullscreen;
+        private System.Windows.Forms.CheckBox _chkShowError;
+        private System.Windows.Forms.CheckBox _chkHideNonWorking;
     }
 }
