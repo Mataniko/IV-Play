@@ -416,7 +416,7 @@
             // 
             // _btnApply
             // 
-            this._btnApply.Location = new System.Drawing.Point(725, 448);
+            this._btnApply.Location = new System.Drawing.Point(719, 544);
             this._btnApply.Name = "_btnApply";
             this._btnApply.Size = new System.Drawing.Size(75, 23);
             this._btnApply.TabIndex = 5;
@@ -427,7 +427,7 @@
             // _btnCancel
             // 
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Location = new System.Drawing.Point(644, 448);
+            this._btnCancel.Location = new System.Drawing.Point(638, 544);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 4;
@@ -438,7 +438,7 @@
             // _btnOK
             // 
             this._btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._btnOK.Location = new System.Drawing.Point(563, 448);
+            this._btnOK.Location = new System.Drawing.Point(557, 544);
             this._btnOK.Name = "_btnOK";
             this._btnOK.Size = new System.Drawing.Size(75, 23);
             this._btnOK.TabIndex = 3;
@@ -457,7 +457,7 @@
             this._groupArtTypes.Controls.Add(this._listArtViews);
             this._groupArtTypes.Location = new System.Drawing.Point(360, 71);
             this._groupArtTypes.Name = "_groupArtTypes";
-            this._groupArtTypes.Size = new System.Drawing.Size(440, 371);
+            this._groupArtTypes.Size = new System.Drawing.Size(440, 467);
             this._groupArtTypes.TabIndex = 2;
             this._groupArtTypes.TabStop = false;
             this._groupArtTypes.Text = "Art Types:";
@@ -467,7 +467,7 @@
             this._btnDatFont.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnDatFont.AutoSize = true;
             this._btnDatFont.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnDatFont.Location = new System.Drawing.Point(197, 342);
+            this._btnDatFont.Location = new System.Drawing.Point(197, 438);
             this._btnDatFont.Name = "_btnDatFont";
             this._btnDatFont.Size = new System.Drawing.Size(87, 23);
             this._btnDatFont.TabIndex = 4;
@@ -480,7 +480,7 @@
             this._btnLoadDat.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnLoadDat.AutoSize = true;
             this._btnLoadDat.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnLoadDat.Location = new System.Drawing.Point(111, 342);
+            this._btnLoadDat.Location = new System.Drawing.Point(111, 438);
             this._btnLoadDat.Name = "_btnLoadDat";
             this._btnLoadDat.Size = new System.Drawing.Size(80, 23);
             this._btnLoadDat.TabIndex = 3;
@@ -493,7 +493,7 @@
             this._btnMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnMoveDown.AutoSize = true;
             this._btnMoveDown.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnMoveDown.Location = new System.Drawing.Point(361, 342);
+            this._btnMoveDown.Location = new System.Drawing.Point(361, 438);
             this._btnMoveDown.Name = "_btnMoveDown";
             this._btnMoveDown.Size = new System.Drawing.Size(75, 23);
             this._btnMoveDown.TabIndex = 6;
@@ -506,7 +506,7 @@
             this._btnMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnMoveUp.AutoSize = true;
             this._btnMoveUp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnMoveUp.Location = new System.Drawing.Point(294, 342);
+            this._btnMoveUp.Location = new System.Drawing.Point(294, 438);
             this._btnMoveUp.Name = "_btnMoveUp";
             this._btnMoveUp.Size = new System.Drawing.Size(61, 23);
             this._btnMoveUp.TabIndex = 5;
@@ -519,7 +519,7 @@
             this._btnRemoveView.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnRemoveView.AutoSize = true;
             this._btnRemoveView.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnRemoveView.Location = new System.Drawing.Point(48, 342);
+            this._btnRemoveView.Location = new System.Drawing.Point(48, 438);
             this._btnRemoveView.Name = "_btnRemoveView";
             this._btnRemoveView.Size = new System.Drawing.Size(57, 23);
             this._btnRemoveView.TabIndex = 2;
@@ -532,7 +532,7 @@
             this._btnAddArtView.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnAddArtView.AutoSize = true;
             this._btnAddArtView.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnAddArtView.Location = new System.Drawing.Point(6, 342);
+            this._btnAddArtView.Location = new System.Drawing.Point(6, 438);
             this._btnAddArtView.Name = "_btnAddArtView";
             this._btnAddArtView.Size = new System.Drawing.Size(36, 23);
             this._btnAddArtView.TabIndex = 1;
@@ -546,7 +546,7 @@
             this._listArtViews.FormattingEnabled = true;
             this._listArtViews.Location = new System.Drawing.Point(6, 19);
             this._listArtViews.Name = "_listArtViews";
-            this._listArtViews.Size = new System.Drawing.Size(430, 316);
+            this._listArtViews.Size = new System.Drawing.Size(430, 407);
             this._listArtViews.TabIndex = 0;
             this._listArtViews.DragDrop += new System.Windows.Forms.DragEventHandler(this._listArtViews_DragDrop);
             this._listArtViews.DragEnter += new System.Windows.Forms.DragEventHandler(this._listArtViews_DragEnter);
