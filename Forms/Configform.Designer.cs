@@ -646,7 +646,7 @@
             this._chkHideNonWorking.Name = "_chkHideNonWorking";
             this._chkHideNonWorking.Size = new System.Drawing.Size(219, 17);
             this._chkHideNonWorking.TabIndex = 39;
-            this._chkHideNonWorking.Text = "Hide Non-Available Games (MAME_g.ini)";
+            this._chkHideNonWorking.Text = "Audit Game List (MAME_g.ini)";
             this._chkHideNonWorking.UseVisualStyleBackColor = true;
             // 
             // _chkShowError
