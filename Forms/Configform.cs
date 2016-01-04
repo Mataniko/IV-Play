@@ -148,8 +148,8 @@ namespace IV_Play
 
         private void _btnOK_Click(object sender, EventArgs e)
         {
-            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
-            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.audit_games;
+            bool reloadGames = _chkAuditGames.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+            bool reloadAudit = _chkAuditGames.Checked != Settings.Default.audit_games;
 
             SaveSettings();
             UpdateWindow(reloadGames, reloadAudit);
@@ -164,8 +164,8 @@ namespace IV_Play
 
         private void _btnApply_Click(object sender, EventArgs e)
         {
-            bool reloadGames = _chkHideNonWorking.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
-            bool reloadAudit = _chkHideNonWorking.Checked != Settings.Default.audit_games;
+            bool reloadGames = _chkAuditGames.Checked != Settings.Default.audit_games || _chkAllowGrouping.Checked != Settings.Default.allow_grouping;
+            bool reloadAudit = _chkAuditGames.Checked != Settings.Default.audit_games;
 
             SaveSettings();
             UpdateWindow(reloadGames, reloadAudit);
