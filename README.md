@@ -15,6 +15,7 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [Display XML Data in UI](#display-xml-data-in-ui)
 		- [Title Bar](#title-bar)
 		- [Game List](#game-list)
+        - [Auditing Game List](#auditing-the-game-list)
 		- [Favorites](#favorites)
 		- [Icons](#icons)
 		- [Art Area](#art-area)
