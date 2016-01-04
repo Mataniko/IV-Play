@@ -51,10 +51,24 @@ namespace IV_Play
             Location = new Point(Settings.Default.Window_x, Settings.Default.Window_y);
             Size = new Size(Settings.Default.window_width, Settings.Default.window_height);
 
+            if (Settings.Default.full_screen)
+            {
+                TopMost = true;
+                FormBorderStyle = FormBorderStyle.None;
+                Bounds = Screen.PrimaryScreen.Bounds;
+            }
+
             //If we don't have a dat file, we need to create one. The progress form is responsible for that.
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
+            RefreshGames();
+
+            //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
+        }
+
+        public void RefreshGames()
+        {
             try
             {
                 if (!File.Exists("IV-Play.dat") && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
@@ -81,8 +95,6 @@ namespace IV_Play
             _gameList.Filter = "";
 
             UpdateTitleBar();
-
-            //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
         }
 
         private void GameList_GameListChanged(object sender, EventArgs e)
