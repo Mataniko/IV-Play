@@ -110,7 +110,9 @@ namespace IV_Play
             _chkRotateBackground.Checked = Settings.Default.rotate_background;
             _chkItemZoom.Checked = Settings.Default.large_icon;
             _chkArtNonWorking.Checked = Settings.Default.non_working_overlay;
-            _chkShowMechanical.Checked = Settings.Default.hide_nonworking_mechanical_games;
+            _chkHideNonWorkingMechanical.Checked = Settings.Default.hide_mechanical_games;
+            _chkHideNonWorking.Checked = Settings.Default.hide_nonworking;
+            _chkHideClones.Checked = Settings.Default.hide_clones;
             _chkInputFilter.Checked = Settings.Default.filter_on_input;
 
             //Favorites
@@ -196,7 +198,9 @@ namespace IV_Play
             Settings.Default.rotate_background = _chkRotateBackground.Checked;
             Settings.Default.large_icon = _chkItemZoom.Checked;
             Settings.Default.non_working_overlay = _chkArtNonWorking.Checked;
-            Settings.Default.hide_nonworking_mechanical_games = _chkShowMechanical.Checked;
+            Settings.Default.hide_mechanical_games = _chkHideNonWorkingMechanical.Checked;
+            Settings.Default.hide_nonworking = _chkHideNonWorking.Checked;
+            Settings.Default.hide_clones = _chkHideClones.Checked;
             Settings.Default.filter_on_input = _chkInputFilter.Checked;
 
             //Favorites

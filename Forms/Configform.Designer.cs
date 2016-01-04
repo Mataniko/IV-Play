@@ -41,19 +41,23 @@
             this._fontDialog = new System.Windows.Forms.FontDialog();
             this._groupGameList = new System.Windows.Forms.GroupBox();
             this._chkInputFilter = new System.Windows.Forms.CheckBox();
-            this._chkShowMechanical = new System.Windows.Forms.CheckBox();
             this._chkArtNonWorking = new System.Windows.Forms.CheckBox();
             this._cmdFavMode = new System.Windows.Forms.ComboBox();
             this._lblFavMode = new System.Windows.Forms.Label();
             this._lblFavColor = new System.Windows.Forms.Label();
             this._lblColorGame = new System.Windows.Forms.Label();
+            this._colorPickerFav = new IV_Play.ColorPicker();
             this._btnGameFont = new System.Windows.Forms.Button();
+            this._colorPickerParent = new IV_Play.ColorPicker();
+            this._colorPickerClone = new IV_Play.ColorPicker();
             this._lblClonesColor = new System.Windows.Forms.Label();
             this._lblParentsColor = new System.Windows.Forms.Label();
+            this._chkHideNonWorkingMechanical = new System.Windows.Forms.CheckBox();
             this._groupArt = new System.Windows.Forms.GroupBox();
             this._lblOpacityPercentage = new System.Windows.Forms.Label();
             this._picBG = new System.Windows.Forms.PictureBox();
             this._borderWidth = new System.Windows.Forms.NumericUpDown();
+            this._colorPickerBorder = new IV_Play.ColorPicker();
             this._lblBackground = new System.Windows.Forms.Label();
             this._lblBorderColor = new System.Windows.Forms.Label();
             this._lblBorderWidth = new System.Windows.Forms.Label();
@@ -73,12 +77,11 @@
             this._fontDialog2 = new System.Windows.Forms.FontDialog();
             this._btnReset = new System.Windows.Forms.Button();
             this._groupMame = new System.Windows.Forms.GroupBox();
-            this._lblCommandLine = new System.Windows.Forms.Label();
             this.autoCompleteTextBox1 = new IV_Play.AutoCompleteTextBox();
-            this._colorPickerBorder = new IV_Play.ColorPicker();
-            this._colorPickerFav = new IV_Play.ColorPicker();
-            this._colorPickerParent = new IV_Play.ColorPicker();
-            this._colorPickerClone = new IV_Play.ColorPicker();
+            this._lblCommandLine = new System.Windows.Forms.Label();
+            this._groupFilters = new System.Windows.Forms.GroupBox();
+            this._chkHideNonWorking = new System.Windows.Forms.CheckBox();
+            this._chkHideClones = new System.Windows.Forms.CheckBox();
             this._groupGameList.SuspendLayout();
             this._groupArt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._picBG)).BeginInit();
@@ -86,6 +89,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._trackBarOpacity)).BeginInit();
             this._groupArtTypes.SuspendLayout();
             this._groupMame.SuspendLayout();
+            this._groupFilters.SuspendLayout();
             this.SuspendLayout();
             // 
             // _lblArtView
@@ -186,7 +190,6 @@
             // _groupGameList
             // 
             this._groupGameList.Controls.Add(this._chkInputFilter);
-            this._groupGameList.Controls.Add(this._chkShowMechanical);
             this._groupGameList.Controls.Add(this._chkArtNonWorking);
             this._groupGameList.Controls.Add(this._cmdFavMode);
             this._groupGameList.Controls.Add(this._lblFavMode);
@@ -204,7 +207,7 @@
             this._groupGameList.Controls.Add(this._lblParentsColor);
             this._groupGameList.Location = new System.Drawing.Point(12, 12);
             this._groupGameList.Name = "_groupGameList";
-            this._groupGameList.Size = new System.Drawing.Size(342, 222);
+            this._groupGameList.Size = new System.Drawing.Size(342, 196);
             this._groupGameList.TabIndex = 0;
             this._groupGameList.TabStop = false;
             this._groupGameList.Text = "Game List:";
@@ -218,16 +221,6 @@
             this._chkInputFilter.TabIndex = 38;
             this._chkInputFilter.Text = "Filter on Input";
             this._chkInputFilter.UseVisualStyleBackColor = true;
-            // 
-            // _chkShowMechanical
-            // 
-            this._chkShowMechanical.AutoSize = true;
-            this._chkShowMechanical.Location = new System.Drawing.Point(9, 153);
-            this._chkShowMechanical.Name = "_chkShowMechanical";
-            this._chkShowMechanical.Size = new System.Drawing.Size(208, 17);
-            this._chkShowMechanical.TabIndex = 37;
-            this._chkShowMechanical.Text = "Hide Non Working Mechanical Games";
-            this._chkShowMechanical.UseVisualStyleBackColor = true;
             // 
             // _chkArtNonWorking
             // 
@@ -247,7 +240,7 @@
             "No Favorites",
             "Favorites and Games",
             "Only Favorites"});
-            this._cmdFavMode.Location = new System.Drawing.Point(6, 195);
+            this._cmdFavMode.Location = new System.Drawing.Point(6, 166);
             this._cmdFavMode.Name = "_cmdFavMode";
             this._cmdFavMode.Size = new System.Drawing.Size(328, 21);
             this._cmdFavMode.TabIndex = 8;
@@ -255,7 +248,7 @@
             // _lblFavMode
             // 
             this._lblFavMode.AutoSize = true;
-            this._lblFavMode.Location = new System.Drawing.Point(6, 179);
+            this._lblFavMode.Location = new System.Drawing.Point(6, 150);
             this._lblFavMode.Name = "_lblFavMode";
             this._lblFavMode.Size = new System.Drawing.Size(83, 13);
             this._lblFavMode.TabIndex = 35;
@@ -279,6 +272,17 @@
             this._lblColorGame.TabIndex = 30;
             this._lblColorGame.Text = "Game List Colors:";
             // 
+            // _colorPickerFav
+            // 
+            this._colorPickerFav.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerFav.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerFav.Location = new System.Drawing.Point(318, 59);
+            this._colorPickerFav.Name = "_colorPickerFav";
+            this._colorPickerFav.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerFav.TabIndex = 3;
+            this._colorPickerFav.TabStop = false;
+            // 
             // _btnGameFont
             // 
             this._btnGameFont.Location = new System.Drawing.Point(6, 19);
@@ -288,6 +292,28 @@
             this._btnGameFont.Text = "Game List Font";
             this._btnGameFont.UseVisualStyleBackColor = true;
             this._btnGameFont.Click += new System.EventHandler(this._btnFont_Click);
+            // 
+            // _colorPickerParent
+            // 
+            this._colorPickerParent.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerParent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerParent.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerParent.Location = new System.Drawing.Point(318, 19);
+            this._colorPickerParent.Name = "_colorPickerParent";
+            this._colorPickerParent.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerParent.TabIndex = 1;
+            this._colorPickerParent.TabStop = false;
+            // 
+            // _colorPickerClone
+            // 
+            this._colorPickerClone.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerClone.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerClone.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerClone.Location = new System.Drawing.Point(318, 39);
+            this._colorPickerClone.Name = "_colorPickerClone";
+            this._colorPickerClone.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerClone.TabIndex = 2;
+            this._colorPickerClone.TabStop = false;
             // 
             // _lblClonesColor
             // 
@@ -307,6 +333,16 @@
             this._lblParentsColor.TabIndex = 30;
             this._lblParentsColor.Text = "Parents:";
             // 
+            // _chkHideNonWorkingMechanical
+            // 
+            this._chkHideNonWorkingMechanical.AutoSize = true;
+            this._chkHideNonWorkingMechanical.Location = new System.Drawing.Point(9, 19);
+            this._chkHideNonWorkingMechanical.Name = "_chkHideNonWorkingMechanical";
+            this._chkHideNonWorkingMechanical.Size = new System.Drawing.Size(142, 17);
+            this._chkHideNonWorkingMechanical.TabIndex = 37;
+            this._chkHideNonWorkingMechanical.Text = "Hide Mechanical Games";
+            this._chkHideNonWorkingMechanical.UseVisualStyleBackColor = true;
+            // 
             // _groupArt
             // 
             this._groupArt.Controls.Add(this._lblOpacityPercentage);
@@ -322,7 +358,7 @@
             this._groupArt.Controls.Add(this._lblArtView);
             this._groupArt.Controls.Add(this._lblOpacity);
             this._groupArt.Controls.Add(this._lblArtType);
-            this._groupArt.Location = new System.Drawing.Point(12, 240);
+            this._groupArt.Location = new System.Drawing.Point(12, 294);
             this._groupArt.Name = "_groupArt";
             this._groupArt.Size = new System.Drawing.Size(342, 202);
             this._groupArt.TabIndex = 1;
@@ -361,6 +397,17 @@
             0,
             0,
             0});
+            // 
+            // _colorPickerBorder
+            // 
+            this._colorPickerBorder.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerBorder.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerBorder.Location = new System.Drawing.Point(9, 141);
+            this._colorPickerBorder.Name = "_colorPickerBorder";
+            this._colorPickerBorder.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerBorder.TabIndex = 3;
+            this._colorPickerBorder.TabStop = false;
             // 
             // _lblBackground
             // 
@@ -403,7 +450,7 @@
             // 
             // _btnApply
             // 
-            this._btnApply.Location = new System.Drawing.Point(725, 448);
+            this._btnApply.Location = new System.Drawing.Point(725, 502);
             this._btnApply.Name = "_btnApply";
             this._btnApply.Size = new System.Drawing.Size(75, 23);
             this._btnApply.TabIndex = 5;
@@ -414,7 +461,7 @@
             // _btnCancel
             // 
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Location = new System.Drawing.Point(644, 448);
+            this._btnCancel.Location = new System.Drawing.Point(644, 502);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 4;
@@ -425,7 +472,7 @@
             // _btnOK
             // 
             this._btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._btnOK.Location = new System.Drawing.Point(563, 448);
+            this._btnOK.Location = new System.Drawing.Point(563, 502);
             this._btnOK.Name = "_btnOK";
             this._btnOK.Size = new System.Drawing.Size(75, 23);
             this._btnOK.TabIndex = 3;
@@ -444,7 +491,7 @@
             this._groupArtTypes.Controls.Add(this._listArtViews);
             this._groupArtTypes.Location = new System.Drawing.Point(360, 71);
             this._groupArtTypes.Name = "_groupArtTypes";
-            this._groupArtTypes.Size = new System.Drawing.Size(440, 371);
+            this._groupArtTypes.Size = new System.Drawing.Size(440, 425);
             this._groupArtTypes.TabIndex = 2;
             this._groupArtTypes.TabStop = false;
             this._groupArtTypes.Text = "Art Types:";
@@ -454,7 +501,7 @@
             this._btnDatFont.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnDatFont.AutoSize = true;
             this._btnDatFont.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnDatFont.Location = new System.Drawing.Point(197, 342);
+            this._btnDatFont.Location = new System.Drawing.Point(197, 396);
             this._btnDatFont.Name = "_btnDatFont";
             this._btnDatFont.Size = new System.Drawing.Size(87, 23);
             this._btnDatFont.TabIndex = 4;
@@ -467,7 +514,7 @@
             this._btnLoadDat.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnLoadDat.AutoSize = true;
             this._btnLoadDat.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnLoadDat.Location = new System.Drawing.Point(111, 342);
+            this._btnLoadDat.Location = new System.Drawing.Point(111, 396);
             this._btnLoadDat.Name = "_btnLoadDat";
             this._btnLoadDat.Size = new System.Drawing.Size(80, 23);
             this._btnLoadDat.TabIndex = 3;
@@ -480,7 +527,7 @@
             this._btnMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnMoveDown.AutoSize = true;
             this._btnMoveDown.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnMoveDown.Location = new System.Drawing.Point(361, 342);
+            this._btnMoveDown.Location = new System.Drawing.Point(361, 396);
             this._btnMoveDown.Name = "_btnMoveDown";
             this._btnMoveDown.Size = new System.Drawing.Size(75, 23);
             this._btnMoveDown.TabIndex = 6;
@@ -493,7 +540,7 @@
             this._btnMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnMoveUp.AutoSize = true;
             this._btnMoveUp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnMoveUp.Location = new System.Drawing.Point(294, 342);
+            this._btnMoveUp.Location = new System.Drawing.Point(294, 396);
             this._btnMoveUp.Name = "_btnMoveUp";
             this._btnMoveUp.Size = new System.Drawing.Size(61, 23);
             this._btnMoveUp.TabIndex = 5;
@@ -506,7 +553,7 @@
             this._btnRemoveView.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnRemoveView.AutoSize = true;
             this._btnRemoveView.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnRemoveView.Location = new System.Drawing.Point(48, 342);
+            this._btnRemoveView.Location = new System.Drawing.Point(48, 396);
             this._btnRemoveView.Name = "_btnRemoveView";
             this._btnRemoveView.Size = new System.Drawing.Size(57, 23);
             this._btnRemoveView.TabIndex = 2;
@@ -519,7 +566,7 @@
             this._btnAddArtView.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._btnAddArtView.AutoSize = true;
             this._btnAddArtView.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnAddArtView.Location = new System.Drawing.Point(6, 342);
+            this._btnAddArtView.Location = new System.Drawing.Point(6, 396);
             this._btnAddArtView.Name = "_btnAddArtView";
             this._btnAddArtView.Size = new System.Drawing.Size(36, 23);
             this._btnAddArtView.TabIndex = 1;
@@ -533,7 +580,7 @@
             this._listArtViews.FormattingEnabled = true;
             this._listArtViews.Location = new System.Drawing.Point(6, 19);
             this._listArtViews.Name = "_listArtViews";
-            this._listArtViews.Size = new System.Drawing.Size(430, 316);
+            this._listArtViews.Size = new System.Drawing.Size(430, 368);
             this._listArtViews.TabIndex = 0;
             this._listArtViews.DragDrop += new System.Windows.Forms.DragEventHandler(this._listArtViews_DragDrop);
             this._listArtViews.DragEnter += new System.Windows.Forms.DragEventHandler(this._listArtViews_DragEnter);
@@ -546,7 +593,7 @@
             // 
             // _btnReset
             // 
-            this._btnReset.Location = new System.Drawing.Point(12, 448);
+            this._btnReset.Location = new System.Drawing.Point(12, 502);
             this._btnReset.Name = "_btnReset";
             this._btnReset.Size = new System.Drawing.Size(101, 23);
             this._btnReset.TabIndex = 6;
@@ -565,6 +612,14 @@
             this._groupMame.TabStop = false;
             this._groupMame.Text = "Mame Settings:";
             // 
+            // autoCompleteTextBox1
+            // 
+            this.autoCompleteTextBox1.Items = ((System.Collections.Generic.SortedDictionary<string, string>)(resources.GetObject("autoCompleteTextBox1.Items")));
+            this.autoCompleteTextBox1.Location = new System.Drawing.Point(6, 32);
+            this.autoCompleteTextBox1.Name = "autoCompleteTextBox1";
+            this.autoCompleteTextBox1.Size = new System.Drawing.Size(428, 20);
+            this.autoCompleteTextBox1.TabIndex = 1;
+            // 
             // _lblCommandLine
             // 
             this._lblCommandLine.AutoSize = true;
@@ -574,57 +629,37 @@
             this._lblCommandLine.TabIndex = 0;
             this._lblCommandLine.Text = "Command Line Switches:";
             // 
-            // autoCompleteTextBox1
+            // _groupFilters
             // 
-            this.autoCompleteTextBox1.Items = ((System.Collections.Generic.SortedDictionary<string, string>)(resources.GetObject("autoCompleteTextBox1.Items")));
-            this.autoCompleteTextBox1.Location = new System.Drawing.Point(6, 32);
-            this.autoCompleteTextBox1.Name = "autoCompleteTextBox1";
-            this.autoCompleteTextBox1.Size = new System.Drawing.Size(428, 20);
-            this.autoCompleteTextBox1.TabIndex = 1;
+            this._groupFilters.Controls.Add(this._chkHideNonWorking);
+            this._groupFilters.Controls.Add(this._chkHideClones);
+            this._groupFilters.Controls.Add(this._chkHideNonWorkingMechanical);
+            this._groupFilters.Location = new System.Drawing.Point(12, 214);
+            this._groupFilters.Name = "_groupFilters";
+            this._groupFilters.Size = new System.Drawing.Size(334, 74);
+            this._groupFilters.TabIndex = 8;
+            this._groupFilters.TabStop = false;
+            this._groupFilters.Text = "Filters";
             // 
-            // _colorPickerBorder
+            // _chkHideNonWorking
             // 
-            this._colorPickerBorder.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerBorder.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerBorder.Location = new System.Drawing.Point(9, 141);
-            this._colorPickerBorder.Name = "_colorPickerBorder";
-            this._colorPickerBorder.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerBorder.TabIndex = 3;
-            this._colorPickerBorder.TabStop = false;
+            this._chkHideNonWorking.AutoSize = true;
+            this._chkHideNonWorking.Location = new System.Drawing.Point(9, 42);
+            this._chkHideNonWorking.Name = "_chkHideNonWorking";
+            this._chkHideNonWorking.Size = new System.Drawing.Size(150, 17);
+            this._chkHideNonWorking.TabIndex = 39;
+            this._chkHideNonWorking.Text = "Hide Non Working Games";
+            this._chkHideNonWorking.UseVisualStyleBackColor = true;
             // 
-            // _colorPickerFav
+            // _chkHideClones
             // 
-            this._colorPickerFav.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerFav.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerFav.Location = new System.Drawing.Point(318, 59);
-            this._colorPickerFav.Name = "_colorPickerFav";
-            this._colorPickerFav.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerFav.TabIndex = 3;
-            this._colorPickerFav.TabStop = false;
-            // 
-            // _colorPickerParent
-            // 
-            this._colorPickerParent.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerParent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerParent.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerParent.Location = new System.Drawing.Point(318, 19);
-            this._colorPickerParent.Name = "_colorPickerParent";
-            this._colorPickerParent.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerParent.TabIndex = 1;
-            this._colorPickerParent.TabStop = false;
-            // 
-            // _colorPickerClone
-            // 
-            this._colorPickerClone.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerClone.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerClone.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerClone.Location = new System.Drawing.Point(318, 39);
-            this._colorPickerClone.Name = "_colorPickerClone";
-            this._colorPickerClone.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerClone.TabIndex = 2;
-            this._colorPickerClone.TabStop = false;
+            this._chkHideClones.AutoSize = true;
+            this._chkHideClones.Location = new System.Drawing.Point(183, 19);
+            this._chkHideClones.Name = "_chkHideClones";
+            this._chkHideClones.Size = new System.Drawing.Size(83, 17);
+            this._chkHideClones.TabIndex = 38;
+            this._chkHideClones.Text = "Hide Clones";
+            this._chkHideClones.UseVisualStyleBackColor = true;
             // 
             // ConfigForm
             // 
@@ -632,7 +667,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
-            this.ClientSize = new System.Drawing.Size(806, 483);
+            this.ClientSize = new System.Drawing.Size(806, 537);
+            this.Controls.Add(this._groupFilters);
             this.Controls.Add(this._groupMame);
             this.Controls.Add(this._btnReset);
             this.Controls.Add(this._groupArtTypes);
@@ -660,6 +696,8 @@
             this._groupArtTypes.PerformLayout();
             this._groupMame.ResumeLayout(false);
             this._groupMame.PerformLayout();
+            this._groupFilters.ResumeLayout(false);
+            this._groupFilters.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -714,7 +752,10 @@
         private System.Windows.Forms.GroupBox _groupMame;
         private System.Windows.Forms.Label _lblCommandLine;
         private AutoCompleteTextBox autoCompleteTextBox1;
-        private System.Windows.Forms.CheckBox _chkShowMechanical;
+        private System.Windows.Forms.CheckBox _chkHideNonWorkingMechanical;
         private System.Windows.Forms.CheckBox _chkInputFilter;
+        private System.Windows.Forms.GroupBox _groupFilters;
+        private System.Windows.Forms.CheckBox _chkHideNonWorking;
+        private System.Windows.Forms.CheckBox _chkHideClones;
     }
 }

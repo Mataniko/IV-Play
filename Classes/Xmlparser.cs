@@ -33,7 +33,19 @@ namespace IV_Play
             SettingsManager.MameCommands = new MameCommands(Settings.Default.MAME_EXE);
 
             String gameElementName = "game";
-            Games = new Games();            
+            Games = new Games();
+            var hiddenGames = new System.Collections.Hashtable();            
+
+            if (File.Exists("Hidden.ini"))
+            {
+                foreach (var item in File.ReadAllLines("Hidden.ini"))
+                {
+                    if (!hiddenGames.ContainsKey(item))
+                    {
+                        hiddenGames.Add(item, true);
+                    }                    
+                }
+            }            
 
             XmlReaderSettings xs = new XmlReaderSettings();
             xs.DtdProcessing = DtdProcessing.Ignore;
@@ -197,7 +209,10 @@ namespace IV_Play
                                                         Roms = sbRoms.ToString(),
                                                         IsMechanical = isMechanical(sIsMechanical)
                                                     };
-                                    Games.Add(game.Name, game);
+                                    if (!hiddenGames.ContainsKey(game.Name))
+                                    {
+                                        Games.Add(game.Name, game);
+                                    }                                    
                                 } //while readto game
                             } //using xmlreader
                         } //streamreader

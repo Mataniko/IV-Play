@@ -98,10 +98,16 @@
     <Setting Name="custom_colors" Type="System.String" Scope="User">
       <Value Profile="(Default)">16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215</Value>
     </Setting>
-    <Setting Name="hide_nonworking_mechanical_games" Type="System.Boolean" Scope="User">
+    <Setting Name="hide_mechanical_games" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="filter_on_input" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="hide_nonworking" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="hide_clones" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

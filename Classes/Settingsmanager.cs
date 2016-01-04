@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using IV_Play.Properties;
+using System.ComponentModel;
 
 #endregion
 
@@ -353,7 +354,20 @@ namespace IV_Play
                 else
                     listSettings.Add(setting.Name + "=" + Settings.Default[setting.Name]);
             }
-            File.WriteAllLines(cfgPath, listSettings, Encoding.ASCII);
+            try
+            {
+                bool designMode = (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+                if (!designMode)
+                {
+                    File.WriteAllLines(cfgPath, listSettings, Encoding.ASCII);
+                }                
+            } 
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            
             
         }
 
