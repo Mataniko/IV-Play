@@ -11,6 +11,8 @@ using System.Xml;
 using IV_Play.Properties;
 using IV_Play.Data.Models;
 using System.Xml.Serialization;
+using IV_Play.Data;
+using System.Collections.Generic;
 
 #endregion
 
@@ -47,62 +49,47 @@ namespace IV_Play
                     }                    
                 }
             }
-
+            
             var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));            
             XmlReaderSettings xs = new XmlReaderSettings();
             xs.DtdProcessing = DtdProcessing.Ignore;
             xs.ConformanceLevel = ConformanceLevel.Fragment;
-            if (File.Exists("IV-Play.dat"))
+            if (File.Exists(@"IV-Play.db"))
             {
-                using (FileStream infileStream = new FileStream(@"IV-Play.dat", FileMode.Open))
-                {
-                    using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
-                    {
-                        using (StreamReader streamReader = new StreamReader(gZipStream, Encoding.ASCII))
+                
+                Games.MameVersion = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE).FileVersion;
+                using (var dbm = new DatabaseManager())
+                { 
+                    foreach (var machine in dbm.GetMachines())
+                    {                        
+                        Game game = new Game
                         {
-                            using (XmlReader xmlReader = XmlReader.Create(streamReader, xs))
-                            {
-
-                                //Get the MAME version info
-                                xmlReader.ReadToFollowing("mame");
-                                Games.MameVersion = xmlReader["build"];
-                               
-                                //Read Game elements
-                                while (xmlReader.ReadToFollowing("machine"))
-                                {
-                                    var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
-
-                                    Game game = new Game
-                                        {                                       
-                                            CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof,
-                                            CPU = machine.cpuinfo(),
-                                            Description = machine.description,
-                                            SourceFile = machine.sourcefile,
-                                            Name = machine.name,
-                                            Manufacturer = machine.manufacturer,
-                                            ParentSet = machine.cloneof,
-                                            Screen = machine.displayinfo(),
-                                            Sound = machine.soundinfo(),
-                                            Working = machine.driver.emulation == "good",
-                                            Year = machine.year,
-                                            IconPath = Settings.Default.icons_directory + machine.name + ".ico",
-                                            Driver = machine.driver.ToString(),
-                                            Input = machine.input.ToString(),
-                                            Display = machine.displayinfo(),
-                                            //Colors = colors, Doesn't exist anymore?
-                                            Roms = machine.rominfo(),
-                                            IsMechanical = machine.ismechanical == "yes"
-                                        };
-                                    if (!hiddenGames.ContainsKey(game.Name))
-                                    {
-                                        Games.Add(game.Name, game);
-                                    }                                    
-                                } //while readto game
-                            } //using xmlreader
-                        } //streamreader
-                    } //gzip
-                } //filestream
-
+                            CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof,
+                            CPU = machine.cpuinfo(),
+                            Description = machine.description,
+                            SourceFile = machine.sourcefile,
+                            Name = machine.name,
+                            Manufacturer = machine.manufacturer,
+                            ParentSet = machine.cloneof,
+                            Screen = machine.displayinfo(),
+                            Sound = machine.soundinfo(),
+                            Working = machine.driver.emulation == "good",
+                            Year = machine.year,
+                            IconPath = Settings.Default.icons_directory + machine.name + ".ico",
+                            Driver = machine.driver.ToString(),
+                            Input = machine.input.ToString(),
+                            Display = machine.displayinfo(),
+                            //Colors = colors, Doesn't exist anymore?
+                            Roms = machine.rominfo(),
+                            IsMechanical = machine.ismechanical == "yes"
+                        };
+                        if (!hiddenGames.ContainsKey(game.Name))
+                        {
+                            Games.Add(game.Name, game);
+                        }
+                    } 
+                }
+   
                 Games.TotalGames = Games.Count;
 
                 //Go through all the games and add clones to the parents.
@@ -136,56 +123,34 @@ namespace IV_Play
         {
             try
             {
-                XmlWriterSettings xmlWriterSettings;
                 XmlReaderSettings xmlReaderSettings;
-
+                var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));
                 var mameCommand = ExecuteMameCommand("-listxml");
-
+                var machines = new List<Machine>();
                 //Setup the XML Reader/Writer options                
                 xmlReaderSettings = new XmlReaderSettings();
                 xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
 
-                xmlWriterSettings = new XmlWriterSettings();
-                xmlWriterSettings.ConformanceLevel = ConformanceLevel.Fragment;
-                xmlWriterSettings.Indent = true;
-                                
+
                 using (StreamReader myOutput = mameCommand.StandardOutput)
                 {
                     // Create a fast XML Reader
                     using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
                     {
-                        //Save it to our Data file
-                        using (FileStream outFile = File.Create("IV-Play.dat"))
+                        using (var dbm = new DatabaseManager())
                         {
-                            //And zip it
-                            using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
-                            {
-                                //XmlWriter creates IV/Play's Data
-                                using (XmlWriter xmlWriter = XmlWriter.Create(gZipStream, xmlWriterSettings))
-                                {                                    
-                                    xmlReader.ReadToFollowing("mame");
-                                    xmlWriter.WriteStartElement(xmlReader.Name);
-                                    xmlWriter.WriteAttributes(xmlReader, true);                                  
-                                    xmlWriter.WriteEndElement();
-
-
-                                    //Here because the XML is so big we have to flush at the cost of performance
-                                    xmlWriter.Flush();
-
-                                    while (xmlReader.ReadToFollowing("machine"))
+                                while (xmlReader.ReadToFollowing("machine"))
+                                {
+                                    if (!IsValidGame(xmlReader))
                                     {
+                                        continue;
+                                    }
 
-                                        if (!IsValidGame(xmlReader))
-                                        {
-                                            continue;
-                                        }
+                                    machines.Add((Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree()));
 
-                                        xmlWriter.WriteNode(xmlReader.ReadSubtree(), true);
-                                            
-                                    } // end while loop                                                                          
-                                } // END USING XML WRITER
-                            } // END USING GZIP
-                        } // END USING FILE OUTPUT
+                                } // end while loop
+                            dbm.SaveMachines(machines);
+                        }
                     } // END USING XML READER
                 }
             }
@@ -214,6 +179,6 @@ namespace IV_Play
             processStartInfo.CreateNoWindow = true;
             processStartInfo.Arguments = argument;
             return Process.Start(processStartInfo);
-        }
+        }        
     }
 }
