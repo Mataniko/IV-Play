@@ -34,7 +34,6 @@ namespace IV_Play
             //Get the mame commands this seems like the best place to do it
             SettingsManager.MameCommands = new MameCommands(Settings.Default.MAME_EXE);
 
-            String gameElementName = "game";
             Games = new Games();
             var hiddenGames = new System.Collections.Hashtable();            
 
@@ -47,8 +46,9 @@ namespace IV_Play
                         hiddenGames.Add(item, true);
                     }                    
                 }
-            }            
+            }
 
+            var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));            
             XmlReaderSettings xs = new XmlReaderSettings();
             xs.DtdProcessing = DtdProcessing.Ignore;
             xs.ConformanceLevel = ConformanceLevel.Fragment;
@@ -66,151 +66,33 @@ namespace IV_Play
                                 //Get the MAME version info
                                 xmlReader.ReadToFollowing("mame");
                                 Games.MameVersion = xmlReader["build"];
-
-                                float floatMameVersion = float.Parse(Games.MameVersion.Substring(0,5), System.Globalization.CultureInfo.GetCultureInfo("en-US"));
-
-                                if (floatMameVersion >= 0.162)
-                                {
-                                    gameElementName = "machine";
-                                }
-
+                               
                                 //Read Game elements
-                                while (xmlReader.ReadToFollowing(gameElementName))
+                                while (xmlReader.ReadToFollowing("machine"))
                                 {
-                                    //No bios sets should be in our XML, but check anyways
-                                    if (!string.IsNullOrEmpty(xmlReader["isbios"]) &&
-                                        xmlReader["isbios"].Equals("yes"))
-                                        continue;
-                                    string sIsMechanical = "";
-                                    string sourcefile = "";
-                                    string name = "";
-                                    string parent = "";
-                                    string description = "";
-                                    string year = "";
-                                    string manufacturer = "";
-                                    bool status = true;
-                                    string driver =
-                                        "Status={0}, Emulation={1}, Color={2}, Sound={3}, Graphic={4}, Savestate={5}";
-                                    string colors = "";
-                                    string input = "";
-                                    string display = "";
-                                    StringBuilder sbRoms = new StringBuilder();
-                                    StringBuilder sbAudio = new StringBuilder();
-                                    StringBuilder sbCpu = new StringBuilder();
+                                    var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
 
-                                    name = xmlReader["name"];
-                                    sourcefile = xmlReader["sourcefile"];
-                                    parent = xmlReader["cloneof"];
-                                    sIsMechanical = xmlReader["ismechanical"];
-
-
-                                    while (xmlReader.Read())
-                                    {
-                                        //If we reached a game element here it means we must have reached the
-                                        //end of the current game, so we break out of this loop to find the next game.
-                                        if (xmlReader.Name.Equals(gameElementName))
-                                            break;
-
-                                        switch (xmlReader.Name)
-                                        {
-                                            case "description":
-                                                description = xmlReader.ReadElementString();
-                                                description = description.TrimStart('\'');
-                                                break;
-                                            case "year":
-                                                year = xmlReader.ReadString();
-                                                break;
-                                            case "manufacturer":
-                                                manufacturer = xmlReader.ReadString();
-                                                break;
-                                            case "rom":
-                                            case "disk":
-                                                sbRoms.AppendLine(xmlReader["region"] + "\t" + xmlReader["name"]);
-                                                break;
-                                            case "chip":
-                                                if (xmlReader["type"] == "cpu")
-                                                {
-                                                    string clock = !string.IsNullOrEmpty(xmlReader["clock"])
-                                                                       ? " " +
-                                                                         (Convert.ToSingle(xmlReader["clock"])/1000000).
-                                                                             ToString().TrimEnd('0').TrimEnd('.') +
-                                                                         " MHz"
-                                                                       : "";
-                                                    sbCpu.AppendLine(xmlReader["name"] + clock);
-                                                }
-
-                                                if (xmlReader["type"] == "audio")
-                                                {
-                                                    string clock = !string.IsNullOrEmpty(xmlReader["clock"])
-                                                                       ? " " +
-                                                                         (Convert.ToSingle(xmlReader["clock"])/1000).
-                                                                             ToString().TrimEnd('0').TrimEnd('.') +
-                                                                         " kHz"
-                                                                       : "";
-                                                    sbAudio.AppendLine(xmlReader["name"] + clock);
-                                                }
-                                                break;
-                                            case "driver":
-                                                driver = string.Format(driver, xmlReader["status"],
-                                                                       xmlReader["emulation"], xmlReader["color"],
-                                                                       xmlReader["sound"], xmlReader["graphic"],
-                                                                       xmlReader["savestate"]);
-
-                                                //Colors is a separate element                       
-                                                colors = xmlReader["palettesize"];
-
-                                                //Cocktail and protection are not mandatory, so checking them.
-                                                if (!string.IsNullOrEmpty(xmlReader["cocktail"]))
-                                                    driver += string.Format(", Cocktail={0}", xmlReader["cocktail"]);
-                                                if (!string.IsNullOrEmpty(xmlReader["protection"]))
-                                                    driver += string.Format(", Protection={0}",
-                                                                            xmlReader["protection"]);
-                                                status = xmlReader["emulation"].Equals("good");
-                                                break;
-                                            case "display":
-
-                                                string refresh = xmlReader["refresh"].TrimEnd('0').TrimEnd('.') + " Hz";
-
-                                                char rotation = xmlReader["rotate"] == "0" ||
-                                                                xmlReader["rotate"] == "180"
-                                                                    ? 'H'
-                                                                    : 'V';
-                                                display = xmlReader["width"] + "x" + xmlReader["height"] + " (" +
-                                                          rotation + ") " + refresh;
-                                                break;
-                                            case "input":
-                                                if (xmlReader.IsStartElement())
-                                                {
-                                                    input = xmlReader["players"] + " Player(s) ";
-                                                    input += xmlReader["buttons"] + " Button(s)";
-                                                }
-                                                break;
-                                            case "control":
-                                                input += " " + xmlReader["type"];
-                                                break;
-                                        }
-                                    }
                                     Game game = new Game
-                                                    {
-                                                        CloneOf = string.IsNullOrEmpty(parent) ? name : parent,
-                                                        CPU = sbCpu.ToString(),
-                                                        Description = description,
-                                                        SourceFile = sourcefile,
-                                                        Name = name,
-                                                        Manufacturer = manufacturer,
-                                                        ParentSet = parent,
-                                                        Screen = display.Trim(),
-                                                        Sound = sbAudio.ToString(),
-                                                        Working = status,
-                                                        Year = year,
-                                                        IconPath = Settings.Default.icons_directory + name + ".ico",
-                                                        Driver = driver.Trim(),
-                                                        Input = input.Trim(),
-                                                        Display = display.Trim(),
-                                                        Colors = colors,
-                                                        Roms = sbRoms.ToString(),
-                                                        IsMechanical = isMechanical(sIsMechanical)
-                                                    };
+                                        {                                       
+                                            CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof,
+                                            CPU = machine.cpuinfo(),
+                                            Description = machine.description,
+                                            SourceFile = machine.sourcefile,
+                                            Name = machine.name,
+                                            Manufacturer = machine.manufacturer,
+                                            ParentSet = machine.cloneof,
+                                            Screen = machine.displayinfo(),
+                                            Sound = machine.soundinfo(),
+                                            Working = machine.driver.emulation == "good",
+                                            Year = machine.year,
+                                            IconPath = Settings.Default.icons_directory + machine.name + ".ico",
+                                            Driver = machine.driver.ToString(),
+                                            Input = machine.input.ToString(),
+                                            Display = machine.displayinfo(),
+                                            //Colors = colors, Doesn't exist anymore?
+                                            Roms = machine.rominfo(),
+                                            IsMechanical = machine.ismechanical == "yes"
+                                        };
                                     if (!hiddenGames.ContainsKey(game.Name))
                                     {
                                         Games.Add(game.Name, game);
@@ -269,7 +151,6 @@ namespace IV_Play
             {
                 XmlWriterSettings xmlWriterSettings;
                 XmlReaderSettings xmlReaderSettings;
-                var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));
 
                 var mameCommand = ExecuteMameCommand("-listxml");
 
