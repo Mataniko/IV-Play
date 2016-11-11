@@ -61,6 +61,46 @@ namespace IV_Play.Data.Models
                 _description = value;
             }
         }
+
+        public string cpuinfo()
+        {
+            if (chip == null) return string.Empty;
+            return GetStringFromArray(chip.Where(x => x.type == "cpu").ToArray());
+        }
+
+        public string rominfo()
+        {
+            var roms = GetStringFromArray(rom);
+            var disks = GetStringFromArray(disk);
+
+            return roms + "\r\n" + disks;
+        }
+
+        public string displayinfo()
+        {
+            return GetStringFromArray(display);
+        }
+
+        public string soundinfo()
+        {
+            if (chip == null) return string.Empty;
+            var soundString = GetStringFromArray(chip.Where(x => x.type == "audio").ToArray());
+            return string.Format("{0} Channel(s)\r\n{1}", sound.channels, soundString);
+        }
+        private string GetStringFromArray(object[] array)
+        {
+            if (array == null) return string.Empty;
+
+            var sb = new StringBuilder();
+
+            foreach (var obj in array)
+            {
+                sb.AppendLine(obj.ToString());
+            }
+
+            return sb.ToString();
+        }
+                    
     }
 }
 

@@ -20,7 +20,7 @@ namespace IV_Play.Data.Models
 
         public override string ToString()
         {
-            return string.Format("{0,8} {1,7} {2}", region, status, name);
+            return string.Format("{0,-8} {1,-8} {2, -16}", region, status, name);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace IV_Play.Data.Models
 
         public override string ToString()
         {
-            if (control.Length == 0)
+            if (control == null || control.Length == 0)
             {
                 return string.Format("{0} Player(s)", players);
             }
