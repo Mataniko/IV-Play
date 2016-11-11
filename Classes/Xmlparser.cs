@@ -129,19 +129,6 @@ namespace IV_Play
             }
         }
 
-        private static bool isMechanical(string value)
-        {
-            switch (value)
-            {
-                case "yes":
-                    return true;
-                case "no":
-                    return false;
-                default:
-                    return false;                    
-            }
-        }
-
         /// <summary>
         /// Querys MAME for Rom data, and writes only the relevant data to IV/Play's XML
         /// </summary>
@@ -227,43 +214,6 @@ namespace IV_Play
             processStartInfo.CreateNoWindow = true;
             processStartInfo.Arguments = argument;
             return Process.Start(processStartInfo);
-        }
-
-        /// <summary>
-        /// Manipulates the Description to move The, An, A to the end of the string, but before the (SET INFO)
-        /// </summary>
-        /// <param name="description"></param>
-        /// <returns></returns>
-        private static string GetDescription(string description)
-        {
-            //Get the insertion point (because the description might have a comment in it such as (Set 1)
-            int insertionPoint = description.IndexOf('(');
-            if (description.StartsWith("the ",
-                                       StringComparison.
-                                           InvariantCultureIgnoreCase))
-            {
-                description = description.Remove(0, 4);
-                //If insertion point is -1, we can just stick it at the end of the string
-                insertionPoint = insertionPoint == -1 ? description.Length : insertionPoint - 5;
-                description = description.Insert(insertionPoint, ", The");
-            }
-            else if (description.StartsWith("a ",
-                                            StringComparison.
-                                                InvariantCultureIgnoreCase))
-            {
-                description = description.Remove(0, 2);
-                insertionPoint = insertionPoint == -1 ? description.Length : insertionPoint - 3;
-                description = description.Insert(insertionPoint, ", A");
-            }
-            else if (description.StartsWith("an ",
-                                            StringComparison.
-                                                InvariantCultureIgnoreCase))
-            {
-                description = description.Remove(0, 3);
-                insertionPoint = insertionPoint == -1 ? description.Length : insertionPoint - 4;
-                description = description.Insert(insertionPoint, ", An");
-            }
-            return description;
         }
     }
 }
