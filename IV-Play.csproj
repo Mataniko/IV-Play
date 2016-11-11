@@ -100,6 +100,15 @@
     <Compile Include="Controls\GameList.Navigation.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Data\Models\Chip.cs" />
+    <Compile Include="Data\Models\Control.cs" />
+    <Compile Include="Data\Models\Disk.cs" />
+    <Compile Include="Data\Models\Display.cs" />
+    <Compile Include="Data\Models\Driver.cs" />
+    <Compile Include="Data\Models\Input.cs" />
+    <Compile Include="Data\Models\Machine.cs" />
+    <Compile Include="Data\Models\Rom.cs" />
+    <Compile Include="Data\Models\Sound.cs" />
     <Compile Include="Forms\ConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
