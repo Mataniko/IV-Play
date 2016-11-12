@@ -56,8 +56,8 @@ namespace IV_Play
             xs.ConformanceLevel = ConformanceLevel.Fragment;
             if (File.Exists(@"IV-Play.db"))
             {
-                
-                Games.MameVersion = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE).FileVersion;
+                var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
+                Games.MameVersion = mameFileInfo.ProductVersion;
                 using (var dbm = new DatabaseManager())
                 { 
                     foreach (var machine in dbm.GetMachines())
