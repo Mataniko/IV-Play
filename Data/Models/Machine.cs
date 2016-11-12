@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace IV_Play.Data.Models
     public class Machine
     {
         [XmlAttribute]
+        [BsonIndex(true)]
         public string name { get; set; }
         [XmlAttribute]
         public string sourcefile { get; set; }
