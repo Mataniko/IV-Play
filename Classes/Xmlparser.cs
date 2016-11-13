@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -13,6 +14,7 @@ using IV_Play.Data.Models;
 using System.Xml.Serialization;
 using IV_Play.Data;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -59,7 +61,7 @@ namespace IV_Play
                 var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
                 Games.MameVersion = mameFileInfo.ProductVersion;
                 using (var dbm = new DatabaseManager())
-                { 
+                {
                     foreach (var machine in dbm.GetMachines())
                     {                        
                         Game game = new Game
@@ -73,11 +75,11 @@ namespace IV_Play
                             ParentSet = machine.cloneof,
                             Screen = machine.displayinfo(),
                             Sound = machine.soundinfo(),
-                            Working = machine.driver.emulation == "good",
+                            Working = machine.driver != null ? machine.driver.emulation == "good" : true,
                             Year = machine.year,
                             IconPath = Settings.Default.icons_directory + machine.name + ".ico",
-                            Driver = machine.driver.ToString(),
-                            Input = machine.input.ToString(),
+                            Driver = machine.driver != null ? machine.driver.ToString() : null,
+                            Input = machine.input != null ? machine.input.ToString() : null,
                             Display = machine.displayinfo(),
                             //Colors = colors, Doesn't exist anymore?
                             Roms = machine.rominfo(),
@@ -94,10 +96,10 @@ namespace IV_Play
 
                 //Go through all the games and add clones to the parents.
                 //We can't do it while reading the XML because the clones can come before a parent.
-                foreach (var game in Games)
+                foreach (Game game in Games.Values)
                 {
-                    if (!game.Value.IsParent && Games.ContainsKey(game.Value.ParentSet))
-                        Games[game.Value.ParentSet].Children.Add(game.Value.Description, game.Value);
+                    if (!game.IsParent && Games.ContainsKey(game.ParentSet))
+                        Games[game.ParentSet].Children.Add(game.Description, game);
                 }
 
                 //Create a new, and final list of games of just the parents, who now have clones in them.
@@ -164,6 +166,45 @@ namespace IV_Play
             }
         }
 
+        public static void MakeQuickDat()
+        {
+            var machines = new Dictionary<string, Machine>();
+            
+            using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
+            {
+                // Read the header line.
+                var line = listFull.ReadLine();
+                var regex = new Regex(@"^(\S*)\s+""(.*)""$");
+                while ((line = listFull.ReadLine()) != null)
+                {
+                    var match = regex.Match(line);
+                    var name = match.Groups[1].Value;                    
+                    var description = match.Groups[2].Value;
+                    machines.Add(name, new Machine() { description = description, name = name });
+                }                
+            }
+            
+            using (StreamReader listClones = ExecuteMameCommand("-listclones").StandardOutput)
+            {
+                // Read the header line.
+                var line = listClones.ReadLine();
+                var regex = new Regex(@"^(\S+)\s+(\S+)\s*$");
+                while ((line = listClones.ReadLine()) != null)
+                {                   
+                    var match = regex.Match(line);                   
+                    var clone = match.Groups[1].Value;
+                    var parent = match.Groups[2].Value;
+
+                    machines[clone].cloneof = parent;
+                }
+            }
+
+            using (var dbm = new DatabaseManager())
+            {
+                dbm.SaveMachines(machines.Values.ToList());
+            }
+            
+        }
         private static bool IsValidGame(XmlReader xmlReader)
         {
             return !(xmlReader["isbios"] == "yes" || xmlReader["isdevice"] == "yes" || xmlReader["runnable"] == "no");
