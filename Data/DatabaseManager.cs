@@ -65,6 +65,16 @@ namespace IV_Play.Data
             }
         }
 
+        public void UpdateMachines(List<Machine> machines)
+        {
+
+            using (database.BeginTrans())
+            {
+                var machineCol = database.GetCollection<Machine>("machines");
+                machines.ForEach(x => machineCol.Update(x));
+            }
+        }
+
         public List<Machine> GetMachines()
         {
             var machineCol = database.GetCollection<Machine>("machines");            

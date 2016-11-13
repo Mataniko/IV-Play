@@ -12,7 +12,8 @@ namespace IV_Play.Data.Models
     public class Machine
     {
         [XmlAttribute]
-        [BsonIndex(true)]
+        [BsonIndex(unique:true)]
+        [BsonId]
         public string name { get; set; }
         [XmlAttribute]
         public string sourcefile { get; set; }
