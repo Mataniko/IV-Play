@@ -14,10 +14,12 @@ namespace IV_Play.Data
     {
         private MemoryStream dbMemoryStream;        
         private LiteDatabase database;
+        private LiteCollection<Machine> machinesCollection;
                         
         public DatabaseManager()
         {
             Open();
+            machinesCollection = database.GetCollection<Machine>("machines");
         }
 
         public LiteDatabase Database { 
@@ -61,8 +63,7 @@ namespace IV_Play.Data
 
             using (database.BeginTrans())
             {
-                var machineCol = database.GetCollection<Machine>("machines");
-                machines.ForEach(x => machineCol.Insert(x));
+                machines.ForEach(x => machinesCollection.Insert(x));
             }
         }
 
@@ -71,8 +72,7 @@ namespace IV_Play.Data
 
             using (database.BeginTrans())
             {
-                var machineCol = database.GetCollection<Machine>("machines");
-                machines.ForEach(x => machineCol.Update(x));
+                machines.ForEach(x => machinesCollection.Update(x));
             }
         }
 
@@ -80,6 +80,11 @@ namespace IV_Play.Data
         {
             var machineCol = database.GetCollection<Machine>("machines");            
             return machineCol.FindAll().ToList();
+        }
+
+        public Machine GetMachineByName(string name)
+        {
+            return machinesCollection.FindOne(m => m.name == name);
         }
 
         public void Dispose()
