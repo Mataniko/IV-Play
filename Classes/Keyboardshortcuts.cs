@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using IV_Play.Forms;
+
 using IV_Play.Properties;
+using System.Threading.Tasks;
 
 namespace IV_Play
 {
@@ -62,11 +63,18 @@ namespace IV_Play
 
         private void RefreshGameList()
         {
-            Hide();
-            ProgressWPF form = new ProgressWPF();
-            form.ShowDialog();            
-            DialogResult = DialogResult.Retry;
-            Close();
+            XmlParser.MakeQuickDat();
+            _gameList.LoadGames(XmlParser.Games);
+            _gameList.Filter = _gameList.Filter;
+            var progress = new Progress<int>();
+            progress.ProgressChanged += Progress_ProgressChanged1;
+            var task = new Task(() => XmlParser.MakeDat(progress));
+            task.Start();                        
+        }
+
+        private void Progress_ProgressChanged1(object sender, int e)
+        {
+            Console.WriteLine(e);
         }
 
         private void filterToolStripMenuItem_Click()

@@ -6,6 +6,7 @@ using LiteDB;
 using System.IO;
 using System.IO.Compression;
 using IV_Play.Data.Models;
+using IV_Play.Properties;
 
 namespace IV_Play.Data
 {
@@ -28,7 +29,7 @@ namespace IV_Play.Data
 
         private void Open()
         {
-            using (FileStream infileStream = File.Open(@"IV-Play.db", FileMode.OpenOrCreate))
+            using (FileStream infileStream = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
             {
                 using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
                 {
@@ -44,7 +45,7 @@ namespace IV_Play.Data
         {
             using (dbMemoryStream)
             {
-                using (FileStream outFile = File.Open(@"IV-Play.db", FileMode.OpenOrCreate))
+                using (FileStream outFile = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
                 {
                     using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
                     {

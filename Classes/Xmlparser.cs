@@ -50,41 +50,17 @@ namespace IV_Play
                         hiddenGames.Add(item, true);
                     }                    
                 }
-            }
-            
-            var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));            
-            XmlReaderSettings xs = new XmlReaderSettings();
-            xs.DtdProcessing = DtdProcessing.Ignore;
-            xs.ConformanceLevel = ConformanceLevel.Fragment;
-            if (File.Exists(@"IV-Play.db"))
+            }           
+           
+            if (File.Exists(Resources.DB_NAME))
             {
                 var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
                 Games.MameVersion = mameFileInfo.ProductVersion;
                 using (var dbm = new DatabaseManager())
                 {
                     foreach (var machine in dbm.GetMachines())
-                    {                        
-                        Game game = new Game
-                        {
-                            CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof,
-                            CPU = machine.cpuinfo(),
-                            Description = machine.description,
-                            SourceFile = machine.sourcefile,
-                            Name = machine.name,
-                            Manufacturer = machine.manufacturer,
-                            ParentSet = machine.cloneof,
-                            Screen = machine.displayinfo(),
-                            Sound = machine.soundinfo(),
-                            Working = machine.driver != null ? machine.driver.emulation == "good" : true,
-                            Year = machine.year,
-                            IconPath = Settings.Default.icons_directory + machine.name + ".ico",
-                            Driver = machine.driver != null ? machine.driver.ToString() : null,
-                            Input = machine.input != null ? machine.input.ToString() : null,
-                            Display = machine.displayinfo(),
-                            //Colors = colors, Doesn't exist anymore?
-                            Roms = machine.rominfo(),
-                            IsMechanical = machine.ismechanical == "yes"
-                        };
+                    {
+                        var game = new Game(machine);
                         if (!hiddenGames.ContainsKey(game.Name))
                         {
                             Games.Add(game.Name, game);
@@ -121,10 +97,10 @@ namespace IV_Play
         /// <summary>
         /// Querys MAME for Rom data, and writes only the relevant data to IV/Play's XML
         /// </summary>
-        public static void MakeDat()
+        public static void MakeDat(IProgress<int> progress)
         {
             try
-            {
+            {                
                 XmlReaderSettings xmlReaderSettings;
                 var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));
                 var mameCommand = ExecuteMameCommand("-listxml");
@@ -133,6 +109,7 @@ namespace IV_Play
                 xmlReaderSettings = new XmlReaderSettings();
                 xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
 
+                var counter = 1;
 
                 using (StreamReader myOutput = mameCommand.StandardOutput)
                 {
@@ -141,20 +118,34 @@ namespace IV_Play
                     {
                         using (var dbm = new DatabaseManager())
                         {
-                                while (xmlReader.ReadToFollowing("machine"))
+                             while (xmlReader.ReadToFollowing("machine"))
+                            {
+                                counter++;
+
+                                if (!IsValidGame(xmlReader))
                                 {
-                                    if (!IsValidGame(xmlReader))
-                                    {
-                                        continue;
-                                    }
+                                    continue;
+                                }
 
-                                    machines.Add((Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree()));
+                                var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
+                                machines.Add(machine);
 
-                                } // end while loop
-                            dbm.SaveMachines(machines);
+                                var game = new Game(machine);
+                                if (machine.cloneof == null)
+                                {
+                                    ParsedGames[machine.name] = game;
+                                } else
+                                {
+                                    ParsedGames[machine.cloneof].Children[machine.name] = game;
+                                }
+                                
+                                progress.Report(counter);
+                            } // end while loop
+                            dbm.UpdateMachines(machines);                            
                         }
                     } // END USING XML READER
                 }
+                //XmlParser.ReadDat();
             }
             catch (Exception ex)
             {
@@ -168,6 +159,8 @@ namespace IV_Play
 
         public static void MakeQuickDat()
         {
+            if (File.Exists(Resources.DB_NAME)) File.Delete(Resources.DB_NAME);
+
             var machines = new Dictionary<string, Machine>();
             
             using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
@@ -203,7 +196,8 @@ namespace IV_Play
             {
                 dbm.SaveMachines(machines.Values.ToList());
             }
-            
+
+            XmlParser.ReadDat();
         }
         private static bool IsValidGame(XmlReader xmlReader)
         {

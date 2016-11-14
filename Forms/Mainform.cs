@@ -6,8 +6,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using IV_Play.Forms;
+
 using IV_Play.Properties;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -57,10 +58,14 @@ namespace IV_Play
 
             try
             {
-                if (!File.Exists("IV-Play.dat") && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
+                if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
-                    ProgressWPF progressForm = new ProgressWPF();
-                    progressForm.ShowDialog();
+                    XmlParser.MakeQuickDat();
+                    var progress = new Progress<int>();
+                    progress.ProgressChanged += Progress_ProgressChanged;
+                    var task = new Task(() => XmlParser.MakeDat(progress));
+                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => { _gameList.Refresh(); });
+                    task.Start();
                 }
                 else
                 {
@@ -76,15 +81,30 @@ namespace IV_Play
 
             //Load our games. Setting a filter is important because it also populates the list
             //a blank string will return everything.
-            _gameList.LoadGames(XmlParser.ParsedGames);
-            _gameList.LoadSettings();
-            _gameList.Filter = "";
+            updateList();
 
             UpdateTitleBar();
 
             //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
         }
 
+        private void Progress_ProgressChanged(object sender, int e)
+        {
+            if (e % 300 == 0) {
+                UpdateTitleBar(e);                
+            } else if (e == _gameList.Count)
+            {
+                UpdateTitleBar();
+            }
+            
+        }
+
+        private void updateList()
+        {
+            _gameList.LoadGames(XmlParser.ParsedGames);
+            _gameList.LoadSettings();
+            _gameList.Filter = "";
+        }
         private void GameList_GameListChanged(object sender, EventArgs e)
         {
             UpdateTitleBar();
@@ -108,7 +128,7 @@ namespace IV_Play
         /// <summary>
         /// Updates the game count in the titlebar.
         /// </summary>
-        private void UpdateTitleBar()
+        private void UpdateTitleBar(int progress = -1)
         {
             try
             {
@@ -118,6 +138,12 @@ namespace IV_Play
                     Text += string.Format(@" / {0} Favorites", _gameList.CountFavorites);
                 if (!string.IsNullOrEmpty(_gameList.Filter))
                     Text += string.Format(" - Current Filter: {0}", _gameList.Filter);
+
+                if (progress > -1)
+                {
+                    var progressPercentage = (int)(((float)progress / (float)_gameList.Count) * 100);
+                    Text += string.Format(" - Updating {0}%", progressPercentage);            
+                }
             }
             catch (Exception ex)
             {
