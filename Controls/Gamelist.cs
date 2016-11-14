@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Threading;
 
 using IV_Play.Properties;
+using IV_Play.Data;
 
 #endregion
 
@@ -329,25 +330,29 @@ namespace IV_Play
             _countFavorites = 0;
             if (File.Exists(Settings.Default.favorites_ini))
             {
-                string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
-                foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
+                using (var dbm = new DatabaseManager())
                 {
-                    try
+                    string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
+                    foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
                     {
-                        Game game = XmlParser.Games.FindGame(s);
-                        if (game != null)
+                        try
                         {
-                            Game g = game.Copy();
-                            g.Name = "fav_" + g.Name;
-                            g.IsFavorite = true;
-                            _gamesFavorites.Add(g.Name, g);
+                            Game game = new Game(dbm.GetMachineByName(s));
+                            if (game != null)
+                            {
+                                Game g = game.Copy();
+                                g.Name = "fav_" + g.Name;
+                                g.IsFavorite = true;
+                                _gamesFavorites.Add(g.Name, g);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            //Not a game, do nothing.                       
                         }
                     }
-                    catch (Exception)
-                    {
-                        //Not a game, do nothing.                       
-                    }
                 }
+                
 
                 //Sorts out the list by description alphabetically and filters it according to what the user set.
                 var sortedDict = (from entry in _gamesFavorites

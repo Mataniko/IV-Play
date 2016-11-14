@@ -1,20 +1,17 @@
 ﻿#region
 
+using IV_Play.Data;
+using IV_Play.Data.Models;
+using IV_Play.Properties;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-
-using IV_Play.Properties;
-using IV_Play.Data.Models;
 using System.Xml.Serialization;
-using IV_Play.Data;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 #endregion
 
@@ -24,15 +21,15 @@ namespace IV_Play
     /// This Class handles the creation and parsing of Mame and IV/Play data.
     /// Our DAT file is basically a trimmed down MAME xml compressed to save space.
     /// </summary>
-    internal static class XmlParser
+    internal class XmlParser
     {
-        public static Games ParsedGames { get; set; }
-        public static Games Games { get; set; }
+        public Games ParsedGames { get; set; }
+        public Games Games { get; set; }
 
         /// <summary>
         /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
         /// </summary>
-        public static void ReadDat()
+        public void ReadDat()
         {
 
             //Get the mame commands this seems like the best place to do it
@@ -97,7 +94,7 @@ namespace IV_Play
         /// <summary>
         /// Querys MAME for Rom data, and writes only the relevant data to IV/Play's XML
         /// </summary>
-        public static void MakeDat(IProgress<int> progress)
+        public void MakeDat(IProgress<int> progress)
         {
             try
             {                
@@ -157,7 +154,7 @@ namespace IV_Play
             }
         }
 
-        public static void MakeQuickDat()
+        public void MakeQuickDat()
         {
             if (File.Exists(Resources.DB_NAME)) File.Delete(Resources.DB_NAME);
 
@@ -197,14 +194,14 @@ namespace IV_Play
                 dbm.SaveMachines(machines.Values.ToList());
             }
 
-            XmlParser.ReadDat();
+            ReadDat();
         }
-        private static bool IsValidGame(XmlReader xmlReader)
+        private bool IsValidGame(XmlReader xmlReader)
         {
             return !(xmlReader["isbios"] == "yes" || xmlReader["isdevice"] == "yes" || xmlReader["runnable"] == "no");
         }
 
-        public static Process ExecuteMameCommand(string argument)
+        public Process ExecuteMameCommand(string argument)
         {
             ProcessStartInfo processStartInfo;
             processStartInfo = new ProcessStartInfo(Settings.Default.MAME_EXE);

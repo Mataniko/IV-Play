@@ -55,21 +55,23 @@ namespace IV_Play
             //If we don't have a dat file, we need to create one. The progress form is responsible for that.
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
+            var xmlParser = new XmlParser();
 
             try
             {
+                
                 if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
-                    XmlParser.MakeQuickDat();
+                    xmlParser.MakeQuickDat();
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
-                    var task = new Task(() => XmlParser.MakeDat(progress));
-                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => updateList());
+                    var task = new Task(() => xmlParser.MakeDat(progress));
+                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => updateList(xmlParser.ParsedGames));
                     task.Start();
                 }
                 else
                 {
-                    XmlParser.ReadDat();
+                    xmlParser.ReadDat();
                 }
             }
             catch (Exception)
@@ -81,7 +83,7 @@ namespace IV_Play
 
             //Load our games. Setting a filter is important because it also populates the list
             //a blank string will return everything.
-            updateList();
+            updateList(xmlParser.ParsedGames);
 
             UpdateTitleBar();
 
@@ -99,9 +101,9 @@ namespace IV_Play
             
         }
 
-        private void updateList()
+        private void updateList(Games games)
         {
-            _gameList.LoadGames(XmlParser.ParsedGames);
+            _gameList.LoadGames(games);
             _gameList.LoadSettings();
             _gameList.Filter = "";
         }
@@ -132,7 +134,7 @@ namespace IV_Play
         {
             try
             {
-                Text = string.Format("IV/Play - {0} {1} {2} Games", GetMameType(), XmlParser.ParsedGames.MameVersion,
+                Text = string.Format("IV/Play - {0} {1} {2} Games", GetMameType(), GetMameType(),
                                      _gameList.Count - _gameList.CountFavorites);
                 if (_gameList.CountFavorites > 0)
                     Text += string.Format(@" / {0} Favorites", _gameList.CountFavorites);

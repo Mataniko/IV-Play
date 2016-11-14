@@ -63,12 +63,13 @@ namespace IV_Play
 
         private void RefreshGameList()
         {
-            XmlParser.MakeQuickDat();
-            _gameList.LoadGames(XmlParser.Games);
+            var xmlParser = new XmlParser();
+            xmlParser.MakeQuickDat();
+            _gameList.LoadGames(xmlParser.Games);
             _gameList.Filter = _gameList.Filter;
             var progress = new Progress<int>();
             progress.ProgressChanged += Progress_ProgressChanged1;
-            var task = new Task(() => XmlParser.MakeDat(progress));
+            var task = new Task(() => xmlParser.MakeDat(progress));
             task.Start();                        
         }
 
