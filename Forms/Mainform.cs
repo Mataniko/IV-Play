@@ -64,7 +64,7 @@ namespace IV_Play
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
                     var task = new Task(() => XmlParser.MakeDat(progress));
-                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => { _gameList.Refresh(); });
+                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => updateList());
                     task.Start();
                 }
                 else
