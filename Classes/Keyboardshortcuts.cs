@@ -65,7 +65,7 @@ namespace IV_Play
         {
             var xmlParser = new XmlParser();
             xmlParser.MakeQuickDat();
-            _gameList.LoadGames(xmlParser.Games);
+            _gameList.LoadGames(xmlParser.ParsedGames);
             _gameList.Filter = _gameList.Filter;
             var progress = new Progress<int>();
             progress.ProgressChanged += Progress_ProgressChanged1;

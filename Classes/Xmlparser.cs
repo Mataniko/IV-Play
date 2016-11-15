@@ -24,80 +24,61 @@ namespace IV_Play
     internal class XmlParser
     {
         public Games ParsedGames { get; set; }
-        public Games Games { get; set; }
 
         /// <summary>
-        /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
+        /// Read basic game and clone info from MAME and create our initial gamelist & database.
         /// </summary>
-        public void ReadDat()
+        public void MakeQuickDat()
         {
+            if (File.Exists(Resources.DB_NAME)) File.Delete(Resources.DB_NAME);
 
-            //Get the mame commands this seems like the best place to do it
-            SettingsManager.MameCommands = new MameCommands(Settings.Default.MAME_EXE);
+            var machines = new Dictionary<string, Machine>();
 
-            Games = new Games();
-            var hiddenGames = new System.Collections.Hashtable();            
-
-            if (File.Exists("Hidden.ini"))
+            using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
             {
-                foreach (var item in File.ReadAllLines("Hidden.ini"))
+                // Read the header line.
+                var line = listFull.ReadLine();
+                var regex = new Regex(@"^(\S*)\s+""(.*)""$");
+                while ((line = listFull.ReadLine()) != null)
                 {
-                    if (!hiddenGames.ContainsKey(item))
-                    {
-                        hiddenGames.Add(item, true);
-                    }                    
+                    var match = regex.Match(line);
+                    var name = match.Groups[1].Value;
+                    var description = match.Groups[2].Value;
+                    machines.Add(name, new Machine() { description = description, name = name });
                 }
-            }           
-           
-            if (File.Exists(Resources.DB_NAME))
+            }
+
+            using (StreamReader listClones = ExecuteMameCommand("-listclones").StandardOutput)
             {
-                var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
-                Games.MameVersion = mameFileInfo.ProductVersion;
-                using (var dbm = new DatabaseManager())
+                // Read the header line.
+                var line = listClones.ReadLine();
+                var regex = new Regex(@"^(\S+)\s+(\S+)\s*$");
+                while ((line = listClones.ReadLine()) != null)
                 {
-                    foreach (var machine in dbm.GetMachines())
-                    {
-                        var game = new Game(machine);
-                        if (!hiddenGames.ContainsKey(game.Name))
-                        {
-                            Games.Add(game.Name, game);
-                        }
-                    } 
+                    var match = regex.Match(line);
+                    var clone = match.Groups[1].Value;
+                    var parent = match.Groups[2].Value;
+
+                    machines[clone].cloneof = parent;
                 }
-   
-                Games.TotalGames = Games.Count;
+            }
 
-                //Go through all the games and add clones to the parents.
-                //We can't do it while reading the XML because the clones can come before a parent.
-                foreach (Game game in Games.Values)
-                {
-                    if (!game.IsParent && Games.ContainsKey(game.ParentSet))
-                        Games[game.ParentSet].Children.Add(game.Description, game);
-                }
+            // Convert machines to games
+            ParsedGames = CreateGamesFromMachines(machines.Values.ToList());
 
-                //Create a new, and final list of games of just the parents, who now have clones in them.
-                ParsedGames = new Games();
-                foreach (var game in Games)
-                {
-                    if (game.Value.IsParent) //parent set, goes in
-                        ParsedGames.Add(game.Value.Name, game.Value);
-                }
-
-                //Store this information for the titlebar later
-                ParsedGames.TotalGames = Games.TotalGames;
-                ParsedGames.MameVersion = Games.MameVersion;
-
-                //games = null; //No need for this anymore, will be collected by the GC
+            using (var dbm = new DatabaseManager())
+            {
+                dbm.SaveMachines(machines.Values.ToList());
             }
         }
 
         /// <summary>
-        /// Querys MAME for Rom data, and writes only the relevant data to IV/Play's XML
+        /// Querys MAME for the full ROM data and writes it to the database
         /// </summary>
         public void MakeDat(IProgress<int> progress)
         {
             try
-            {                
+            {
                 XmlReaderSettings xmlReaderSettings;
                 var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));
                 var mameCommand = ExecuteMameCommand("-listxml");
@@ -115,30 +96,36 @@ namespace IV_Play
                     {
                         using (var dbm = new DatabaseManager())
                         {
-                             while (xmlReader.ReadToFollowing("machine"))
+                            while (xmlReader.ReadToFollowing("machine"))
                             {
-                                counter++;
-
-                                if (!IsValidGame(xmlReader))
+                                // MAME lists all of it's devices at the end, so we can just finish here.
+                                if (xmlReader["isdevice"] == "yes") break;
+                                                                                       
+                                if (xmlReader["isbios"] == "yes" || xmlReader["runnable"] == "no")
                                 {
+                                    ParsedGames.Remove(xmlReader["name"]);                                   
                                     continue;
                                 }
 
                                 var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
+                                counter++;
                                 machines.Add(machine);
 
                                 var game = new Game(machine);
                                 if (machine.cloneof == null)
                                 {
                                     ParsedGames[machine.name] = game;
-                                } else
+                                }
+                                else
                                 {
                                     ParsedGames[machine.cloneof].Children[machine.name] = game;
                                 }
-                                
+
                                 progress.Report(counter);
                             } // end while loop
-                            dbm.UpdateMachines(machines);                            
+
+                            progress.Report(-1);
+                            dbm.UpdateMachines(machines);
                         }
                     } // END USING XML READER
                 }
@@ -154,51 +141,65 @@ namespace IV_Play
             }
         }
 
-        public void MakeQuickDat()
+        private Games CreateGamesFromMachines(List<Machine> machines)
         {
-            if (File.Exists(Resources.DB_NAME)) File.Delete(Resources.DB_NAME);
+            var games = new Games();
+            var hiddenGames = new System.Collections.Hashtable();
 
-            var machines = new Dictionary<string, Machine>();
-            
-            using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
+            if (File.Exists("Hidden.ini"))
             {
-                // Read the header line.
-                var line = listFull.ReadLine();
-                var regex = new Regex(@"^(\S*)\s+""(.*)""$");
-                while ((line = listFull.ReadLine()) != null)
+                foreach (var item in File.ReadAllLines("Hidden.ini"))
                 {
-                    var match = regex.Match(line);
-                    var name = match.Groups[1].Value;                    
-                    var description = match.Groups[2].Value;
-                    machines.Add(name, new Machine() { description = description, name = name });
-                }                
-            }
-            
-            using (StreamReader listClones = ExecuteMameCommand("-listclones").StandardOutput)
-            {
-                // Read the header line.
-                var line = listClones.ReadLine();
-                var regex = new Regex(@"^(\S+)\s+(\S+)\s*$");
-                while ((line = listClones.ReadLine()) != null)
-                {                   
-                    var match = regex.Match(line);                   
-                    var clone = match.Groups[1].Value;
-                    var parent = match.Groups[2].Value;
-
-                    machines[clone].cloneof = parent;
+                    if (!hiddenGames.ContainsKey(item))
+                    {
+                        hiddenGames.Add(item, true);
+                    }
                 }
             }
 
-            using (var dbm = new DatabaseManager())
+            var parents = (from m in machines where m.cloneof == null && !hiddenGames.ContainsKey(m.name) select m);
+            var clones = (from m in machines where m.cloneof != null && !hiddenGames.ContainsKey(m.name) select m);
+            foreach (var machine in parents)
             {
-                dbm.SaveMachines(machines.Values.ToList());
+                var game = new Game(machine);               
+                games.Add(game.Name, game);                
             }
 
-            ReadDat();
+            games.TotalGames = games.Count;
+
+            //Go through all the games and add clones to the parents.
+            foreach (var machine in clones)
+            {
+                var game = new Game(machine);
+                games[game.ParentSet].Children.Add(game.Description, game);
+            }
+           
+            return games;
         }
-        private bool IsValidGame(XmlReader xmlReader)
+
+        /// <summary>
+        /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
+        /// </summary>
+        public void ReadDat()
         {
-            return !(xmlReader["isbios"] == "yes" || xmlReader["isdevice"] == "yes" || xmlReader["runnable"] == "no");
+
+            //Get the mame commands this seems like the best place to do it
+            SettingsManager.MameCommands = new MameCommands(Settings.Default.MAME_EXE);
+
+            var games = new Games();
+            
+           
+            if (File.Exists(Resources.DB_NAME))
+            {
+                var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);                
+                games.MameVersion = mameFileInfo.ProductVersion;
+                using (var dbm = new DatabaseManager())
+                {
+                    ParsedGames = CreateGamesFromMachines(dbm.GetMachines());
+                }
+
+                
+            }
         }
 
         public Process ExecuteMameCommand(string argument)

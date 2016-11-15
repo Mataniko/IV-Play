@@ -86,7 +86,7 @@ namespace IV_Play.Data.Models
 
         public string soundinfo()
         {
-            if (chip == null) return string.Empty;
+            if (chip == null || sound == null) return string.Empty;
             var soundString = GetStringFromArray(chip.Where(x => x.type == "audio").ToArray());
             return string.Format("{0} Channel(s)\r\n{1}", sound.channels, soundString);
         }

@@ -94,7 +94,7 @@ namespace IV_Play
         {
             if (e % 300 == 0) {
                 UpdateTitleBar(e);                
-            } else if (e == _gameList.Count)
+            } else if (e == -1)
             {
                 UpdateTitleBar();
             }
