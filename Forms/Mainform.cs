@@ -86,8 +86,6 @@ namespace IV_Play
             updateList(xmlParser.ParsedGames);
 
             UpdateTitleBar();
-
-            //InfoParser infoParser = new InfoParser(@"D:\Games\Emulators\MAME\command.dat");
         }
 
         private void Progress_ProgressChanged(object sender, int e)
