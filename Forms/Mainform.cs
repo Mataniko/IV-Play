@@ -92,13 +92,9 @@ namespace IV_Play
 
         private void Progress_ProgressChanged(object sender, int e)
         {
-            if (e % 300 == 0) {
+            if (e % 300 == 0 || e == -1) {
                 UpdateTitleBar(e);                
-            } else if (e == -1)
-            {
-                UpdateTitleBar();
             }
-            
         }
 
         private void updateList(Games games)
