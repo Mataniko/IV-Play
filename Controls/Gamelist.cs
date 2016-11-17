@@ -249,7 +249,7 @@ namespace IV_Play
         /// <summary>
         /// This background worker manages the JumpList for us so the user can resume using the application.
         /// </summary>
-        private void ThreadDo()
+        private void AddGameToJumpList()
         {
             jumpListClass.AddTask(SelectedGame);
             Dispatcher.Run();
@@ -273,8 +273,7 @@ namespace IV_Play
         }
               
         private void StartGame()
-        {
-            Color.Goldenrod.ToString();
+        {            
             try
             {
                 if (SelectedGame != null && Parent.Visible)
@@ -295,9 +294,7 @@ namespace IV_Play
                     var windowState = parent.WindowState;
                     parent.WindowState = FormWindowState.Minimized;
 
-                    //jumpListClass.AddTask(SelectedGame);
-
-                    Thread jumpThread = new Thread(ThreadDo);
+                    Thread jumpThread = new Thread(AddGameToJumpList);
                     jumpThread.SetApartmentState(ApartmentState.STA);
                     jumpThread.IsBackground = true;
                     jumpThread.Start();
@@ -677,9 +674,7 @@ namespace IV_Play
                 VerticalScroll.Value = AutoScrollMinSize.Height < _prevScrollValue ? 0 : _prevScrollValue;
                 VerticalScroll.SmallChange = RowHeight;
 
-                // SelectedGame = null;
                 Refresh();
-                //VerticalScroll.Maximum = Games.Count*RowHeight;
 
                 //Initalizes the list searcher and locates the last game.
                 _search = new GameListSearch(this);
@@ -781,7 +776,6 @@ namespace IV_Play
             if (SelectedGame != null)
             {
                 //Load the nonworking image                
-
                 try
                 {
                     string gameName = SelectedGame.Name;
@@ -867,7 +861,6 @@ namespace IV_Play
         {
             _games = games;
         }
-
       
 #endregion
     }
