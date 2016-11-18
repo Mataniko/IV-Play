@@ -51,7 +51,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -276,6 +277,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\Fody.1.28.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.1.28.3\build\Fody.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>del LiteDB.dll
+del IV-Play.pdb
+del IV-Play.exe.config</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
