@@ -21,6 +21,7 @@ namespace IV_Play.Data
         {
             Open();
             machinesCollection = database.GetCollection<Machine>("machines");
+            mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");
         }
 
         public LiteDatabase Database { 

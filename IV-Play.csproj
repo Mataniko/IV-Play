@@ -116,6 +116,7 @@
     <Compile Include="Data\Models\Driver.cs" />
     <Compile Include="Data\Models\Input.cs" />
     <Compile Include="Data\Models\Machine.cs" />
+    <Compile Include="Data\Models\MameInfo.cs" />
     <Compile Include="Data\Models\Rom.cs" />
     <Compile Include="Data\Models\Sound.cs" />
     <Compile Include="Forms\ConfigForm.cs">
