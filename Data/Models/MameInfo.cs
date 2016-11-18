@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace IV_Play.Data.Models
 {
-    class MameInfo
+    public class MameInfo
     {
         public string Version { get; set; }
         public MameCommands Commands { get; set; }
+
+        public MameInfo() { }
     }
 }
