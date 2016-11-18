@@ -15,6 +15,7 @@ namespace IV_Play.Data
         private MemoryStream dbMemoryStream;        
         private LiteDatabase database;
         private LiteCollection<Machine> machinesCollection;
+        private LiteCollection<MameInfo> mameInfoCollection;
                         
         public DatabaseManager()
         {
@@ -60,7 +61,7 @@ namespace IV_Play.Data
 
         public void SaveMachines(List<Machine> machines)
         {
-
+            machinesCollection.Delete(Query.All());
             using (database.BeginTrans())
             {
                 machines.ForEach(x => machinesCollection.Insert(x));
@@ -77,14 +78,24 @@ namespace IV_Play.Data
         }
 
         public List<Machine> GetMachines()
-        {
-            var machineCol = database.GetCollection<Machine>("machines");            
-            return machineCol.FindAll().ToList();
+        {           
+            return machinesCollection.FindAll().ToList();
         }
 
         public Machine GetMachineByName(string name)
         {
             return machinesCollection.FindOne(m => m.name == name);
+        }
+
+        public void SaveMameInfo(MameInfo mameInfo)
+        {
+            mameInfoCollection.Delete(Query.All());
+            mameInfoCollection.Insert(mameInfo);
+        }
+
+        public MameInfo GetMameInfo()
+        {
+            return mameInfoCollection.FindOne(Query.All());
         }
 
         public void Dispose()

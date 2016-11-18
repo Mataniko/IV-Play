@@ -35,9 +35,8 @@ namespace IV_Play
         /// </summary>
         public void MakeQuickDat()
         {
-            if (File.Exists(Resources.DB_NAME)) File.Delete(Resources.DB_NAME);
-
             var machines = new Dictionary<string, Machine>();
+            var mameInfo = CreateMameInfo();
 
             using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
             {
@@ -69,10 +68,13 @@ namespace IV_Play
             }
             
             using (var dbm = new DatabaseManager())
-            {
+            {                                
                 dbm.SaveMachines(machines.Values.ToList());
+                dbm.SaveMameInfo(mameInfo);
             }
-            _games = CreateGamesFromMachines(machines.Values.ToList());            
+            _games = CreateGamesFromMachines(machines.Values.ToList());
+            _games.MameVersion = mameInfo.Version;
+            SettingsManager.MameCommands = mameInfo.Commands;
         }
 
         /// <summary>
@@ -145,6 +147,15 @@ namespace IV_Play
             }
         }
 
+        private MameInfo CreateMameInfo()
+        {
+            var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
+            var version = mameFileInfo.ProductVersion;
+            var commands = new MameCommands(Settings.Default.MAME_EXE);
+            
+            return new MameInfo { Version = version, Commands = commands };
+        }
+
         private Games CreateGamesFromMachines(List<Machine> machines)
         {
             var games = new Games();
@@ -186,18 +197,13 @@ namespace IV_Play
         /// </summary>
         public Games ReadDat()
         {
-            if (File.Exists(Resources.DB_NAME))
-            {
-                var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);                
+            var dbm = new DatabaseManager();
                 
-                var dbm = new DatabaseManager();
-                
-                var games = CreateGamesFromMachines(dbm.GetMachines());
-                games.MameVersion = mameFileInfo.ProductVersion;
-                return games;
-            }
-
-            return new Games();
+            var games = CreateGamesFromMachines(dbm.GetMachines());
+            var mameInfo = dbm.GetMameInfo();
+            games.MameVersion = mameInfo.Version;
+            SettingsManager.MameCommands = mameInfo.Commands;            
+            return games;
         }
 
         public Process ExecuteMameCommand(string argument)
