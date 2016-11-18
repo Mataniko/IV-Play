@@ -16,14 +16,19 @@ using System.Xml.Serialization;
 #endregion
 
 namespace IV_Play
-{
+{    
     /// <summary>
     /// This Class handles the creation and parsing of Mame and IV/Play data.
     /// Our DAT file is basically a trimmed down MAME xml compressed to save space.
     /// </summary>
     internal class XmlParser
     {
-        public Games ParsedGames { get; set; }
+        private Games _games;
+        public Games Games { get
+            {
+                return _games;
+            }
+        }        
 
         /// <summary>
         /// Read basic game and clone info from MAME and create our initial gamelist & database.
@@ -62,14 +67,12 @@ namespace IV_Play
                     machines[clone].cloneof = parent;
                 }
             }
-
-            // Convert machines to games
-            ParsedGames = CreateGamesFromMachines(machines.Values.ToList());
-
+            
             using (var dbm = new DatabaseManager())
             {
                 dbm.SaveMachines(machines.Values.ToList());
             }
+            _games = CreateGamesFromMachines(machines.Values.ToList());            
         }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace IV_Play
                                                                                        
                                 if (xmlReader["isbios"] == "yes" || xmlReader["runnable"] == "no")
                                 {
-                                    ParsedGames.Remove(xmlReader["name"]);                                   
+                                    _games.Remove(xmlReader["name"]);                                   
                                     continue;
                                 }
 
@@ -114,11 +117,11 @@ namespace IV_Play
                                 var game = new Game(machine);
                                 if (machine.cloneof == null)
                                 {
-                                    ParsedGames[machine.name] = game;
+                                    _games[machine.name] = game;
                                 }
                                 else
                                 {
-                                    ParsedGames[machine.cloneof].Children[machine.name] = game;
+                                    _games[machine.cloneof].Children[machine.name] = game;
                                 }
 
                                 progress.Report(counter);
@@ -136,6 +139,7 @@ namespace IV_Play
                 //Generate an error and delete our Data file, maybe the mame xml format changed?
                 MessageBox.Show("Unable to create database from mame.exe.\r\nIV/Play will now exit.", "Error");
                 File.Delete("IV-Play.dat");
+                Logger.WriteToLog(ex.Message);
                 Settings.Default.MAME_EXE = "";
                 Application.Exit();
             }
@@ -180,26 +184,20 @@ namespace IV_Play
         /// <summary>
         /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
         /// </summary>
-        public void ReadDat()
+        public Games ReadDat()
         {
-
-            //Get the mame commands this seems like the best place to do it
-            SettingsManager.MameCommands = new MameCommands(Settings.Default.MAME_EXE);
-
-            var games = new Games();
-            
-           
             if (File.Exists(Resources.DB_NAME))
             {
                 var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);                
-                games.MameVersion = mameFileInfo.ProductVersion;
-                using (var dbm = new DatabaseManager())
-                {
-                    ParsedGames = CreateGamesFromMachines(dbm.GetMachines());
-                }
-
                 
+                var dbm = new DatabaseManager();
+                
+                var games = CreateGamesFromMachines(dbm.GetMachines());
+                games.MameVersion = mameFileInfo.ProductVersion;
+                return games;
             }
+
+            return new Games();
         }
 
         public Process ExecuteMameCommand(string argument)

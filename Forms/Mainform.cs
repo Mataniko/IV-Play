@@ -42,7 +42,7 @@ namespace IV_Play
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
             BringToFront();
 
@@ -63,15 +63,15 @@ namespace IV_Play
                 if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
                     xmlParser.MakeQuickDat();
+                    updateList(xmlParser.Games);
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
-                    var task = new Task(() => xmlParser.MakeDat(progress));
-                    Task.Factory.ContinueWhenAll(new Task[] { task }, (Action) => updateList(xmlParser.ParsedGames));
-                    task.Start();
+                    await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+                    updateList(xmlParser.Games);
                 }
                 else
                 {
-                    xmlParser.ReadDat();
+                    updateList(xmlParser.ReadDat());
                 }
             }
             catch (Exception)
@@ -83,7 +83,6 @@ namespace IV_Play
 
             //Load our games. Setting a filter is important because it also populates the list
             //a blank string will return everything.
-            updateList(xmlParser.ParsedGames);
 
             UpdateTitleBar();
         }

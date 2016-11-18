@@ -61,21 +61,15 @@ namespace IV_Play
             return base.ProcessDialogKey(keyData);
         }
 
-        private void RefreshGameList()
+        private async void RefreshGameList()
         {
             var xmlParser = new XmlParser();
             xmlParser.MakeQuickDat();
-            _gameList.LoadGames(xmlParser.ParsedGames);
-            _gameList.Filter = _gameList.Filter;
+            updateList(xmlParser.Games);
             var progress = new Progress<int>();
-            progress.ProgressChanged += Progress_ProgressChanged1;
-            var task = new Task(() => xmlParser.MakeDat(progress));
-            task.Start();                        
-        }
-
-        private void Progress_ProgressChanged1(object sender, int e)
-        {
-            Console.WriteLine(e);
+            progress.ProgressChanged += Progress_ProgressChanged;
+            await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+            updateList(xmlParser.Games);
         }
 
         private void filterToolStripMenuItem_Click()
