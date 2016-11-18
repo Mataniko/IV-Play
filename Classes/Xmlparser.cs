@@ -24,11 +24,21 @@ namespace IV_Play
     internal class XmlParser
     {
         private Games _games;
-        public Games Games { get
+        public Games Games {
+            get
             {
                 return _games;
             }
-        }        
+        }
+
+        private MameInfo _mameInfo;
+        public MameInfo MameInfo
+        {
+            get
+            {
+                return _mameInfo;
+            }
+        }
 
         /// <summary>
         /// Read basic game and clone info from MAME and create our initial gamelist & database.
@@ -36,8 +46,9 @@ namespace IV_Play
         public void MakeQuickDat()
         {
             var machines = new Dictionary<string, Machine>();
-            var mameInfo = CreateMameInfo();
-
+            _mameInfo = CreateMameInfo();
+            SettingsManager.MameCommands = _mameInfo.Commands;
+            var totalGames = 0;
             using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
             {
                 // Read the header line.
@@ -49,6 +60,7 @@ namespace IV_Play
                     var name = match.Groups[1].Value;
                     var description = match.Groups[2].Value;
                     machines.Add(name, new Machine() { description = description, name = name });
+                    totalGames++;
                 }
             }
 
@@ -70,11 +82,10 @@ namespace IV_Play
             using (var dbm = new DatabaseManager())
             {                                
                 dbm.SaveMachines(machines.Values.ToList());
-                dbm.SaveMameInfo(mameInfo);
+                dbm.SaveMameInfo(_mameInfo);
             }
             _games = CreateGamesFromMachines(machines.Values.ToList());
-            _games.MameVersion = mameInfo.Version;
-            SettingsManager.MameCommands = mameInfo.Commands;
+            _games.TotalGames = totalGames;
         }
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace IV_Play
                 xmlReaderSettings = new XmlReaderSettings();
                 xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
 
-                var counter = 1;
+                var counter = 0;
 
                 using (StreamReader myOutput = mameCommand.StandardOutput)
                 {
@@ -105,20 +116,15 @@ namespace IV_Play
                             {
                                 // MAME lists all of it's devices at the end, so we can just finish here.
                                 if (xmlReader["isdevice"] == "yes") break;
-                                                                                       
-                                if (xmlReader["isbios"] == "yes" || xmlReader["runnable"] == "no")
-                                {
-                                    _games.Remove(xmlReader["name"]);                                   
-                                    continue;
-                                }
 
                                 var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
                                 counter++;
                                 machines.Add(machine);
-
+                              
                                 var game = new Game(machine);
                                 if (machine.cloneof == null)
                                 {
+                                    game.Children = _games[machine.name].Children;
                                     _games[machine.name] = game;
                                 }
                                 else
@@ -129,12 +135,11 @@ namespace IV_Play
                                 progress.Report(counter);
                             } // end while loop
 
-                            progress.Report(-1);
+                            progress.Report(-1);                            
                             dbm.UpdateMachines(machines);
-                        }
-                    } // END USING XML READER
-                }
-                //XmlParser.ReadDat();
+                        } // END DatabaseManager
+                    } // END XmlReader
+                } // END Output Stream
             }
             catch (Exception ex)
             {
@@ -151,9 +156,10 @@ namespace IV_Play
         {
             var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
             var version = mameFileInfo.ProductVersion;
-            var commands = new MameCommands(Settings.Default.MAME_EXE);
-            
-            return new MameInfo { Version = version, Commands = commands };
+            var product = mameFileInfo.ProductName.ToUpper();
+            var commands = new MameCommands(Settings.Default.MAME_EXE);            
+
+            return new MameInfo { Version = version, Commands = commands, Product = product };
         }
 
         private Games CreateGamesFromMachines(List<Machine> machines)
@@ -177,16 +183,14 @@ namespace IV_Play
             foreach (var machine in parents)
             {
                 var game = new Game(machine);               
-                games.Add(game.Name, game);                
+                games.TryAdd(game.Name, game);                           
             }
-
-            games.TotalGames = games.Count;
 
             //Go through all the games and add clones to the parents.
             foreach (var machine in clones)
             {
                 var game = new Game(machine);
-                games[game.ParentSet].Children.Add(game.Description, game);
+                games[game.ParentSet].Children.Add(game.Name, game);
             }
            
             return games;
@@ -195,15 +199,13 @@ namespace IV_Play
         /// <summary>
         /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
         /// </summary>
-        public Games ReadDat()
+        public void ReadDat()
         {
             var dbm = new DatabaseManager();
                 
-            var games = CreateGamesFromMachines(dbm.GetMachines());
-            var mameInfo = dbm.GetMameInfo();
-            games.MameVersion = mameInfo.Version;
-            SettingsManager.MameCommands = mameInfo.Commands;            
-            return games;
+            _games = CreateGamesFromMachines(dbm.GetMachines());
+            _mameInfo = dbm.GetMameInfo();
+            SettingsManager.MameCommands = _mameInfo.Commands;
         }
 
         public Process ExecuteMameCommand(string argument)

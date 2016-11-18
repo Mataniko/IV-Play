@@ -63,13 +63,20 @@ namespace IV_Play
 
         private async void RefreshGameList()
         {
-            var xmlParser = new XmlParser();
-            xmlParser.MakeQuickDat();
-            updateList(xmlParser.Games);
-            var progress = new Progress<int>();
-            progress.ProgressChanged += Progress_ProgressChanged;
-            await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
-            updateList(xmlParser.Games);
+            if (!updating)
+            {
+                updating = true;
+                var xmlParser = new XmlParser();
+                xmlParser.MakeQuickDat();
+                _mameInfo = xmlParser.MameInfo;
+                updateList(xmlParser.Games);
+                var progress = new Progress<int>();
+                progress.ProgressChanged += Progress_ProgressChanged;
+                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+                updateList(xmlParser.Games);
+                updating = false;
+                UpdateTitleBar();
+            }           
         }
 
         private void filterToolStripMenuItem_Click()

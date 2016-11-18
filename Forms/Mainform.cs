@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using IV_Play.Properties;
 using System.Threading.Tasks;
+using IV_Play.Data.Models;
 
 #endregion
 
@@ -23,6 +24,8 @@ namespace IV_Play
     public partial class MainForm : Form
     {
         private FilterDialog filterDialog = new FilterDialog();
+        private MameInfo _mameInfo;
+        private bool updating = false;
 
         public MainForm()
         {
@@ -55,6 +58,7 @@ namespace IV_Play
             //If we don't have a dat file, we need to create one. The progress form is responsible for that.
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
+
             var xmlParser = new XmlParser();
 
             try
@@ -62,16 +66,22 @@ namespace IV_Play
                 
                 if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
+                    updating = true;
                     xmlParser.MakeQuickDat();
+                    _mameInfo = xmlParser.MameInfo;
                     updateList(xmlParser.Games);
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
                     await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                     updateList(xmlParser.Games);
+                    updating = false;
+                    UpdateTitleBar();
                 }
                 else
                 {
-                    updateList(xmlParser.ReadDat());
+                    xmlParser.ReadDat();
+                    _mameInfo = xmlParser.MameInfo;
+                    updateList(xmlParser.Games);
                 }
             }
             catch (Exception)
@@ -81,9 +91,6 @@ namespace IV_Play
             //Now that we know where MAME is we can load the default art assets
             _gameList.LoadDefaultArtAssets();
 
-            //Load our games. Setting a filter is important because it also populates the list
-            //a blank string will return everything.
-
             UpdateTitleBar();
         }
 
@@ -91,18 +98,19 @@ namespace IV_Play
         {
             if (e % 300 == 0 || e == -1) {
                 UpdateTitleBar(e);                
-            }
+            }          
         }
 
         private void updateList(Games games)
         {
             _gameList.LoadGames(games);
             _gameList.LoadSettings();
-            _gameList.Filter = "";
+            _gameList.Filter = _gameList.Filter;
         }
         private void GameList_GameListChanged(object sender, EventArgs e)
         {
-            UpdateTitleBar();
+            if (!updating)
+                UpdateTitleBar();
         }         
 
         private void MainForm_ResizeEnd(object sender, EventArgs e)
@@ -127,7 +135,7 @@ namespace IV_Play
         {
             try
             {
-                Text = string.Format("IV/Play - {0} {1} {2} Games", GetMameType(), GetMameType(),
+                Text = string.Format("IV/Play - {0} {1} {2} Games", _mameInfo.Product, _mameInfo.Version,
                                      _gameList.Count - _gameList.CountFavorites);
                 if (_gameList.CountFavorites > 0)
                     Text += string.Format(@" / {0} Favorites", _gameList.CountFavorites);
@@ -136,7 +144,7 @@ namespace IV_Play
 
                 if (progress > -1)
                 {
-                    var progressPercentage = (int)(((float)progress / (float)_gameList.Count) * 100);
+                    var progressPercentage = (int)(((float)progress / (float)_gameList.ProgressCount) * 100);
                     Text += string.Format(" - Updating {0}%", progressPercentage);            
                 }
             }
@@ -146,25 +154,5 @@ namespace IV_Play
                 Text = "IV/Play";
             }
         }
-
-        /// <summary>
-        /// Returns the MAME product name for the title bar.
-        /// </summary>
-        /// <returns></returns>
-        private string GetMameType()
-        {
-            try
-            {
-                FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
-                return fileVersionInfo.ProductName.ToUpper();
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-        }      
-
-        
-
     }
 }

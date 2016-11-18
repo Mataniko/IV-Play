@@ -17,6 +17,7 @@ using System.Windows.Threading;
 
 using IV_Play.Properties;
 using IV_Play.Data;
+using System.Collections.Concurrent;
 
 #endregion
 
@@ -177,6 +178,12 @@ namespace IV_Play
         public int Count
         {
             get { return Games.Count; }
+        }
+
+        [Browsable(false)]
+        public int ProgressCount
+        {
+            get { return _games.TotalGames; }
         }
 
         #endregion
@@ -340,7 +347,7 @@ namespace IV_Play
                                 Game g = game.Copy();
                                 g.Name = "fav_" + g.Name;
                                 g.IsFavorite = true;
-                                _gamesFavorites.Add(g.Name, g);
+                                _gamesFavorites.TryAdd(g.Name, g);
                             }
                         }
                         catch (Exception)
@@ -393,12 +400,12 @@ namespace IV_Play
         private void LoadGamesAndFavorites()
         {
           
-                var sortedDict = (from entry in _games                                     
+            var sortedDict = (from entry in _games                                     
                                   where (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
                                   && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working))
                                   orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
                                   select entry);
-
+            
             int i = FavoritesMode != FavoritesMode.Games ? LoadFavorites() : 0;
             
             Game prevGame;
@@ -417,7 +424,7 @@ namespace IV_Play
                 return;
             }
             foreach (var fGame in sortedDict)
-            {              
+            {                              
                 if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Manufacturer.Contains(_filter,
                                                       StringComparison.InvariantCultureIgnoreCase) ||
@@ -440,7 +447,7 @@ namespace IV_Play
                 if (!Settings.Default.hide_clones)
                 {
                     foreach (var child in fGame.Value.Children)
-                    {
+                    {                        
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter,
                                                               StringComparison.InvariantCultureIgnoreCase) ||
@@ -462,7 +469,7 @@ namespace IV_Play
                         }
                     }
                 }
-            }
+            }          
         }
 
         private Game GetNodeParent(Game node)
