@@ -135,7 +135,7 @@ namespace IV_Play
             }
             catch (Exception)
             {
-                _picBG.Image = Resources.Default_Background_800x432;
+                _picBG.Image = Resources.Default_Background;
             }
         }
 

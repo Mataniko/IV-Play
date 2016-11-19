@@ -72,9 +72,9 @@ namespace IV_Play.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Default_Background_800x432 {
+        internal static System.Drawing.Bitmap Default_Background {
             get {
-                object obj = ResourceManager.GetObject("Default_Background_800x432", resourceCulture);
+                object obj = ResourceManager.GetObject("Default_Background", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

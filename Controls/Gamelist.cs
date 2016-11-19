@@ -645,11 +645,11 @@ namespace IV_Play
                 try
                 {
                     string path = Path.Combine(Settings.Default.bkground_directory, Settings.Default.bkground_image);
-                    BackgroundImage = File.Exists(path) ? Image.FromFile(path) : Resources.Default_Background_800x432;
+                    BackgroundImage = File.Exists(path) ? Image.FromFile(path) : Resources.Default_Background;
                 }
                 catch
                 {
-                    BackgroundImage = Resources.Default_Background_800x432;
+                    BackgroundImage = Resources.Default_Background;
                 }
             }
         }
