@@ -26,7 +26,7 @@ namespace IV_Play
 
         public void Search(Char value)
         {
-            if (Char.IsControl(value)) 
+            if (Char.IsControl(value))
                 return;
 
             Char ch = Char.ToLowerInvariant(value);
@@ -34,11 +34,11 @@ namespace IV_Play
             TimeSpan ts = dt - _lastKeyPressed;
             _lastKeyPressed = dt;
 
-            if (ts.TotalMilliseconds < SearchTimeout)                           
-                ContinuousSearch(ch);            
-            else          
+            if (ts.TotalMilliseconds < SearchTimeout)
+                ContinuousSearch(ch);
+            else
                 FirstCharSearch(ch);
-            
+
         }
 
         private void ContinuousSearch(Char value)
@@ -85,7 +85,7 @@ namespace IV_Play
 
             if (!String.IsNullOrEmpty(name))
             {
-                Game node = null;             
+                Game node = null;
                 node = _gameList.FirstGame;
 
                 foreach (string label in IterateNodeLabels(node, SearchType.Name))
@@ -135,8 +135,8 @@ namespace IV_Play
 
             foreach (string label in IterateNodeLabels(node, SearchType.Name))
             {
-                if (i == row)                
-                    break;                
+                if (i == row)
+                    break;
                 i++;
                 node = node.NextGame;
             }
@@ -231,6 +231,6 @@ namespace IV_Play
             }
             return found;
         }
-        
+
     }
 }

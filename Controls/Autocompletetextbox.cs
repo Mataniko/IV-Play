@@ -12,9 +12,9 @@ using System.Windows.Forms;
 namespace IV_Play
 {
     public partial class AutoCompleteTextBox : TextBox
-    {        
+    {
         private ListBox _listBox = new ListBox();
-        private ToolTip tooltip  = new ToolTip();
+        private ToolTip tooltip = new ToolTip();
         private bool _listBoxShow = false;
         public bool ListBoxOn { get { return _listBoxShow; } }
 
@@ -32,7 +32,7 @@ namespace IV_Play
 
         void _listBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-          InsertWord();
+            InsertWord();
             Text += " ";
             this.SelectionStart = Text.Length;
         }
@@ -41,13 +41,13 @@ namespace IV_Play
         {
             if (_listBox.SelectedIndex > -1)
             {
-               // tooltip.Hide(_listBox);
-               string title = _listBox.SelectedItem.ToString();              
+                // tooltip.Hide(_listBox);
+                string title = _listBox.SelectedItem.ToString();
                 string text = _items[title];
-                
+
 
                 tooltip.ToolTipTitle = title;
-                
+
                 tooltip.Show(text, _listBox);
 
             }
@@ -67,7 +67,7 @@ namespace IV_Play
                     if (words[i] == "")
                         return "";
 
-                    if (words[i].StartsWith("-") && i == words.Count()-1)
+                    if (words[i].StartsWith("-") && i == words.Count() - 1)
                         return words[i];
 
                 }
@@ -86,7 +86,7 @@ namespace IV_Play
 
             if (lastWord == "")
                 return;
-            
+
             foreach (var item in _items)
             {
                 bool insert = true;
@@ -94,13 +94,13 @@ namespace IV_Play
                 {
                     if (item.Key == word)
                         insert = false;
-                        
+
                 }
 
 
                 if (item.Key.StartsWith(lastWord) && !item.Key.Equals(lastWord) && insert)
                     _listBox.Items.Add(item.Key);
-            }            
+            }
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -161,9 +161,9 @@ namespace IV_Play
                 }
             }
             //else
-                base.OnKeyDown(e);
+            base.OnKeyDown(e);
 
-           
+
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -178,12 +178,12 @@ namespace IV_Play
             if (_listBox.SelectedIndex < 0 || _listBox.Items.Count == 0)
                 return;
 
-            string addtext = _listBox.SelectedItem.ToString();                   
+            string addtext = _listBox.SelectedItem.ToString();
             Text = Text.Remove(Text.LastIndexOf('-'));
             Text += addtext;
             this.SelectionStart = Text.Length;
             HideListBox();
-            
+
         }
 
         private void HideListBox()
@@ -198,8 +198,8 @@ namespace IV_Play
             }
             catch (Exception)
             {
-                
-                
+
+
             }
         }
 
@@ -210,10 +210,10 @@ namespace IV_Play
             // if (_listBoxShow)
             PopulateListBox();
 
-            if (string.IsNullOrEmpty(Text)) 
+            if (string.IsNullOrEmpty(Text))
                 HideListBox();
 
-          
+
 
             if (_listBox.FindString(word + '\t') != -1 || _listBox.Items.Count == 0)
                 HideListBox();
@@ -230,36 +230,36 @@ namespace IV_Play
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-         
-                if (e.KeyCode == Keys.Down)
-                {
-                    e.SuppressKeyPress = true;
-                  //  if (_listBox.Items.Count > 0)
-                  //      _listBox.SelectedIndex = Math.Min(_listBox.Items.Count - 1, _listBox.SelectedIndex + 1);
-                }
 
-                if (e.KeyCode == Keys.Up)
-                {
-                    e.SuppressKeyPress = true;
-                    // if (_listBox.Items.Count > 0)
-                    //      _listBox.SelectedIndex = Math.Max(_listBox.SelectedIndex - 1, 0);
-                }
-          //  }
-          //  else
+            if (e.KeyCode == Keys.Down)
+            {
+                e.SuppressKeyPress = true;
+                //  if (_listBox.Items.Count > 0)
+                //      _listBox.SelectedIndex = Math.Min(_listBox.Items.Count - 1, _listBox.SelectedIndex + 1);
+            }
 
-                if (e.KeyCode == Keys.OemMinus)
-                {
-                    base.OnKeyDown(e);
-                    ShowListBox();
-                }
+            if (e.KeyCode == Keys.Up)
+            {
+                e.SuppressKeyPress = true;
+                // if (_listBox.Items.Count > 0)
+                //      _listBox.SelectedIndex = Math.Max(_listBox.SelectedIndex - 1, 0);
+            }
+            //  }
+            //  else
+
+            if (e.KeyCode == Keys.OemMinus)
+            {
+                base.OnKeyDown(e);
+                ShowListBox();
+            }
 
 
-                base.OnKeyUp(e);
+            base.OnKeyUp(e);
 
-          
+
         }
-        
-        
+
+
         private void ShowListBox()
         {
 
@@ -271,8 +271,8 @@ namespace IV_Play
             _listBox.BringToFront();
             _listBox.Show();
             _listBoxShow = true;
-           
-          
+
+
         }
 
     }

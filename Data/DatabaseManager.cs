@@ -12,11 +12,11 @@ namespace IV_Play.Data
 {
     class DatabaseManager : IDisposable
     {
-        private MemoryStream dbMemoryStream;        
+        private MemoryStream dbMemoryStream;
         private LiteDatabase database;
         private LiteCollection<Machine> machinesCollection;
         private LiteCollection<MameInfo> mameInfoCollection;
-                        
+
         public DatabaseManager()
         {
             Open();
@@ -24,7 +24,8 @@ namespace IV_Play.Data
             mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");
         }
 
-        public LiteDatabase Database { 
+        public LiteDatabase Database
+        {
             get
             {
                 return database;
@@ -42,7 +43,7 @@ namespace IV_Play.Data
                 }
             }
 
-            database = new LiteDatabase(dbMemoryStream);           
+            database = new LiteDatabase(dbMemoryStream);
         }
 
         private void Close()
@@ -79,7 +80,7 @@ namespace IV_Play.Data
         }
 
         public List<Machine> GetMachines()
-        {           
+        {
             return machinesCollection.FindAll().ToList();
         }
 

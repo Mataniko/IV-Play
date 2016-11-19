@@ -16,6 +16,6 @@ namespace IV_Play.Data.Models
         public short buttons { get; set; }
 
         [XmlAttribute]
-        public short player { get; set; }        
+        public short player { get; set; }
     }
 }

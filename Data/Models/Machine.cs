@@ -12,7 +12,7 @@ namespace IV_Play.Data.Models
     public class Machine
     {
         [XmlAttribute]
-        [BsonIndex(unique:true)]
+        [BsonIndex(unique: true)]
         [BsonId]
         public string name { get; set; }
         [XmlAttribute]
@@ -31,7 +31,7 @@ namespace IV_Play.Data.Models
         public string romof { get; set; }
         [XmlAttribute]
         public string sampleof { get; set; }
-        
+
         public string year { get; set; }
         public string manufacturer { get; set; }
         public Input input { get; set; }
@@ -41,7 +41,7 @@ namespace IV_Play.Data.Models
         [XmlElement]
         public Rom[] rom { get; set; }
         [XmlElement]
-        public Disk[] disk { get; set; }                
+        public Disk[] disk { get; set; }
         [XmlElement]
         public Chip[] chip { get; set; }
         [XmlElement]
@@ -103,7 +103,7 @@ namespace IV_Play.Data.Models
 
             return sb.ToString();
         }
-                    
+
     }
 }
 

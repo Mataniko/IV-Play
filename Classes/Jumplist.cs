@@ -39,7 +39,7 @@ namespace IV_Play
                     LoadJumpList();
 
 
-                if (!jumpList.JumpItems.Exists(j => ((JumpTask) j).Title == g.Description))
+                if (!jumpList.JumpItems.Exists(j => ((JumpTask)j).Title == g.Description))
                 {
                     jumpList.JumpItems.Insert(0, jumpTask1);
                     SettingsManager.AddGameToJumpList(g.Name);
@@ -104,7 +104,7 @@ namespace IV_Play
                     }
                 }
             }
-               
+
             jumpList.Apply();
         }
     }

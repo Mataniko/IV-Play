@@ -10,7 +10,7 @@ namespace IV_Play.Data.Models
     public class Input
     {
         [XmlAttribute]
-        public short players { get; set; }        
+        public short players { get; set; }
         [XmlElement]
         public Control[] control { get; set; }
 

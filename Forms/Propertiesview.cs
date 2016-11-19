@@ -31,7 +31,7 @@ namespace IV_Play
 
         private void PopulateForm()
         {
-            
+
             _layoutPanel.BackgroundImage = SettingsManager.BackgroundImage;
 
             Text = string.Format("IV/Play {0} Properties", _game.Description);
@@ -50,7 +50,7 @@ namespace IV_Play
             _txtInput.Text = _game.Input;
             _txtSound.Text = _game.Sound;
             _txtScreen.Text = _game.Display;
-        }      
+        }
 
         private void PropertiesView_Load(object sender, EventArgs e)
         {

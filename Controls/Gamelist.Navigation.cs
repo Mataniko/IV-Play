@@ -38,15 +38,15 @@ namespace IV_Play
         {
             Game game;
 
-            game = GetNodeParent(SelectedGame ?? GetNodeAtRow(VerticalScroll.Value/RowHeight));
+            game = GetNodeParent(SelectedGame ?? GetNodeAtRow(VerticalScroll.Value / RowHeight));
 
             if (game == null)
                 return;
 
-            char nextKey;            
+            char nextKey;
             char key = Char.ToLower(game.Description.ToCharArray()[0]);
 
-            nextKey = key == 'a' ? '9' : Char.ToLower((char) (key - 1));
+            nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
 
             bool favorite = game.IsFavorite;
             while (!GoToLetter(nextKey, favorite))
@@ -69,10 +69,10 @@ namespace IV_Play
             try
             {
                 int row = inRow;
-                row = row*RowHeight;
+                row = row * RowHeight;
 
                 if (row > VerticalScroll.Value)
-                    row += ClientRectangle.Height%RowHeight;
+                    row += ClientRectangle.Height % RowHeight;
                 int topBounds = VerticalScroll.Value + ClientRectangle.Height;
                 if (!(row > VerticalScroll.Value && row < VerticalScroll.Value + ClientRectangle.Height))
                     if (row >= topBounds)
@@ -128,12 +128,12 @@ namespace IV_Play
             //}
             //else            
             //    game = GetNodeParent(SelectedGame);
-            
+
 
             char nextKey;
             char key = Char.ToLower(game.Description.ToCharArray()[0]);
-            
-            nextKey = key == '9' ? 'a' : Char.ToLower((char) (key + 1));
+
+            nextKey = key == '9' ? 'a' : Char.ToLower((char)(key + 1));
 
             bool favorite = game.IsFavorite;
             while (!GoToLetter(nextKey, favorite))

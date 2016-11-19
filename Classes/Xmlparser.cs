@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 #endregion
 
 namespace IV_Play
-{    
+{
     /// <summary>
     /// This Class handles the creation and parsing of Mame and IV/Play data.
     /// Our DAT file is basically a trimmed down MAME xml compressed to save space.
@@ -24,7 +24,8 @@ namespace IV_Play
     internal class XmlParser
     {
         private Games _games;
-        public Games Games {
+        public Games Games
+        {
             get
             {
                 return _games;
@@ -78,9 +79,9 @@ namespace IV_Play
                     machines[clone].cloneof = parent;
                 }
             }
-            
+
             using (var dbm = new DatabaseManager())
-            {                                
+            {
                 dbm.SaveMachines(machines.Values.ToList());
                 dbm.SaveMameInfo(_mameInfo);
             }
@@ -120,7 +121,7 @@ namespace IV_Play
                                 var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
                                 counter++;
                                 machines.Add(machine);
-                              
+
                                 var game = new Game(machine);
                                 if (machine.cloneof == null)
                                 {
@@ -135,7 +136,7 @@ namespace IV_Play
                                 progress.Report(counter);
                             } // end while loop
 
-                            progress.Report(-1);                            
+                            progress.Report(-1);
                             dbm.UpdateMachines(machines);
                         } // END DatabaseManager
                     } // END XmlReader
@@ -157,7 +158,7 @@ namespace IV_Play
             var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
             var version = mameFileInfo.ProductVersion;
             var product = mameFileInfo.ProductName.ToUpper();
-            var commands = new MameCommands(Settings.Default.MAME_EXE);            
+            var commands = new MameCommands(Settings.Default.MAME_EXE);
 
             return new MameInfo { Version = version, Commands = commands, Product = product };
         }
@@ -182,8 +183,8 @@ namespace IV_Play
             var clones = (from m in machines where m.cloneof != null && !hiddenGames.ContainsKey(m.name) select m);
             foreach (var machine in parents)
             {
-                var game = new Game(machine);               
-                games.TryAdd(game.Name, game);                           
+                var game = new Game(machine);
+                games.TryAdd(game.Name, game);
             }
 
             //Go through all the games and add clones to the parents.
@@ -192,7 +193,7 @@ namespace IV_Play
                 var game = new Game(machine);
                 games[game.ParentSet].Children.Add(game.Name, game);
             }
-           
+
             return games;
         }
 
@@ -202,7 +203,7 @@ namespace IV_Play
         public void ReadDat()
         {
             var dbm = new DatabaseManager();
-                
+
             _games = CreateGamesFromMachines(dbm.GetMachines());
             _mameInfo = dbm.GetMameInfo();
             SettingsManager.MameCommands = _mameInfo.Commands;
@@ -218,6 +219,6 @@ namespace IV_Play
             processStartInfo.CreateNoWindow = true;
             processStartInfo.Arguments = argument;
             return Process.Start(processStartInfo);
-        }        
+        }
     }
 }

@@ -83,17 +83,17 @@ namespace IV_Play
                     Type type = Settings.Default[param].GetType();
                     Settings.Default[param] = CastHelper(type, Settings.Default.Properties[param].DefaultValue.ToString());
                 }
-                
+
             }
             catch (Exception)
-            {                
-                
+            {
+
             }
             Settings.Default.MAME_EXE = mameExe;
 
             SetPaths(Path.GetDirectoryName(mameExe) + "\\");
             //WriteSettingsToFile();
-                        
+
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace IV_Play
                 string param;
                 string value;
                 try
-                {                    
+                {
                     string[] sSplit = s.Split('=');
                     param = sSplit[0];
                     value = sSplit[1];
@@ -128,13 +128,13 @@ namespace IV_Play
                 {
                     type = Settings.Default[param].GetType();
                     Settings.Default[param] = CastHelper(type, value);
-                }                
+                }
                 catch (Exception)
                 {
-                    
+
                     //If an exception happened, the item is probably not a setting and will be ignored.
                     try
-                    {                       
+                    {
                         if (param != "")
                             Settings.Default[param] = CastHelper(type,
                                                                  Settings.Default.Properties[param].DefaultValue.
@@ -144,7 +144,7 @@ namespace IV_Play
                     {
                         Logger.WriteToLog(ex);
                     }
-                }                
+                }
             }
 
             ArtPaths.Add("None");
@@ -158,7 +158,7 @@ namespace IV_Play
         internal static int[] ReadCustomColors()
         {
             int[] ints = new int[16];
-            string[] strings; 
+            string[] strings;
             try
             {
                 strings = Settings.Default.custom_colors.Split(',');
@@ -167,7 +167,7 @@ namespace IV_Play
             {
                 strings = Settings.Default.Properties["custom_colors"].DefaultValue.ToString().Split(',');
             }
-            
+
             for (int i = 0; i < strings.Length; i++)
             {
                 try
@@ -179,7 +179,7 @@ namespace IV_Play
 
                     ints[i] = 0;
                 }
-                
+
             }
             return ints;
         }
@@ -214,7 +214,7 @@ namespace IV_Play
                         {
                             return Color.FromName(value);
                         }
-                        
+
                     }
                 case "Font":
                     return (new FontConverter().ConvertFromString(value));
@@ -318,7 +318,7 @@ namespace IV_Play
                 }
             }
 
-            
+
             return false;
         }
 
@@ -338,7 +338,7 @@ namespace IV_Play
                 string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
                               path.ToLower(), @"snap", @"flyers", @"history.dat", @"cabinets", @"cpanel", @"marquees",
                               @"pcb", @"titles", @"mameinfo.dat");
-                        
+
             //Art View Paths
             string Paths = "";
             ArtPaths.Add("None");
@@ -350,9 +350,9 @@ namespace IV_Play
             Paths.TrimEnd('|');
             //Settings.Default.art_view_folders = Paths;
 
-              Settings.Default.icons_directory = Path.Combine(path, @"icons\");               
-              Settings.Default.bkground_directory = Path.Combine(path, @"bkground\");
-            
+            Settings.Default.icons_directory = Path.Combine(path, @"icons\");
+            Settings.Default.bkground_directory = Path.Combine(path, @"bkground\");
+
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace IV_Play
         /// </summary>
         private static void SetDefaultSettings()
         {
-            WriteSettingsToFile();            
+            WriteSettingsToFile();
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace IV_Play
             {
                 if (setting.PropertyType.Name == "Color")
                 {
-                    Color color = (Color) Settings.Default[setting.Name];
+                    Color color = (Color)Settings.Default[setting.Name];
                     listSettings.Add(setting.Name + "=" + string.Format("{0},{1},{2}", color.R, color.G, color.B));
                 }
                 else if (setting.PropertyType.Name == "Font")
@@ -389,15 +389,15 @@ namespace IV_Play
                 if (!designMode)
                 {
                     File.WriteAllLines(cfgPath, listSettings, Encoding.ASCII);
-                }                
-            } 
+                }
+            }
             catch (IOException ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            
-            
+
+
         }
 
         public static void WriteCustomColors(int[] colors)
@@ -405,7 +405,7 @@ namespace IV_Play
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var color in colors)
             {
-                stringBuilder.AppendFormat("{0},",color);
+                stringBuilder.AppendFormat("{0},", color);
             }
             string sColors = stringBuilder.ToString().TrimEnd(',');
             Settings.Default.custom_colors = sColors;

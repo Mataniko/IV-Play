@@ -35,16 +35,16 @@ namespace IV_Play
                     ResumeLayout();
                     return;
                 }
-                
+
                 base.OnMouseWheel(e);
                 ResumeLayout();
             }
             catch
             {
-                ResumeLayout();          
+                ResumeLayout();
             }
 
-            
+
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
@@ -71,11 +71,11 @@ namespace IV_Play
                                 !SettingsManager.ArtPaths[ArtType].Contains(".dat",
                                                                             StringComparison.InvariantCultureIgnoreCase))
                             {
-                                if (Settings.Default.art_area == (int) ArtDisplayMode.superlarge)
-                                    Settings.Default.art_area = (int) ArtDisplayMode.normal;
+                                if (Settings.Default.art_area == (int)ArtDisplayMode.superlarge)
+                                    Settings.Default.art_area = (int)ArtDisplayMode.normal;
                                 else
                                     Settings.Default.art_area++;
-                                ArtDisplayMode = (ArtDisplayMode) Settings.Default.art_area;
+                                ArtDisplayMode = (ArtDisplayMode)Settings.Default.art_area;
                             }
                             break;
                     }
@@ -84,7 +84,7 @@ namespace IV_Play
                 }
                 else
                 {
-                    int row = (e.Y + VerticalScroll.Value)/RowHeight;
+                    int row = (e.Y + VerticalScroll.Value) / RowHeight;
                     Game game = GetNodeAtRow(row);
                     if (game == null)
                         return;
@@ -140,7 +140,7 @@ namespace IV_Play
                     base.OnMouseDoubleClick(e);
                 else
                 {
-                    int row = (e.Y + VerticalScroll.Value)/RowHeight;
+                    int row = (e.Y + VerticalScroll.Value) / RowHeight;
                     if (row == SelectedRow && e.Button == MouseButtons.Left)
                     {
                         Graphics g = CreateGraphics();
@@ -197,7 +197,7 @@ namespace IV_Play
                     infoRow += rows;
                     break;
                 case InfoScrollMode.Page:
-                    rows = _currentInfo.VisibleRows*rows;
+                    rows = _currentInfo.VisibleRows * rows;
                     if (rows > 0 && _currentInfo.TotalRows <= _currentInfo.VisibleRows)
                         return;
 
@@ -239,11 +239,11 @@ namespace IV_Play
                         Random rand = new Random(DateTime.Now.Millisecond);
                         int iRand = rand.Next(0, Games.Count);
                         SelectedGame = GetNodeAtRow(iRand);
-                    }                
+                    }
                     break;
                 case Keys.Back:
-                        if (e.Control && Filter.Length != 0)
-                            Filter="";
+                    if (e.Control && Filter.Length != 0)
+                        Filter = "";
                     break;
                 case Keys.Down:
                     if (e.Control)
@@ -330,7 +330,7 @@ namespace IV_Play
                 case Keys.D9:
                     if (e.Alt)
                     {
-                        int artType = e.KeyValue - (int) Keys.D0;
+                        int artType = e.KeyValue - (int)Keys.D0;
                         if (artType < SettingsManager.ArtPaths.Count)
                         {
                             Settings.Default.art_type = artType;
@@ -354,7 +354,7 @@ namespace IV_Play
                 if (Settings.Default.filter_on_input)
                 {
                     if (e.KeyChar == '\b' && !ControlKeyPressed)
-                    {                        
+                    {
                         if (Filter.Length != 0)
                             Filter = Filter.Remove(Filter.Length - 1);
                     }

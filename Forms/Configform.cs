@@ -45,7 +45,7 @@ namespace IV_Play
             return base.ProcessDialogKey(keyData);
         }
         private void _btnFont_Click(object sender, EventArgs e)
-        {           
+        {
             _fontDialog.Font = gameFont;
 
             if (_fontDialog.ShowDialog() == DialogResult.OK)
@@ -73,7 +73,7 @@ namespace IV_Play
             {
                 if (s == "None")
                     continue;
-                
+
                 _listArtViews.Items.Add(s);
             }
 
@@ -86,7 +86,7 @@ namespace IV_Play
             _fontDialog.Font = Settings.Default.game_list_font;
             _fontDialog2.Font = Settings.Default.info_font;
             _fontDialog2.Color = Settings.Default.info_font_color;
-            
+
             //Command line
             autoCompleteTextBox1.Text = Settings.Default.command_line_switches;
 
@@ -123,7 +123,7 @@ namespace IV_Play
             _chkArrowKeyPaging.Checked = Settings.Default.arrow_key_paging;
 
             //Favorites
-            _cmdFavMode.SelectedIndex= Settings.Default.favorites_mode;
+            _cmdFavMode.SelectedIndex = Settings.Default.favorites_mode;
 
             //BorderUpDown
             _borderWidth.Value = Settings.Default.art_border_width;
@@ -307,7 +307,7 @@ namespace IV_Play
                 return;
 
             string tmpFolder = _listArtViews.SelectedItem.ToString();
-            int index = Math.Min(_listArtViews.Items.Count-1, _listArtViews.SelectedIndex + 1);
+            int index = Math.Min(_listArtViews.Items.Count - 1, _listArtViews.SelectedIndex + 1);
             _listArtViews.Items[_listArtViews.SelectedIndex] = _listArtViews.Items[index];
             _listArtViews.Items[index] = tmpFolder;
             _listArtViews.SelectedIndex = index;
@@ -321,11 +321,11 @@ namespace IV_Play
                 return;
 
             if (_listArtViews.SelectedIndex == _cmbArtType.SelectedIndex - 1)
-                _cmbArtType.SelectedIndex=0;
+                _cmbArtType.SelectedIndex = 0;
 
-            int index = Math.Max(0, _listArtViews.SelectedIndex - 1);            
-            _listArtViews.Items.RemoveAt(_listArtViews.SelectedIndex);   
-            if (_listArtViews.Items.Count > 0)         
+            int index = Math.Max(0, _listArtViews.SelectedIndex - 1);
+            _listArtViews.Items.RemoveAt(_listArtViews.SelectedIndex);
+            if (_listArtViews.Items.Count > 0)
                 _listArtViews.SelectedIndex = index;
 
             UpdateArtTypeDropDown();
@@ -336,21 +336,21 @@ namespace IV_Play
             try
             {
 
-            
-            _folderDialog.SelectedPath = lastDir;
-            if (_folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                lastDir = _folderDialog.SelectedPath;
-                if (!_listArtViews.Items.Contains(lastDir.ToLower()))
-                    _listArtViews.Items.Add(lastDir.ToLower());
-            }
-            UpdateArtTypeDropDown();
-            _btnOK.Select();
+
+                _folderDialog.SelectedPath = lastDir;
+                if (_folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    lastDir = _folderDialog.SelectedPath;
+                    if (!_listArtViews.Items.Contains(lastDir.ToLower()))
+                        _listArtViews.Items.Add(lastDir.ToLower());
+                }
+                UpdateArtTypeDropDown();
+                _btnOK.Select();
             }
             catch (Exception)
             {
 
-             
+
             }
         }
 
@@ -370,19 +370,19 @@ namespace IV_Play
             _cmbArtType.SelectedItem = prevArtType;
         }
         private void _listArtViews_DragOver(object sender, DragEventArgs e)
-        {                        
+        {
             //e.Effect = DragDropEffects.Copy;
-            
+
         }
 
         private void _listArtViews_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {                
+            {
                 e.Effect = DragDropEffects.Copy;
             }
             else
-                e.Effect = DragDropEffects.None;            
+                e.Effect = DragDropEffects.None;
         }
 
         private void _listArtViews_DragDrop(object sender, DragEventArgs e)
@@ -398,15 +398,15 @@ namespace IV_Play
                     //detect whether its a directory or file   
                     string filePath;
 
-                   if ((attr & FileAttributes.Directory) == FileAttributes.Directory || (Path.GetExtension(path) == ".dat"))
-                   {
-                       filePath = path.ToLower();
-                   }                    
-                    else 
-                       filePath = Path.GetDirectoryName(path);
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory || (Path.GetExtension(path) == ".dat"))
+                    {
+                        filePath = path.ToLower();
+                    }
+                    else
+                        filePath = Path.GetDirectoryName(path);
 
                     if (!_listArtViews.Items.Contains(filePath.ToLower()))
-                    {                       
+                    {
                         _listArtViews.Items.Add(filePath.ToLower());
                     }
                 }
@@ -418,13 +418,13 @@ namespace IV_Play
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-               openFileDialog.Filter = "MAME Information DAT (History, Info, Command)|*.dat";
-               openFileDialog.Multiselect = false;
-               if (openFileDialog.ShowDialog() == DialogResult.OK)
-               {
-                   if (!_listArtViews.Items.Contains(openFileDialog.FileName.ToLower()))
-                     _listArtViews.Items.Add(openFileDialog.FileName.ToLower());
-               }
+                openFileDialog.Filter = "MAME Information DAT (History, Info, Command)|*.dat";
+                openFileDialog.Multiselect = false;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (!_listArtViews.Items.Contains(openFileDialog.FileName.ToLower()))
+                        _listArtViews.Items.Add(openFileDialog.FileName.ToLower());
+                }
             }
             _btnOK.Select();
         }
@@ -435,7 +435,7 @@ namespace IV_Play
             {
                 _fontDialog2.Font = infoFont;
                 _fontDialog2.Color = infoColor;
-                
+
                 if (_fontDialog2.ShowDialog() == DialogResult.OK)
                 {
                     infoFont = _fontDialog2.Font;
@@ -444,14 +444,14 @@ namespace IV_Play
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex); 
+                Logger.WriteToLog(ex);
             }
             _btnOK.Select();
         }
 
         private void _btnReset_Click(object sender, EventArgs e)
         {
-            SettingsManager.ResetSettings();            
+            SettingsManager.ResetSettings();
             LoadSettings();
         }
 
@@ -499,7 +499,7 @@ namespace IV_Play
                 {
                     MessageBox.Show("The game audit file MAME_g.ini was not found. This file can be generated by MameUI64 during a game audit.\n\nRun MameUI64.\nSelect File->Audit all games.\nCopy MAME_g.ini into the same folder as IV-Play.exe");
                 }
-            }           
+            }
 
             Cursor.Current = Cursors.Default;
         }

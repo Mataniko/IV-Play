@@ -15,7 +15,7 @@ namespace IV_Play.Data.Models
         public short rotate { get; set; }
         [XmlAttribute]
         public int width { get; set; }
-        [XmlAttribute] 
+        [XmlAttribute]
         public int height { get; set; }
         [XmlAttribute]
         public string type { get; set; }

@@ -87,7 +87,7 @@ namespace IV_Play
 
         public Game Copy()
         {
-            return (Game) MemberwiseClone();
+            return (Game)MemberwiseClone();
         }
 
         public override string ToString()
@@ -97,5 +97,5 @@ namespace IV_Play
     }
 
 
- 
+
 }

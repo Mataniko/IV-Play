@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace IV_Play
 {
-   public partial class MainForm
+    public partial class MainForm
     {
-        
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Alt) return;
@@ -23,24 +23,24 @@ namespace IV_Play
                     break;
                 case Keys.F4:
                     _tsPairing_Click();
-                    break;                
+                    break;
                 case Keys.F1:
                     _tsHelpForm_Click();
                     break;
             }
         }
 
-       protected override bool ProcessDialogKey(Keys keyData)
+        protected override bool ProcessDialogKey(Keys keyData)
         {
-           if (keyData == (Keys.Control | Keys.E) || keyData == (Keys.Control | Keys.F))
-           {
-               _gameList.ControlKeyPressed = false;
-               filterToolStripMenuItem_Click();               
-               return true;
-           }
+            if (keyData == (Keys.Control | Keys.E) || keyData == (Keys.Control | Keys.F))
+            {
+                _gameList.ControlKeyPressed = false;
+                filterToolStripMenuItem_Click();
+                return true;
+            }
             if (keyData == (Keys.Alt | Keys.Enter))
             {
-                _tsProperties_Click(); 
+                _tsProperties_Click();
                 return true;
             }
             else if (keyData == (Keys.P | Keys.Alt))
@@ -48,7 +48,7 @@ namespace IV_Play
                 _tsPictureMode_Click();
                 return true;
             }
-            else if (keyData == (Keys.D | Keys.Alt))           
+            else if (keyData == (Keys.D | Keys.Alt))
             {
                 _tsFavorites_Click();
                 return true;
@@ -76,12 +76,12 @@ namespace IV_Play
                 updateList(xmlParser.Games);
                 updating = false;
                 UpdateTitleBar();
-            }           
+            }
         }
 
         private void filterToolStripMenuItem_Click()
         {
-            if (filterDialog.ShowDialog(this,_gameList.Filter) == DialogResult.OK)
+            if (filterDialog.ShowDialog(this, _gameList.Filter) == DialogResult.OK)
             {
                 _gameList.Filter = filterDialog.Filter;
             }

@@ -13,7 +13,7 @@
     /// Determine how our art should be drawn.
     /// </summary>
     public enum ArtDisplayMode
-    {        
+    {
         normal = 0,
         vertical = 1,
         superlarge = 2,
@@ -41,9 +41,9 @@
 
     public enum FavoritesMode
     {
-        Games=0,
+        Games = 0,
         FavoritesAndGames = 1,
-        Favorites=2,       
+        Favorites = 2,
     }
 
     public enum InfoScrollMode

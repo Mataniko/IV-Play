@@ -44,7 +44,7 @@ namespace IV_Play
             CustomColors = colorDialog1.CustomColors;
             SettingsManager.WriteCustomColors(CustomColors);
         }
-       
-        
+
+
     }
 }

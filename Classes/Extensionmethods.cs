@@ -27,7 +27,7 @@ namespace IV_Play
             {
                 binaryFormatter.Serialize(ms, source);
                 ms.Position = 0;
-                return (T) binaryFormatter.Deserialize(ms);
+                return (T)binaryFormatter.Deserialize(ms);
             }
         }
 

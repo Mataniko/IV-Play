@@ -12,7 +12,7 @@ namespace IV_Play
     {
         private SortedDictionary<string, string> _commansdAndDescriptions = new SortedDictionary<string, string>();
         public SortedDictionary<string, string> Commands { get { return _commansdAndDescriptions; } }
-  
+
         public MameCommands() { }
         public MameCommands(string mamePath)
         {
@@ -49,8 +49,8 @@ namespace IV_Play
 
                     }
                 }
-                    
-            }        
+
+            }
         }
     }
 }
