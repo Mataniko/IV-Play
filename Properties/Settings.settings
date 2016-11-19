@@ -39,16 +39,16 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="game_list_font" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)">Arial, 9pt, style=Bold</Value>
+      <Value Profile="(Default)">Segoe UI, 9.75pt</Value>
     </Setting>
     <Setting Name="game_list_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Yellow</Value>
+      <Value Profile="(Default)">209, 219, 189</Value>
     </Setting>
     <Setting Name="game_list_clone_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">255, 128, 0</Value>
+      <Value Profile="(Default)">145, 170, 157</Value>
     </Setting>
     <Setting Name="favorites_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">White</Value>
+      <Value Profile="(Default)">252, 255, 245</Value>
     </Setting>
     <Setting Name="MAME_EXE" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -84,7 +84,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="info_font" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)">Microsoft Sans Serif, 8.25pt</Value>
+      <Value Profile="(Default)">Segoe UI, 9.75pt</Value>
     </Setting>
     <Setting Name="info_font_color" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">White</Value>

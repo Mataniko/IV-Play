@@ -169,7 +169,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Arial, 9pt, style=Bold")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 9.75pt")]
         public global::System.Drawing.Font game_list_font {
             get {
                 return ((global::System.Drawing.Font)(this["game_list_font"]));
@@ -181,7 +181,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        [global::System.Configuration.DefaultSettingValueAttribute("209, 219, 189")]
         public global::System.Drawing.Color game_list_color {
             get {
                 return ((global::System.Drawing.Color)(this["game_list_color"]));
@@ -193,7 +193,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("255, 128, 0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("145, 170, 157")]
         public global::System.Drawing.Color game_list_clone_color {
             get {
                 return ((global::System.Drawing.Color)(this["game_list_clone_color"]));
@@ -205,7 +205,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("252, 255, 245")]
         public global::System.Drawing.Color favorites_color {
             get {
                 return ((global::System.Drawing.Color)(this["favorites_color"]));
@@ -349,7 +349,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 8.25pt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 9.75pt")]
         public global::System.Drawing.Font info_font {
             get {
                 return ((global::System.Drawing.Font)(this["info_font"]));
