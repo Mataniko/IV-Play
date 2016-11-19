@@ -49,6 +49,7 @@ namespace IV_Play
         private Info _currentInfo = null;
         private string _currentInfoText = "";      
         private int infoRow = 0;
+        private DatabaseManager dbm;
 
         public static event GameListChanged GameListChanged;
 
@@ -215,6 +216,7 @@ namespace IV_Play
             RowHeight = 18;
             LargeIconSize = new Size(32, 32);
             SmallIconSize = new Size(16, 16);
+
         }
 
         #endregion
@@ -333,29 +335,28 @@ namespace IV_Play
             _gamesFavorites = new Games();
             _countFavorites = 0;
             if (File.Exists(Settings.Default.favorites_ini))
-            {
-                using (var dbm = new DatabaseManager())
+            {                
+                
+                string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
+                foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
                 {
-                    string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
-                    foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
+                    if (s == "") continue;
+                    try
                     {
-                        try
+                        Game game = new Game(dbm.GetMachineByName(s));
+                        if (game != null)
                         {
-                            Game game = new Game(dbm.GetMachineByName(s));
-                            if (game != null)
-                            {
-                                Game g = game.Copy();
-                                g.Name = "fav_" + g.Name;
-                                g.IsFavorite = true;
-                                _gamesFavorites.TryAdd(g.Name, g);
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            //Not a game, do nothing.                       
+                            Game g = game.Copy();
+                            g.Name = "fav_" + g.Name;
+                            g.IsFavorite = true;
+                            _gamesFavorites.TryAdd(g.Name, g);
                         }
                     }
-                }
+                    catch (Exception)
+                    {
+                        //Not a game, do nothing.                       
+                    }
+                }                
                 
 
                 //Sorts out the list by description alphabetically and filters it according to what the user set.
@@ -867,6 +868,7 @@ namespace IV_Play
         internal void LoadGames(Games games)
         {
             _games = games;
+            dbm = new DatabaseManager();
         }
       
 #endregion
