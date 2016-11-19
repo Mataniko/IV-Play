@@ -165,18 +165,20 @@ namespace IV_Play
 
             if (e.Handled) return;
 
-            if (e.KeyCode == Keys.Left)
+            if (!Settings.Default.arrow_key_paging)
             {
-                GoToPreviousCharacter();
-                e.Handled = true;
-            }
+                if (e.KeyCode == Keys.Left)
+                {
+                    GoToPreviousCharacter();
+                    e.Handled = true;
+                }
 
-            if (e.KeyCode == Keys.Right)
-            {
-                GoToNextLetter();
-                e.Handled = true;
+                if (e.KeyCode == Keys.Right)
+                {
+                    GoToNextLetter();
+                    e.Handled = true;
+                }
             }
-         
         }
 
         private void ScrollInfoText(int rows, InfoScrollMode scrollMode)
@@ -256,16 +258,24 @@ namespace IV_Play
                         NavigateBackward(1);
                     break;
                 case Keys.PageDown:
-                    if (e.Control)
-                        ScrollInfoText(1, InfoScrollMode.Page);
-                    else
-                        NavigateForward(ClientRectangle.Height/RowHeight);
+                case Keys.Right:
+                    if (e.KeyCode == Keys.PageDown || (e.KeyCode == Keys.Right && Settings.Default.arrow_key_paging))
+                    {
+                        if (e.Control)
+                            ScrollInfoText(1, InfoScrollMode.Page);
+                        else
+                            NavigateForward(ClientRectangle.Height / RowHeight);
+                    }
                     break;
                 case Keys.PageUp:
-                    if (e.Control)
-                        ScrollInfoText(-1, InfoScrollMode.Page);
-                    else
-                        NavigateBackward(ClientRectangle.Height/RowHeight);
+                case Keys.Left:
+                    if (e.KeyCode == Keys.PageUp || (e.KeyCode == Keys.Left && Settings.Default.arrow_key_paging))
+                    {
+                        if (e.Control)
+                            ScrollInfoText(-1, InfoScrollMode.Page);
+                        else
+                            NavigateBackward(ClientRectangle.Height / RowHeight);
+                    }
                     break;
                 case Keys.Home:
                     if (e.Control)
@@ -299,12 +309,17 @@ namespace IV_Play
                     break;
 
                 case Keys.Enter:
+                case Keys.D1:
                     if (Focused)
                         StartGame();
                     break;
 
+                case Keys.Escape:
+                    Application.Exit();
+                    break;
+
                 case Keys.D0:
-                case Keys.D1:
+                //case Keys.D1:
                 case Keys.D2:
                 case Keys.D3:
                 case Keys.D4:
@@ -334,7 +349,7 @@ namespace IV_Play
             base.OnKeyPress(e);
             try
             {
-                if (e.Handled) return;
+                if (e.Handled || !Settings.Default.filter_search) return;
 
                 if (Settings.Default.filter_on_input)
                 {

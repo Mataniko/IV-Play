@@ -47,7 +47,7 @@ namespace IV_Play
         private InfoParser History;
         public bool ControlKeyPressed { get; set; }
         private Info _currentInfo = null;
-        private string _currentInfoText = "";      
+        private string _currentInfoText = "";
         private int infoRow = 0;
         private DatabaseManager dbm;
 
@@ -99,8 +99,8 @@ namespace IV_Play
 
                 if (_selectedGame != null)
                 {
-                    SelectedRow = _selectedGame.Index;                      
-                    ScrollTo(SelectedRow);                    
+                    SelectedRow = _selectedGame.Index;
+                    ScrollTo(SelectedRow);
                     RefreshImage();
                 }
                 else
@@ -216,7 +216,6 @@ namespace IV_Play
             RowHeight = 18;
             LargeIconSize = new Size(32, 32);
             SmallIconSize = new Size(16, 16);
-
         }
 
         #endregion
@@ -241,7 +240,7 @@ namespace IV_Play
         }
 
         #endregion
-      
+
         #region Private Methods
 
         private void InitializeComponent()
@@ -280,9 +279,9 @@ namespace IV_Play
                 return DisplayModeEnum.Description;
             }
         }
-              
+
         private void StartGame()
-        {            
+        {
             try
             {
                 if (SelectedGame != null && Parent.Visible)
@@ -314,8 +313,10 @@ namespace IV_Play
                     {
                         string s = stringReader.ReadToEnd();
                         if (s != null)
-                            if (s.Contains("ERROR")) // Check is MAME returned an error and display it.
+                            if (s.Contains("ERROR") && Settings.Default.show_error) // Check is MAME returned an error and display it.
+                            {
                                 MessageBox.Show(s);
+                            }
                     }
                     parent.WindowState = windowState;
                 }
@@ -335,8 +336,7 @@ namespace IV_Play
             _gamesFavorites = new Games();
             _countFavorites = 0;
             if (File.Exists(Settings.Default.favorites_ini))
-            {                
-                
+            {
                 string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
                 foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
                 {
@@ -356,8 +356,7 @@ namespace IV_Play
                     {
                         //Not a game, do nothing.                       
                     }
-                }                
-                
+                }
 
                 //Sorts out the list by description alphabetically and filters it according to what the user set.
                 var sortedDict = (from entry in _gamesFavorites
@@ -376,7 +375,7 @@ namespace IV_Play
 
 
                 //Add the filtered favorites to our game list.
-                Game prevGame = null;                
+                Game prevGame = null;
                 int i = 0;
                 foreach (var fGame in sortedDict)
                 {
@@ -400,15 +399,16 @@ namespace IV_Play
         /// </summary>
         private void LoadGamesAndFavorites()
         {
-          
-            var sortedDict = (from entry in _games                                     
-                                  where (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
-                                  && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working))
-                                  orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
-                                  select entry);
-            
+
+            var sortedDict = (from entry in _games
+                              where ((!Settings.Default.audit_games || (Settings.Default.audit_games && entry.Value.IsWorking))
+                              && (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
+                              && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working)))
+                              orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
+                              select entry);
+
             int i = FavoritesMode != FavoritesMode.Games ? LoadFavorites() : 0;
-            
+
             Game prevGame;
             if (Games.Count == 0)
                 prevGame = null;
@@ -425,7 +425,7 @@ namespace IV_Play
                 return;
             }
             foreach (var fGame in sortedDict)
-            {                              
+            {
                 if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Manufacturer.Contains(_filter,
                                                       StringComparison.InvariantCultureIgnoreCase) ||
@@ -448,7 +448,7 @@ namespace IV_Play
                 if (!Settings.Default.hide_clones)
                 {
                     foreach (var child in fGame.Value.Children)
-                    {                        
+                    {
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter,
                                                               StringComparison.InvariantCultureIgnoreCase) ||
@@ -459,18 +459,21 @@ namespace IV_Play
                             child.Value.Description.Contains(_filter,
                                                              StringComparison.InvariantCultureIgnoreCase))
                         {
-                            child.Value.Index = i++;
-                            Games.Add(child.Key, child.Value);
-                            if (prevGame != null)
+                            if (!Settings.Default.audit_games || (Settings.Default.audit_games && child.Value.IsWorking))
                             {
-                                prevGame.NextGame = child.Value;
-                                fGame.Value.PreviousGame = prevGame;
+                                child.Value.Index = i++;
+                                Games.Add(child.Key, child.Value);
+                                if (prevGame != null)
+                                {
+                                    prevGame.NextGame = child.Value;
+                                    fGame.Value.PreviousGame = prevGame;
+                                }
+                                prevGame = child.Value;
                             }
-                            prevGame = child.Value;
                         }
                     }
                 }
-            }          
+            }
         }
 
         private Game GetNodeParent(Game node)
@@ -497,7 +500,7 @@ namespace IV_Play
 
                 return null;
             }
-            
+
         }
 
         /// <summary>
@@ -509,8 +512,8 @@ namespace IV_Play
         {
             string path = "";
             try
-            {                
-                path = Path.Combine(SettingsManager.ArtPaths[Settings.Default.art_type], gameName);                
+            {
+                path = Path.Combine(SettingsManager.ArtPaths[Settings.Default.art_type], gameName);
             }
             catch (Exception)
             {
@@ -535,7 +538,7 @@ namespace IV_Play
 
                         if (!game.Working && Settings.Default.non_working_overlay)
                             DrawNonWorkingOverlay(game);
-                                 
+
                     }
                     catch (Exception ex)
                     {
@@ -548,7 +551,7 @@ namespace IV_Play
                             game.HasOverlay = true;
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -565,7 +568,7 @@ namespace IV_Play
                                 game.HasOverlay = true;
                             }
                         }
-                        else 
+                        else
                         {
                             if (game.Working && File.Exists(Path.Combine(Settings.Default.icons_directory, game.ParentSet + ".ico")))
                             {
@@ -575,16 +578,16 @@ namespace IV_Play
 
                                 //if (!game.Working && Settings.Default.non_working_overlay)
                                 //      DrawNonWorkingOverlay(game);
-                                                
+
                             }
                             else
                                 if (game.Working)
-                                    game.Icon = _defaultCloneIcon;
-                                else
-                                {
-                                    game.Icon = _defaultNonWorkingIcon;
-                                    game.HasOverlay = true;
-                                }
+                                game.Icon = _defaultCloneIcon;
+                            else
+                            {
+                                game.Icon = _defaultNonWorkingIcon;
+                                game.HasOverlay = true;
+                            }
 
                         }
                     }
@@ -595,11 +598,11 @@ namespace IV_Play
                             game.Icon = game.IsParent ? _defaultIcon : _defaultCloneIcon;
                         else
                             game.Icon = _defaultNonWorkingIcon;
-                    }                    
+                    }
                 }
             }
             else
-            {                
+            {
                 if (!game.Working && game.HasOverlay && !Settings.Default.non_working_overlay)
                 {
                     game.Icon = null;
@@ -607,17 +610,17 @@ namespace IV_Play
                     FetchIcon(game);
                 }
             }
-            
-            
+
+
         }
 
         private void DrawNonWorkingOverlay(Game game)
-        {            
+        {
             Graphics g = Graphics.FromImage(game.Icon);
-            g.DrawImageUnscaled(Properties.Resources.nonworkingoverlay,16,16);
+            g.DrawImageUnscaled(Properties.Resources.nonworkingoverlay, 16, 16);
             game.HasOverlay = true;
         }
-     
+
         #endregion
 
         #region Public Methods
@@ -707,7 +710,7 @@ namespace IV_Play
                 return;
 
             if (game.IsFavorite)
-            {                
+            {
                 //remove game from favorites file
                 string[] favs = new string[1];
                 try
@@ -735,7 +738,7 @@ namespace IV_Play
                 }
                 SelectedGame = SelectedGame.NextGame;
                 if (FavoritesMode != FavoritesMode.Games)
-                    Filter = _filter;               
+                    Filter = _filter;
             }
             else //Add game to favorites
             {
@@ -870,7 +873,7 @@ namespace IV_Play
             _games = games;
             dbm = new DatabaseManager();
         }
-      
-#endregion
+
+        #endregion
     }
 }
