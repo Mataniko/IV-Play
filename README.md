@@ -15,6 +15,7 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [Display XML Data in UI](#display-xml-data-in-ui)
 		- [Title Bar](#title-bar)
 		- [Game List](#game-list)
+        - [Auditing the Game List](#auditing-the-game-list)
 		- [Favorites](#favorites)
 		- [Icons](#icons)
 		- [Art Area](#art-area)
@@ -82,6 +83,20 @@ The game list displays all the games from the MAME XML output. Clones are automa
 Display of the year and manufacturer is configurable through **F1**.
 
 Typing ‘donkey kong’ in the game list goes to the first instance depending where focus is when typing; if there are no instances downward it will go to the first instance of ‘donkey kong’ which may be all the way at the top in the favorites.
+
+### Auditing the Game List
+
+By default, IV/Play will display all roms, whether they exist in the roms folder or not.
+
+To limit the display to only those roms which are available and playable, place a MAME_g.ini file in the same directory as IV-Play.exe. The file MAME_g.ini is produced by MameUI64 after running an audit of all games.
+
+To produce this file, follow these steps:
+
+1. Run MameUI64.
+2. Select File->Audit all games.
+3. Copy MAME_g.ini into the same folder as IV-Play.exe.
+
+IV/Play will then limit the game list to only games that are available for play.
 
 ### Favorites
 
@@ -273,6 +288,8 @@ Dropped support for older versions of MAME (< 0.162).
 New Database format, when opening IV-Play your database will automatically rebuild.
 IV-Play will now load information about all games and clones from MAME almost immediately and continue to do a full update in the background.
 New default theme.
+Support Game list auditing.
+Support Full Screen Mode.
 
 # Notes/Hints
 
@@ -280,6 +297,9 @@ New default theme.
 -   If games are not populating the Jump List, verify on the start menu properties dialogue for Windows that ‘Store and display recently opened items in the Start menu and the taskbar’ is checked.
 -   Left and Right arrows navigate a letter’s worth of games.
 -   Typing out the full name of a game navigates there.
+
+# Contributors 
+[primaryobjects](https://github.com/primaryobjects)
 
 # Credits
 

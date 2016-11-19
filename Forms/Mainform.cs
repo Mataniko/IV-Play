@@ -45,7 +45,7 @@ namespace IV_Play
             }
         }
 
-        private async void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             BringToFront();
 
@@ -55,15 +55,27 @@ namespace IV_Play
             Location = new Point(Settings.Default.Window_x, Settings.Default.Window_y);
             Size = new Size(Settings.Default.window_width, Settings.Default.window_height);
 
+            if (Settings.Default.full_screen)
+            {
+                TopMost = true;
+                FormBorderStyle = FormBorderStyle.None;
+                Bounds = Screen.PrimaryScreen.Bounds;
+            }
+
             //If we don't have a dat file, we need to create one. The progress form is responsible for that.
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
-            var xmlParser = new XmlParser();
+            RefreshGames();
 
+        }
+
+        public async void RefreshGames()
+        {
             try
             {
-                
+                var xmlParser = new XmlParser();
+
                 if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
                     updating = true;
@@ -96,9 +108,10 @@ namespace IV_Play
 
         private void Progress_ProgressChanged(object sender, int e)
         {
-            if (e % 300 == 0 || e == -1) {
-                UpdateTitleBar(e);                
-            }          
+            if (e % 300 == 0 || e == -1)
+            {
+                UpdateTitleBar(e);
+            }
         }
 
         private void updateList(Games games)
@@ -111,7 +124,7 @@ namespace IV_Play
         {
             if (!updating)
                 UpdateTitleBar();
-        }         
+        }
 
         private void MainForm_ResizeEnd(object sender, EventArgs e)
         {
@@ -127,7 +140,7 @@ namespace IV_Play
                 Settings.Default.last_game = _gameList.SelectedGame.Name;
             SettingsManager.WriteSettingsToFile();
         }
-        
+
         /// <summary>
         /// Updates the game count in the titlebar.
         /// </summary>
@@ -145,7 +158,7 @@ namespace IV_Play
                 if (progress > -1)
                 {
                     var progressPercentage = (int)(((float)progress / (float)_gameList.ProgressCount) * 100);
-                    Text += string.Format(" - Updating {0}%", progressPercentage);            
+                    Text += string.Format(" - Updating {0}%", progressPercentage);
                 }
             }
             catch (Exception ex)
