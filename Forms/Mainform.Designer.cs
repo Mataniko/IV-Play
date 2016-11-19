@@ -63,7 +63,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Green;
-            this.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background_800x432;
+            this.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1117, 462);
             this.Controls.Add(this._gameList);

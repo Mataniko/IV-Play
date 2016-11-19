@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace IV_Play.Data.Models
     public class Machine
     {
         [XmlAttribute]
+        [BsonIndex(unique:true)]
+        [BsonId]
         public string name { get; set; }
         [XmlAttribute]
         public string sourcefile { get; set; }
@@ -83,7 +86,7 @@ namespace IV_Play.Data.Models
 
         public string soundinfo()
         {
-            if (chip == null) return string.Empty;
+            if (chip == null || sound == null) return string.Empty;
             var soundString = GetStringFromArray(chip.Where(x => x.type == "audio").ToArray());
             return string.Format("{0} Channel(s)\r\n{1}", sound.channels, soundString);
         }

@@ -62,7 +62,7 @@
             // _layoutPanel
             // 
             this._layoutPanel.BackColor = System.Drawing.Color.Black;
-            this._layoutPanel.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background_800x432;
+            this._layoutPanel.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background;
             this._layoutPanel.ColumnCount = 4;
             this._layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this._layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
@@ -481,7 +481,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background_800x432;
+            this.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background;
             this.CancelButton = this._btnClose;
             this.ClientSize = new System.Drawing.Size(900, 422);
             this.Controls.Add(this._layoutPanel);

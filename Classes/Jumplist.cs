@@ -5,6 +5,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Shell;
 using IV_Play.Properties;
+using IV_Play.Data;
+using IV_Play.Data.Models;
 
 #endregion
 
@@ -91,14 +93,18 @@ namespace IV_Play
 
             JumpList.SetJumpList(System.Windows.Application.Current, jumpList);
 
-            foreach (string s in Settings.Default.jumplist.Split(','))
+            using (var dbm = new DatabaseManager())
             {
-                Game game = XmlParser.Games.FindGame(s);
-                if (game != null)
+                foreach (string s in Settings.Default.jumplist.Split(','))
                 {
-                    jumpList.JumpItems.Add(CreateJumpTask(game));
+                    Machine machine = dbm.GetMachineByName(s);
+                    if (machine != null)
+                    {
+                        jumpList.JumpItems.Add(CreateJumpTask(new Game(machine)));
+                    }
                 }
             }
+               
             jumpList.Apply();
         }
     }

@@ -229,10 +229,10 @@ namespace IV_Play
             }
             catch
             {
-                BackgroundImage = Resources.Default_Background_800x432;
+                BackgroundImage = Resources.Default_Background;
             }
 
-            BackgroundImage = Resources.Default_Background_800x432;
+            BackgroundImage = Resources.Default_Background;
         }
 
         /// <summary>

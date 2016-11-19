@@ -377,7 +377,7 @@
             // _picBG
             // 
             this._picBG.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._picBG.Image = global::IV_Play.Properties.Resources.Default_Background_800x432;
+            this._picBG.Image = global::IV_Play.Properties.Resources.Default_Background;
             this._picBG.Location = new System.Drawing.Point(188, 140);
             this._picBG.Name = "_picBG";
             this._picBG.Size = new System.Drawing.Size(143, 56);

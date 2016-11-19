@@ -263,6 +263,17 @@ The F1 configuration contains an option to filter on input. This will display pr
 
 Update IV/Play to work with MAME 0.162. IV/Play is now also open source under the MIT License. For more information refer to the LICENSE file.
 
+# IV/Play 1.7.0 Features
+
+Added support for Hidden games in a hidden.ini file. These games will not appear on the IV-Play game list.
+
+# IV/Play 1.8.0 Features
+
+Dropped support for older versions of MAME (< 0.162).
+New Database format, when opening IV-Play your database will automatically rebuild.
+IV-Play will now load information about all games and clones from MAME almost immediately and continue to do a full update in the background.
+New default theme.
+
 # Notes/Hints
 
 -   The initial IV/Play dimensions are 1015x432, a 2.35 aspect ratio in honor of [TohoScope](http://en.wikipedia.org/wiki/TohoScope), used for Godzilla movies.
@@ -275,3 +286,5 @@ Update IV/Play to work with MAME 0.162. IV/Play is now also open source under th
 John L. Hardy IV / Design & Test / [Forum](http://www.mameworld.info/ubbthreads/showflat.php?Cat=&Number=269101&page=0&view=collapsed&sb=5&o=&fpart=1&vc=1&new=1321816604#Post269153)
 
 Matan Bareket / Development
+
+Background licensed with permission (c) Gre3g and SubtlePatterns.com

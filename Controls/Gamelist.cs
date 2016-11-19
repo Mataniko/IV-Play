@@ -16,6 +16,8 @@ using System.Windows.Forms;
 using System.Windows.Threading;
 
 using IV_Play.Properties;
+using IV_Play.Data;
+using System.Collections.Concurrent;
 
 #endregion
 
@@ -47,6 +49,7 @@ namespace IV_Play
         private Info _currentInfo = null;
         private string _currentInfoText = "";      
         private int infoRow = 0;
+        private DatabaseManager dbm;
 
         public static event GameListChanged GameListChanged;
 
@@ -178,6 +181,12 @@ namespace IV_Play
             get { return Games.Count; }
         }
 
+        [Browsable(false)]
+        public int ProgressCount
+        {
+            get { return _games.TotalGames; }
+        }
+
         #endregion
 
         #region Constructor
@@ -207,6 +216,7 @@ namespace IV_Play
             RowHeight = 18;
             LargeIconSize = new Size(32, 32);
             SmallIconSize = new Size(16, 16);
+
         }
 
         #endregion
@@ -248,7 +258,7 @@ namespace IV_Play
         /// <summary>
         /// This background worker manages the JumpList for us so the user can resume using the application.
         /// </summary>
-        private void ThreadDo()
+        private void AddGameToJumpList()
         {
             jumpListClass.AddTask(SelectedGame);
             Dispatcher.Run();
@@ -272,8 +282,7 @@ namespace IV_Play
         }
               
         private void StartGame()
-        {
-            Color.Goldenrod.ToString();
+        {            
             try
             {
                 if (SelectedGame != null && Parent.Visible)
@@ -294,9 +303,7 @@ namespace IV_Play
                     var windowState = parent.WindowState;
                     parent.WindowState = FormWindowState.Minimized;
 
-                    //jumpListClass.AddTask(SelectedGame);
-
-                    Thread jumpThread = new Thread(ThreadDo);
+                    Thread jumpThread = new Thread(AddGameToJumpList);
                     jumpThread.SetApartmentState(ApartmentState.STA);
                     jumpThread.IsBackground = true;
                     jumpThread.Start();
@@ -328,26 +335,29 @@ namespace IV_Play
             _gamesFavorites = new Games();
             _countFavorites = 0;
             if (File.Exists(Settings.Default.favorites_ini))
-            {
+            {                
+                
                 string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
                 foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
                 {
+                    if (s == "") continue;
                     try
                     {
-                        Game game = XmlParser.Games.FindGame(s);
+                        Game game = new Game(dbm.GetMachineByName(s));
                         if (game != null)
                         {
                             Game g = game.Copy();
                             g.Name = "fav_" + g.Name;
                             g.IsFavorite = true;
-                            _gamesFavorites.Add(g.Name, g);
+                            _gamesFavorites.TryAdd(g.Name, g);
                         }
                     }
                     catch (Exception)
                     {
                         //Not a game, do nothing.                       
                     }
-                }
+                }                
+                
 
                 //Sorts out the list by description alphabetically and filters it according to what the user set.
                 var sortedDict = (from entry in _gamesFavorites
@@ -391,12 +401,12 @@ namespace IV_Play
         private void LoadGamesAndFavorites()
         {
           
-                var sortedDict = (from entry in _games                                     
+            var sortedDict = (from entry in _games                                     
                                   where (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
                                   && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working))
                                   orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
                                   select entry);
-
+            
             int i = FavoritesMode != FavoritesMode.Games ? LoadFavorites() : 0;
             
             Game prevGame;
@@ -415,7 +425,7 @@ namespace IV_Play
                 return;
             }
             foreach (var fGame in sortedDict)
-            {              
+            {                              
                 if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Manufacturer.Contains(_filter,
                                                       StringComparison.InvariantCultureIgnoreCase) ||
@@ -438,7 +448,7 @@ namespace IV_Play
                 if (!Settings.Default.hide_clones)
                 {
                     foreach (var child in fGame.Value.Children)
-                    {
+                    {                        
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter,
                                                               StringComparison.InvariantCultureIgnoreCase) ||
@@ -460,7 +470,7 @@ namespace IV_Play
                         }
                     }
                 }
-            }
+            }          
         }
 
         private Game GetNodeParent(Game node)
@@ -635,11 +645,11 @@ namespace IV_Play
                 try
                 {
                     string path = Path.Combine(Settings.Default.bkground_directory, Settings.Default.bkground_image);
-                    BackgroundImage = File.Exists(path) ? Image.FromFile(path) : Resources.Default_Background_800x432;
+                    BackgroundImage = File.Exists(path) ? Image.FromFile(path) : Resources.Default_Background;
                 }
                 catch
                 {
-                    BackgroundImage = Resources.Default_Background_800x432;
+                    BackgroundImage = Resources.Default_Background;
                 }
             }
         }
@@ -672,9 +682,7 @@ namespace IV_Play
                 VerticalScroll.Value = AutoScrollMinSize.Height < _prevScrollValue ? 0 : _prevScrollValue;
                 VerticalScroll.SmallChange = RowHeight;
 
-                // SelectedGame = null;
                 Refresh();
-                //VerticalScroll.Maximum = Games.Count*RowHeight;
 
                 //Initalizes the list searcher and locates the last game.
                 _search = new GameListSearch(this);
@@ -776,7 +784,6 @@ namespace IV_Play
             if (SelectedGame != null)
             {
                 //Load the nonworking image                
-
                 try
                 {
                     string gameName = SelectedGame.Name;
@@ -861,8 +868,8 @@ namespace IV_Play
         internal void LoadGames(Games games)
         {
             _games = games;
+            dbm = new DatabaseManager();
         }
-
       
 #endregion
     }

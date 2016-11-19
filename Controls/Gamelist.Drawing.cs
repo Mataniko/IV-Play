@@ -72,7 +72,7 @@ namespace IV_Play
             {
                 Graphics formGraphics = e.Graphics;
                 if (BackgroundImage == null)
-                    BackgroundImage = Resources.Default_Background_800x432;
+                    BackgroundImage = Resources.Default_Background;
                 else
                 {
                     TextureBrush texture = new TextureBrush(BackgroundImage) {WrapMode = WrapMode.Tile};
