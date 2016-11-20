@@ -81,6 +81,7 @@ namespace IV_Play
                     updating = true;
                     xmlParser.MakeQuickDat();
                     _mameInfo = xmlParser.MameInfo;
+                    SettingsManager.MameCommands = _mameInfo.Commands;
                     updateList(xmlParser.Games);
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
@@ -93,11 +94,13 @@ namespace IV_Play
                 {
                     xmlParser.ReadDat();
                     _mameInfo = xmlParser.MameInfo;
+                    SettingsManager.MameCommands = _mameInfo.Commands;
                     updateList(xmlParser.Games);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.WriteToLog(ex);
             }
 
             //Now that we know where MAME is we can load the default art assets

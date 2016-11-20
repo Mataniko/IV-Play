@@ -69,6 +69,7 @@ namespace IV_Play
                 var xmlParser = new XmlParser();
                 xmlParser.MakeQuickDat();
                 _mameInfo = xmlParser.MameInfo;
+                SettingsManager.MameCommands = _mameInfo.Commands;
                 updateList(xmlParser.Games);
                 var progress = new Progress<int>();
                 progress.ProgressChanged += Progress_ProgressChanged;
