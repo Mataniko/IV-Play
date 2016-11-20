@@ -69,7 +69,7 @@ namespace IV_Play
         public string Info { get; set; }
         public bool HasOverlay { get; set; }
         public bool IsMechanical { get; set; }
-        public bool IsWorking
+        public bool IsAuditWorking
         {
             get
             {

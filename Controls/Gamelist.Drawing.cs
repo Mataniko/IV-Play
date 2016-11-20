@@ -412,20 +412,20 @@ namespace IV_Play
             switch (DisplayMode)
             {
                 case DisplayModeEnum.Description:
-                    RowText = game.Description;
+                    RowText = "{0}";
                     break;
                 case DisplayModeEnum.DescriptionAndYear:
-                    RowText = game.Description + " " + game.Year;
+                    RowText = "{0} {1}";
                     break;
                 case DisplayModeEnum.DescriptionAndManufacturer:
-                    RowText = game.Description + " " + game.Manufacturer;
+                    RowText = "{0} {2}";
                     break;
                 case DisplayModeEnum.DescriptionYearAndManufacturer:
-                    RowText = game.Description + " " + game.Year + " " + game.Manufacturer;
+                    RowText = "{0} {1} {2}";
                     break;
             }
-
-            return RowText;
+            var description = !game.Working && Settings.Default.hide_nonworking ? game.Description + " (Non working parent)" : game.Description;
+            return string.Format(RowText, description, game.Year, game.Manufacturer);
         }
 
 

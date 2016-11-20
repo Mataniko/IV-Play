@@ -401,9 +401,8 @@ namespace IV_Play
         {
 
             var sortedDict = (from entry in _games
-                              where ((!Settings.Default.audit_games || (Settings.Default.audit_games && entry.Value.IsWorking))
-                              && (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical))
-                              && (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working)))
+                              where ((!Settings.Default.audit_games || (Settings.Default.audit_games && entry.Value.IsAuditWorking))
+                              && (!Settings.Default.hide_mechanical_games || (Settings.Default.hide_mechanical_games && !entry.Value.IsMechanical)))
                               orderby entry.Value.IsParent, entry.Value.Description.ToLower() ascending
                               select entry);
 
@@ -424,19 +423,22 @@ namespace IV_Play
                 Invalidate();
                 return;
             }
+            //&& (!Settings.Default.hide_nonworking || (Settings.Default.hide_nonworking && entry.Value.Working))
             foreach (var fGame in sortedDict)
             {
-                if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
-                    fGame.Value.Manufacturer.Contains(_filter,
-                                                      StringComparison.InvariantCultureIgnoreCase) ||
-                    fGame.Value.SourceFile.Contains(_filter,
-                                                    StringComparison.InvariantCultureIgnoreCase) ||
-                    fGame.Value.Year.Contains(_filter,
-                                              StringComparison.InvariantCultureIgnoreCase) ||
-                    fGame.Value.Description.Contains(_filter,
-                                                     StringComparison.InvariantCultureIgnoreCase))
+                if (!fGame.Value.Working && Settings.Default.hide_nonworking)
                 {
-                    fGame.Value.Index = i++;
+                    //Check for working children
+                    if (fGame.Value.Children.Where(x => x.Value.Working).Count() == 0) continue;                    
+                } 
+
+                if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                    fGame.Value.Manufacturer.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                    fGame.Value.SourceFile.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                    fGame.Value.Year.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                    fGame.Value.Description.Contains(_filter, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    fGame.Value.Index = i++;                  
                     Games.Add(fGame.Key, fGame.Value);
                     if (prevGame != null)
                     {
@@ -449,6 +451,8 @@ namespace IV_Play
                 {
                     foreach (var child in fGame.Value.Children)
                     {
+                        if (!child.Value.Working) continue;
+
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter,
                                                               StringComparison.InvariantCultureIgnoreCase) ||
@@ -459,7 +463,7 @@ namespace IV_Play
                             child.Value.Description.Contains(_filter,
                                                              StringComparison.InvariantCultureIgnoreCase))
                         {
-                            if (!Settings.Default.audit_games || (Settings.Default.audit_games && child.Value.IsWorking))
+                            if (!Settings.Default.audit_games || (Settings.Default.audit_games && child.Value.IsAuditWorking))
                             {
                                 child.Value.Index = i++;
                                 Games.Add(child.Key, child.Value);
