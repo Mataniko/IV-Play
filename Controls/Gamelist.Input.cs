@@ -308,8 +308,7 @@ namespace IV_Play
                         SelectedGame = Games.Last().Value;
                     break;
 
-                case Keys.Enter:
-                case Keys.D1:
+                case Keys.Enter:                
                     if (Focused)
                         StartGame();
                     break;
@@ -319,7 +318,7 @@ namespace IV_Play
                     break;
 
                 case Keys.D0:
-                //case Keys.D1:
+                case Keys.D1:
                 case Keys.D2:
                 case Keys.D3:
                 case Keys.D4:
