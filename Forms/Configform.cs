@@ -57,7 +57,10 @@ namespace IV_Play
 
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            autoCompleteTextBox1.Items = SettingsManager.MameCommands.Commands;
+            if (SettingsManager.MameCommands != null)
+            {
+                autoCompleteTextBox1.Items = SettingsManager.MameCommands.Commands;
+            }
             LoadSettings();
             _btnOK.Select();
 

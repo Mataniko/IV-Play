@@ -191,7 +191,10 @@ namespace IV_Play
             foreach (var machine in clones)
             {
                 var game = new Game(machine);
-                games[game.ParentSet].Children.Add(game.Name, game);
+                if (games.ContainsKey(game.ParentSet))
+                {
+                    games[game.ParentSet].Children.Add(game.Name, game);
+                }                
             }
 
             return games;
