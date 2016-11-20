@@ -5,15 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using IV_Play.Properties;
+using LiteDB;
 
-namespace IV_Play
+namespace IV_Play.Data.Models
 {
     public class MameCommands
     {
-        private SortedDictionary<string, string> _commansdAndDescriptions = new SortedDictionary<string, string>();
-        public SortedDictionary<string, string> Commands { get { return _commansdAndDescriptions; } }
+        public SortedDictionary<string, string> Commands { get; set; }
 
-        public MameCommands() { }
+        public MameCommands() {
+            Commands = new SortedDictionary<string, string>();
+        }
+
         public MameCommands(string mamePath)
         {
             //Launches the MAME process with -showusage     
@@ -25,6 +28,8 @@ namespace IV_Play
             processStartInfo.CreateNoWindow = true;
             processStartInfo.Arguments = "-showusage";
             Process proc = Process.Start(processStartInfo);
+
+            Commands = new SortedDictionary<string, string>();
 
             //Setup the XML Reader/Writer options                
             using (StreamReader myOutput = proc.StandardOutput)
@@ -40,7 +45,7 @@ namespace IV_Play
                             string command = line.Substring(0, line.IndexOf(' '));
                             string description = line.Substring(line.IndexOf(' ')).Trim();
 
-                            _commansdAndDescriptions.Add(command, description);
+                            Commands.Add(command, description);
                         }
                     }
                     catch (Exception)
