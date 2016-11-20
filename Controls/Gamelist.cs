@@ -313,7 +313,7 @@ namespace IV_Play
                     {
                         string s = stringReader.ReadToEnd();
                         if (s != null)
-                            if (s.Contains("ERROR") && Settings.Default.show_error) // Check is MAME returned an error and display it.
+                            if (s.Contains("error", StringComparison.InvariantCultureIgnoreCase) && Settings.Default.show_error) // Check is MAME returned an error and display it.
                             {
                                 MessageBox.Show(s);
                             }
