@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 
 using IV_Play.Properties;
 using System.ComponentModel;
+using System.Collections;
 
 #endregion
 
@@ -32,7 +33,7 @@ namespace IV_Play
         public static List<string> ArtPaths = new List<string>();
         public static MameCommands MameCommands;
         public static int[] CustomColors = new int[16];
-        public static List<string> WorkingRoms = new List<string>();
+        public static Hashtable WorkingRoms = new Hashtable();
 
         static SettingsManager()
         {
@@ -63,7 +64,7 @@ namespace IV_Play
                     int end = line.IndexOf(' ');
                     if (end != -1)
                     {
-                        WorkingRoms.Add(line.Substring(0, end));
+                        WorkingRoms.Add(line.Substring(0, end), true);
                     }
                 }
             }

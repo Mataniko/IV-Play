@@ -74,7 +74,7 @@ namespace IV_Play
             get
             {
                 // If the WorkingRoms list is empty (meaning, no MAME_g.ini exists) or if the rom is found within the list, it's OK.
-                return (SettingsManager.WorkingRoms.Count == 0 || SettingsManager.WorkingRoms.IndexOf(Name) != -1);
+                return (SettingsManager.WorkingRoms.Count == 0 || SettingsManager.WorkingRoms.ContainsKey(Name));
             }
         }
 
