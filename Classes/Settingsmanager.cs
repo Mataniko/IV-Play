@@ -34,7 +34,7 @@ namespace IV_Play
         public static List<string> ArtPaths = new List<string>();
         public static MameCommands MameCommands;
         public static int[] CustomColors = new int[16];
-        public static Hashtable WorkingRoms = new Hashtable();
+        public static Dictionary<string, AuditState> WorkingRoms = new Dictionary<string, AuditState>();
 
         static SettingsManager()
         {
@@ -56,17 +56,13 @@ namespace IV_Play
             string[] lines = File.ReadAllLines(fileName);
             foreach (var line in lines)
             {
-                string query = " [012],";
-                Regex regEx = new Regex(query);
+                string query = @"(\w*)\s+?([0-4]),";
+                Regex regEx = new Regex(query);                
                 Match match = regEx.Match(line);
                 if (match.Success)
                 {
                     // Valid and working rom.
-                    int end = line.IndexOf(' ');
-                    if (end != -1)
-                    {
-                        WorkingRoms.Add(line.Substring(0, end), true);
-                    }
+                    WorkingRoms.Add(match.Groups[1].Value, (AuditState)int.Parse(match.Groups[2].Value));
                 }
             }
         }

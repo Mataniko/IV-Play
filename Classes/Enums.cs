@@ -52,4 +52,13 @@
         Page,
         All
     }
+
+    public enum AuditState
+    {
+        Correct,
+        NoneNeeded,
+        BestAvailable,
+        Incorrect,
+        NotFound
+    }
 }

@@ -426,9 +426,11 @@ namespace IV_Play
             foreach (var fGame in sortedDict)
             {
                 // Check for non-working children
-                if ((!fGame.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && !fGame.Value.IsAuditWorking))
-                {                    
-                    if (fGame.Value.Children.Where(x => x.Value.Working || x.Value.IsAuditWorking).Count() == 0) continue;                    
+                if ((!fGame.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)fGame.Value.AuditState > 2))
+                {
+                    var working = fGame.Value.Children.Where(x => x.Value.Working).ToList();
+                    var audit = fGame.Value.Children.Where(x => (int)x.Value.AuditState >2).ToList();
+                    if (fGame.Value.Children.Where(x => x.Value.Working || (int)x.Value.AuditState > 2 ).Count() == 0) continue;                    
                 }
 
                 if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
@@ -450,7 +452,7 @@ namespace IV_Play
                 {
                     foreach (var child in fGame.Value.Children)
                     {
-                        if ((!child.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && !child.Value.IsAuditWorking)) continue;
+                        if ((!child.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)child.Value.AuditState > 2)) continue;
 
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||

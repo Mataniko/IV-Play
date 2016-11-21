@@ -69,14 +69,17 @@ namespace IV_Play
         public string Info { get; set; }
         public bool HasOverlay { get; set; }
         public bool IsMechanical { get; set; }
-        public bool IsAuditWorking
-        {
-            get
+        public AuditState AuditState { get
             {
-                // If the WorkingRoms list is empty (meaning, no MAME_g.ini exists) or if the rom is found within the list, it's OK.
-                return (SettingsManager.WorkingRoms.Count == 0 || SettingsManager.WorkingRoms.ContainsKey(Name));
+                if (SettingsManager.WorkingRoms.ContainsKey(Name))
+                {
+                    return SettingsManager.WorkingRoms[Name];
+                } else
+                {
+                    return AuditState.Correct;
+                }              
             }
-        }
+        }        
 
         public Bitmap Icon { get; set; }
 
