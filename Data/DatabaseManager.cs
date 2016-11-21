@@ -10,58 +10,50 @@ using IV_Play.Properties;
 
 namespace IV_Play.Data
 {
-    class DatabaseManager : IDisposable
+    static class DatabaseManager
     {
-        private MemoryStream dbMemoryStream;
-        private LiteDatabase database;
-        private LiteCollection<Machine> machinesCollection;
-        private LiteCollection<MameInfo> mameInfoCollection;
-
-        public DatabaseManager()
+        private static MemoryStream dbMemoryStream;
+        private static LiteDatabase database;
+        private static LiteCollection<Machine> machinesCollection;
+        private static LiteCollection<MameInfo> mameInfoCollection;
+        
+        static DatabaseManager()
         {
             Open();
             machinesCollection = database.GetCollection<Machine>("machines");
-            mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");
+            mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");            
         }
 
-        public LiteDatabase Database
+        private static void Open()
         {
-            get
-            {
-                return database;
-            }
-        }
+            dbMemoryStream = new MemoryStream();
 
-        private void Open()
-        {
-            using (FileStream infileStream = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+            if (File.Exists(Resources.DB_NAME))
             {
-                using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
+                using (FileStream infileStream = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
                 {
-                    dbMemoryStream = new MemoryStream();
-                    gZipStream.CopyTo(dbMemoryStream);
+                    using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
+                    {
+                        gZipStream.CopyTo(dbMemoryStream);
+                    }
                 }
             }
 
             database = new LiteDatabase(dbMemoryStream);
         }
 
-        private void Close()
+        public static void SaveToDisk()
         {
-            using (dbMemoryStream)
+            using (FileStream outFile = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
             {
-                using (FileStream outFile = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+                using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
                 {
-                    using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
-                    {
-                        dbMemoryStream.Position = 0;
-                        dbMemoryStream.CopyTo(gZipStream);
-                    }
+                    dbMemoryStream.WriteTo(gZipStream);                    
                 }
             }
         }
 
-        public void SaveMachines(Dictionary<string,Machine> machines)
+        public static void SaveMachines(Dictionary<string, Machine> machines)
         {
             machinesCollection.Delete(Query.All());
             using (database.BeginTrans())
@@ -71,7 +63,7 @@ namespace IV_Play.Data
             }
         }
 
-        public void UpdateMachines(List<Machine> machines)
+        public static void UpdateMachines(List<Machine> machines)
         {
 
             using (database.BeginTrans())
@@ -80,30 +72,25 @@ namespace IV_Play.Data
             }
         }
 
-        public List<Machine> GetMachines()
+        public static List<Machine> GetMachines()
         {
             return machinesCollection.FindAll().ToList();
         }
 
-        public Machine GetMachineByName(string name)
+        public static Machine GetMachineByName(string name)
         {
             return machinesCollection.FindOne(m => m.name == name);
         }
 
-        public void SaveMameInfo(MameInfo mameInfo)
+        public static void SaveMameInfo(MameInfo mameInfo)
         {
             mameInfoCollection.Delete(Query.All());
             mameInfoCollection.Insert(mameInfo);
         }
 
-        public MameInfo GetMameInfo()
+        public static MameInfo GetMameInfo()
         {
             return mameInfoCollection.FindOne(Query.All());
-        }
-
-        public void Dispose()
-        {
-            Close();
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using IV_Play.Properties;
 using System.Threading.Tasks;
 using IV_Play.Data.Models;
+using IV_Play.Data;
 
 #endregion
 
@@ -142,6 +143,7 @@ namespace IV_Play
             if (_gameList.SelectedGame != null)
                 Settings.Default.last_game = _gameList.SelectedGame.Name;
             SettingsManager.WriteSettingsToFile();
+            DatabaseManager.SaveToDisk();
         }
 
         /// <summary>

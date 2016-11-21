@@ -49,8 +49,7 @@ namespace IV_Play
         public bool ControlKeyPressed { get; set; }
         private Info _currentInfo = null;
         private string _currentInfoText = "";
-        private int infoRow = 0;
-        private DatabaseManager dbm;
+        private int infoRow = 0;        
 
         public static event GameListChanged GameListChanged;
 
@@ -344,7 +343,7 @@ namespace IV_Play
                     if (s == "") continue;
                     try
                     {
-                        Game game = new Game(dbm.GetMachineByName(s));
+                        Game game = new Game(DatabaseManager.GetMachineByName(s));
                         if (game != null)
                         {
                             Game g = game.Copy();
@@ -880,8 +879,7 @@ namespace IV_Play
 
         internal void LoadGames(Games games)
         {
-            _games = games;
-            dbm = new DatabaseManager();
+            _games = games;           
         }
 
         #endregion

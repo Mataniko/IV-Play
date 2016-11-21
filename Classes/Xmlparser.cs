@@ -80,11 +80,9 @@ namespace IV_Play
                 }
             }
 
-            using (var dbm = new DatabaseManager())
-            {
-                dbm.SaveMachines(machines);
-                dbm.SaveMameInfo(_mameInfo);
-            }
+            DatabaseManager.SaveMachines(machines);
+            DatabaseManager.SaveMameInfo(_mameInfo);
+    
             _games = CreateGamesFromMachines(machines.Values.ToList());
             _games.TotalGames = totalGames;
         }
@@ -111,34 +109,32 @@ namespace IV_Play
                     // Create a fast XML Reader
                     using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
                     {
-                        using (var dbm = new DatabaseManager())
+                        while (xmlReader.ReadToFollowing("machine"))
                         {
-                            while (xmlReader.ReadToFollowing("machine"))
+                            // MAME lists all of it's devices at the end, so we can just finish here.
+                            if (xmlReader["isdevice"] == "yes") break;
+
+                            var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
+                            counter++;
+                            machines.Add(machine);
+
+                            var game = new Game(machine);
+                            if (machine.cloneof == null)
                             {
-                                // MAME lists all of it's devices at the end, so we can just finish here.
-                                if (xmlReader["isdevice"] == "yes") break;
+                                game.Children = _games[machine.name].Children;
+                                _games[machine.name] = game;
+                            }
+                            else
+                            {
+                                _games[machine.cloneof].Children[machine.name] = game;
+                            }
 
-                                var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
-                                counter++;
-                                machines.Add(machine);
+                            progress.Report(counter);
+                        } // end while loop
 
-                                var game = new Game(machine);
-                                if (machine.cloneof == null)
-                                {
-                                    game.Children = _games[machine.name].Children;
-                                    _games[machine.name] = game;
-                                }
-                                else
-                                {
-                                    _games[machine.cloneof].Children[machine.name] = game;
-                                }
-
-                                progress.Report(counter);
-                            } // end while loop
-
-                            progress.Report(-1);
-                            dbm.UpdateMachines(machines);
-                        } // END DatabaseManager
+                        progress.Report(-1);
+                        DatabaseManager.UpdateMachines(machines);
+                        DatabaseManager.SaveToDisk();                 
                     } // END XmlReader
                 } // END Output Stream
             }
@@ -204,11 +200,9 @@ namespace IV_Play
         /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
         /// </summary>
         public void ReadDat()
-        {
-            var dbm = new DatabaseManager();
-
-            _games = CreateGamesFromMachines(dbm.GetMachines());
-            _mameInfo = dbm.GetMameInfo();
+        {          
+            _games = CreateGamesFromMachines(DatabaseManager.GetMachines());
+            _mameInfo = DatabaseManager.GetMameInfo();
             SettingsManager.MameCommands = _mameInfo.Commands;
         }
 

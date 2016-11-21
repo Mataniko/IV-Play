@@ -92,16 +92,13 @@ namespace IV_Play
             jumpList.ShowRecentCategory = false;
 
             JumpList.SetJumpList(System.Windows.Application.Current, jumpList);
-
-            using (var dbm = new DatabaseManager())
+            
+            foreach (string s in Settings.Default.jumplist.Split(','))
             {
-                foreach (string s in Settings.Default.jumplist.Split(','))
+                Machine machine = DatabaseManager.GetMachineByName(s);
+                if (machine != null)
                 {
-                    Machine machine = dbm.GetMachineByName(s);
-                    if (machine != null)
-                    {
-                        jumpList.JumpItems.Add(CreateJumpTask(new Game(machine)));
-                    }
+                    jumpList.JumpItems.Add(CreateJumpTask(new Game(machine)));
                 }
             }
 
