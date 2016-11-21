@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using IV_Play.Properties;
 using IV_Play.Data;
 using System.Collections.Concurrent;
+using System.Collections;
 
 #endregion
 
@@ -422,23 +423,28 @@ namespace IV_Play
                 Invalidate();
                 return;
             }
+
+            var nonWorkingParents = new Hashtable();
            
             foreach (var fGame in sortedDict)
             {
                 // Check for non-working children
                 if ((!fGame.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)fGame.Value.AuditState > 2))
                 {
-                    var working = fGame.Value.Children.Where(x => x.Value.Working).ToList();
-                    var audit = fGame.Value.Children.Where(x => (int)x.Value.AuditState >2).ToList();
-                    if (fGame.Value.Children.Where(x => x.Value.Working || (int)x.Value.AuditState > 2 ).Count() == 0) continue;                    
+                    if (fGame.Value.Children.Where(x => x.Value.Working || (int)x.Value.AuditState > 2).Count() == 0)
+                        continue;
+                    else
+                    {
+                        nonWorkingParents.Add(fGame.Value.Name, true);                        
+                    }                        
                 }
 
-                if (fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                if ((fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Manufacturer.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.SourceFile.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Year.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
-                    fGame.Value.Description.Contains(_filter, StringComparison.InvariantCultureIgnoreCase))
-                {
+                    fGame.Value.Description.Contains(_filter, StringComparison.InvariantCultureIgnoreCase)) && !nonWorkingParents.ContainsKey(fGame.Value.Name))
+                {                
                     fGame.Value.Index = i++;                  
                     Games.Add(fGame.Key, fGame.Value);
                     if (prevGame != null)
@@ -453,6 +459,12 @@ namespace IV_Play
                     foreach (var child in fGame.Value.Children)
                     {
                         if ((!child.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)child.Value.AuditState > 2)) continue;
+                                               
+                        if (nonWorkingParents.ContainsKey(child.Value.ParentSet))
+                        {
+                            child.Value.ShowAsParent = true;
+                            nonWorkingParents.Remove(child.Value.ParentSet);
+                        }
 
                         if (child.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Manufacturer.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||

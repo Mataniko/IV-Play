@@ -20,6 +20,7 @@ namespace IV_Play
         {
             Children = new SortedList<string, Game>();
             IsFavorite = false;
+            ShowAsParent = false;
         }
 
         public Game(Machine machine)
@@ -44,6 +45,7 @@ namespace IV_Play
             //Colors = colors, Doesn't exist anymore?
             Roms = machine.rominfo();
             IsMechanical = machine.ismechanical == "yes";
+            ShowAsParent = false;
         }
 
         public string Roms { get; set; }
@@ -69,6 +71,7 @@ namespace IV_Play
         public string Info { get; set; }
         public bool HasOverlay { get; set; }
         public bool IsMechanical { get; set; }
+        public bool ShowAsParent { get; set; }
         public AuditState AuditState { get
             {
                 if (SettingsManager.WorkingRoms.ContainsKey(Name))

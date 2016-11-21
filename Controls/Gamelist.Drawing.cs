@@ -44,7 +44,7 @@ namespace IV_Play
                     Game game = GetNodeAtRow(j);
                     if (j != SelectedRow)
                     {
-                        if (game.IsParent || game.IsFavorite || (!game.IsParent && !Settings.Default.allow_grouping))
+                        if (game.IsParent || game.IsFavorite || (!game.IsParent && !Settings.Default.allow_grouping) || (!game.IsParent && game.ShowAsParent))
                             DrawRow(j, OffsetParent, game, g);
                         else
                             DrawRow(j, OffsetChild, game, g);
@@ -423,9 +423,8 @@ namespace IV_Play
                 case DisplayModeEnum.DescriptionYearAndManufacturer:
                     RowText = "{0} {1} {2}";
                     break;
-            }
-            var description = !game.Working && Settings.Default.hide_nonworking ? game.Description + " (Non working parent)" : game.Description;
-            return string.Format(RowText, description, game.Year, game.Manufacturer);
+            }            
+            return string.Format(RowText, game.Description, game.Year, game.Manufacturer);
         }
 
 
