@@ -82,7 +82,7 @@ namespace IV_Play
 
             using (var dbm = new DatabaseManager())
             {
-                dbm.SaveMachines(machines.Values.ToList());
+                dbm.SaveMachines(machines);
                 dbm.SaveMameInfo(_mameInfo);
             }
             _games = CreateGamesFromMachines(machines.Values.ToList());

@@ -61,12 +61,13 @@ namespace IV_Play.Data
             }
         }
 
-        public void SaveMachines(List<Machine> machines)
+        public void SaveMachines(Dictionary<string,Machine> machines)
         {
             machinesCollection.Delete(Query.All());
             using (database.BeginTrans())
             {
-                machines.ForEach(x => machinesCollection.Insert(x));
+                foreach (var m in machines)
+                    machinesCollection.Insert(m.Value);
             }
         }
 
