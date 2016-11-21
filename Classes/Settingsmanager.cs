@@ -43,7 +43,7 @@ namespace IV_Play
             else
                 SetDefaultSettings();
 
-            if (File.Exists("MAME_g.ini"))
+            if (File.Exists("MAME_g.ini") && Settings.Default.audit_games)
             {
                 ReadAuditFromFile("MAME_g.ini");
             }
