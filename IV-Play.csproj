@@ -249,9 +249,6 @@
     <None Include="Resources\default clone.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\default nonworking.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\default parent.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <None Include="Resources\nonworking.ico" />
     <None Include="Resources\px_by_Gre3g.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
