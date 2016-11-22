@@ -14,8 +14,7 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [Configuration Screen](#configuration-screen)
 	- [Display XML Data in UI](#display-xml-data-in-ui)
 		- [Title Bar](#title-bar)
-		- [Game List](#game-list)
-        - [Auditing the Game List](#auditing-the-game-list)
+		- [Game List](#game-list)        
 		- [Favorites](#favorites)
 		- [Icons](#icons)
 		- [Art Area](#art-area)
@@ -32,16 +31,19 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [IV-Play.cfg](#iv-playcfg)
 	- [IV-Play.dat](#iv-playdat)
 - [IV/Play vs. MAMEUI](#ivplay-vs-mameui)
+- [IV/Play 1.8.0 Feature](#ivplay-180-feature)
+- [IV/Play 1.7.0 Feature](#ivplay-170-feature)	
+- [IV/Play 1.6.0 Feature](#ivplay-160-feature)	
+- [IV/Play 1.5.5 Feature](#ivplay-155-feature)
+	- [Filter on input](#filter-on-input)
+- [IV/Play 1.5.3 Feature](#ivplay-153-feature)
+	- [Mechanical Games Filter](#mechanical-games-filter)
 - [IV/Play 1.5 Features](#ivplay-15-features)
 	- [Unlimited Art Types](#unlimited-art-types)
 	- [History.dat / MAMEInfo.dat Support](#historydat-mameinfodat-support)
 	- [Favorites Toggle](#favorites-toggle)
 	- [Non-Working game art/history Support](#non-working-game-arthistory-support)
 	- [Command Line Override](#command-line-override)
-- [IV/Play 1.5.3 Feature](#ivplay-153-feature)
-	- [Mechanical Games Filter](#mechanical-games-filter)
-- [IV/Play 1.5.5 Feature](#ivplay-155-feature)
-	- [Filter on input](#filter-on-input)
 - [Notes/Hints](#noteshints)
 - [Credits](#credits)
 <!-- /TOC -->
@@ -83,20 +85,6 @@ The game list displays all the games from the MAME XML output. Clones are automa
 Display of the year and manufacturer is configurable through **F1**.
 
 Typing ‘donkey kong’ in the game list goes to the first instance depending where focus is when typing; if there are no instances downward it will go to the first instance of ‘donkey kong’ which may be all the way at the top in the favorites.
-
-### Auditing the Game List
-
-By default, IV/Play will display all roms, whether they exist in the roms folder or not.
-
-To limit the display to only those roms which are available and playable, place a MAME_g.ini file in the same directory as IV-Play.exe. The file MAME_g.ini is produced by MameUI64 after running an audit of all games.
-
-To produce this file, follow these steps:
-
-1. Run MameUI64.
-2. Select File->Audit all games.
-3. Copy MAME_g.ini into the same folder as IV-Play.exe.
-
-IV/Play will then limit the game list to only games that are available for play.
 
 ### Favorites
 
@@ -262,11 +250,20 @@ IV/Play will display icons and any art type for non-working games if they are pr
 
 The command line override in the **F1** configuration dialogue allows the use of various switches to be added to launched games, e.g. –window to play games windowed without having to drop to the mame.ini for editing.
 
-# IV/Play 1.5.3 Features
+# IV/Play 1.8.0 Features
 
-## Mechanical Games Filter
+New Database format, when opening IV-Play your database will automatically rebuild.
+IV-Play will now load information about all games and clones from MAME almost immediately and continue to do a full update in the background.
+New default theme.
+Support Full Screen Mode.
 
-The F1 configuration dialogue contains a check box for hiding non-working mechanical games. These are games that have been added to MAME that contain mechanical or physical elements that cannot currently be emulated; including pinball games and gambling fruit/slot machines. By toggling this, 8000+ non-working mechanical games are removed from the game list.
+# IV/Play 1.7.0 Features
+
+Added support for Hidden games in a hidden.ini file. These games will not appear on the IV-Play game list.
+
+# IV/Play 1.6.0 Features
+
+Update IV/Play to work with MAME 0.162. IV/Play is now also open source under the MIT License. For more information refer to the LICENSE file.
 
 # IV/Play 1.5.5 Features
 
@@ -274,22 +271,11 @@ The F1 configuration dialogue contains a check box for hiding non-working mechan
 
 The F1 configuration contains an option to filter on input. This will display progressive results directly in the game list by typing the game name, year, manufacturer, or source file. Backspace will delete one character at a time and CTRL-backspace will clear the typed filter. The progressive filtered text will appear on the titlebar. (Note this produces the same functional results as doing a CTRL-F filter search).
 
-# IV/Play 1.6.0 Features
+# IV/Play 1.5.3 Features
 
-Update IV/Play to work with MAME 0.162. IV/Play is now also open source under the MIT License. For more information refer to the LICENSE file.
+## Mechanical Games Filter
 
-# IV/Play 1.7.0 Features
-
-Added support for Hidden games in a hidden.ini file. These games will not appear on the IV-Play game list.
-
-# IV/Play 1.8.0 Features
-
-Dropped support for older versions of MAME (< 0.162).
-New Database format, when opening IV-Play your database will automatically rebuild.
-IV-Play will now load information about all games and clones from MAME almost immediately and continue to do a full update in the background.
-New default theme.
-Support Game list auditing.
-Support Full Screen Mode.
+The F1 configuration dialogue contains a check box for hiding non-working mechanical games. These are games that have been added to MAME that contain mechanical or physical elements that cannot currently be emulated; including pinball games and gambling fruit/slot machines. By toggling this, 8000+ non-working mechanical games are removed from the game list.
 
 # Notes/Hints
 
