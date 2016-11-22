@@ -31,7 +31,7 @@ IV/Play (pronounced ‘Four Play’) is a desktop oriented GUI front-end for [MA
 	- [IV-Play.cfg](#iv-playcfg)
 	- [IV-Play.dat](#iv-playdat)
 - [IV/Play vs. MAMEUI](#ivplay-vs-mameui)
-- [IV/Play 1.8.0 Feature](#ivplay-180-feature)
+- [IV/Play 1.8.1 Feature](#ivplay-181-feature)
 - [IV/Play 1.7.0 Feature](#ivplay-170-feature)	
 - [IV/Play 1.6.0 Feature](#ivplay-160-feature)	
 - [IV/Play 1.5.5 Feature](#ivplay-155-feature)
@@ -250,7 +250,7 @@ IV/Play will display icons and any art type for non-working games if they are pr
 
 The command line override in the **F1** configuration dialogue allows the use of various switches to be added to launched games, e.g. –window to play games windowed without having to drop to the mame.ini for editing.
 
-# IV/Play 1.8.0 Features
+# IV/Play 1.8.1 Features
 
 New Database format, when opening IV-Play your database will automatically rebuild.
 IV-Play will now load information about all games and clones from MAME almost immediately and continue to do a full update in the background.
