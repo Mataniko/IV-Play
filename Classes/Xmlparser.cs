@@ -200,6 +200,32 @@ namespace IV_Play
             return games;
         }
 
+        public Game ReadGameByName(string name)
+        {
+            XmlReaderSettings xmlReaderSettings;
+            var xmlRootAttribute = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE).FileMinorPart < 162 ? "game" : "machine";
+            var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute(xmlRootAttribute));
+            var mameCommand = ExecuteMameCommand("-listxml " + name);
+            var machines = new List<Machine>();
+            //Setup the XML Reader/Writer options                
+            xmlReaderSettings = new XmlReaderSettings();
+            xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;            
+
+            using (StreamReader myOutput = mameCommand.StandardOutput)
+            {
+                // Create a fast XML Reader
+                using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
+                {
+                    while (xmlReader.ReadToFollowing(xmlRootAttribute))
+                    {                        
+                        return new Game((Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree()));                        
+                    } // end while loop                    
+                } // END XmlReader
+            } // END Output Stream
+
+            return null;
+        }
+
         /// <summary>
         /// Reads the IV/Play Data file, technically should work with a compressed mame data file as well.
         /// </summary>

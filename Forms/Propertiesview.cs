@@ -1,5 +1,6 @@
 ﻿#region
 
+using IV_Play.Data;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -18,8 +19,8 @@ namespace IV_Play
 
         public PropertiesView(Game game)
         {
-            InitializeComponent();
-            _game = game;
+            InitializeComponent();            
+            _game = new XmlParser().ReadGameByName(game.Name);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
