@@ -72,17 +72,6 @@ namespace IV_Play
         public bool HasOverlay { get; set; }
         public bool IsMechanical { get; set; }
         public bool ShowAsParent { get; set; }
-        public AuditState AuditState { get
-            {
-                if (SettingsManager.WorkingRoms.ContainsKey(Name))
-                {
-                    return SettingsManager.WorkingRoms[Name];
-                } else
-                {
-                    return AuditState.Correct;
-                }              
-            }
-        }        
 
         public Bitmap Icon { get; set; }
 

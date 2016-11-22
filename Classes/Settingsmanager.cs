@@ -34,7 +34,6 @@ namespace IV_Play
         public static List<string> ArtPaths = new List<string>();
         public static MameCommands MameCommands;
         public static int[] CustomColors = new int[16];
-        public static Dictionary<string, AuditState> WorkingRoms = new Dictionary<string, AuditState>();
 
         static SettingsManager()
         {
@@ -42,29 +41,6 @@ namespace IV_Play
                 ReadSettingsFromFile(cfgPath);
             else
                 SetDefaultSettings();
-
-            if (File.Exists("MAME_g.ini") && Settings.Default.audit_games)
-            {
-                ReadAuditFromFile("MAME_g.ini");
-            }
-        }
-
-        public static void ReadAuditFromFile(string fileName)
-        {
-            WorkingRoms.Clear();
-
-            string[] lines = File.ReadAllLines(fileName);
-            foreach (var line in lines)
-            {
-                string query = @"(\w*)\s+?([0-4]),";
-                Regex regEx = new Regex(query);                
-                Match match = regEx.Match(line);
-                if (match.Success)
-                {
-                    // Valid and working rom.
-                    WorkingRoms.Add(match.Groups[1].Value, (AuditState)int.Parse(match.Groups[2].Value));
-                }
-            }
         }
 
         public static void ResetSettings()

@@ -24,6 +24,8 @@ namespace IV_Play
     internal class XmlParser
     {
         private Games _games;
+        private int _version;
+
         public Games Games
         {
             get
@@ -95,7 +97,8 @@ namespace IV_Play
             try
             {
                 XmlReaderSettings xmlReaderSettings;
-                var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute("machine"));
+                var xmlRootAttribute = _version < 162 ? "game" : "machine";
+                var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute(xmlRootAttribute));
                 var mameCommand = ExecuteMameCommand("-listxml");
                 var machines = new List<Machine>();
                 //Setup the XML Reader/Writer options                
@@ -109,7 +112,7 @@ namespace IV_Play
                     // Create a fast XML Reader
                     using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
                     {
-                        while (xmlReader.ReadToFollowing("machine"))
+                        while (xmlReader.ReadToFollowing(xmlRootAttribute))
                         {
                             // MAME lists all of it's devices at the end, so we can just finish here.
                             if (xmlReader["isdevice"] == "yes") break;
@@ -153,6 +156,7 @@ namespace IV_Play
         {
             var mameFileInfo = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE);
             var version = mameFileInfo.ProductVersion;
+            _version = mameFileInfo.FileMinorPart;
             var product = mameFileInfo.ProductName.ToUpper();
             var commands = new MameCommands(Settings.Default.MAME_EXE);
 

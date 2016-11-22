@@ -428,9 +428,9 @@ namespace IV_Play
             foreach (var fGame in sortedDict)
             {
                 // Check for non-working children
-                if ((!fGame.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)fGame.Value.AuditState > 2))
+                if ((!fGame.Value.Working && Settings.Default.hide_nonworking))
                 {
-                    if (fGame.Value.Children.Where(x => x.Value.Working || (int)x.Value.AuditState > 2).Count() == 0)
+                    if (fGame.Value.Children.Where(x => x.Value.Working).Count() == 0)
                         continue;
                     else
                     {
@@ -457,7 +457,7 @@ namespace IV_Play
                 {
                     foreach (var child in fGame.Value.Children)
                     {
-                        if ((!child.Value.Working && Settings.Default.hide_nonworking) || (Settings.Default.audit_games && (int)child.Value.AuditState > 2)) continue;
+                        if ((!child.Value.Working && Settings.Default.hide_nonworking)) continue;
                                                
                         if (nonWorkingParents.ContainsKey(child.Value.ParentSet))
                         {

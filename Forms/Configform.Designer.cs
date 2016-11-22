@@ -52,16 +52,19 @@
             this._lblFavMode = new System.Windows.Forms.Label();
             this._lblFavColor = new System.Windows.Forms.Label();
             this._lblColorGame = new System.Windows.Forms.Label();
+            this._colorPickerFav = new IV_Play.ColorPicker();
             this._btnGameFont = new System.Windows.Forms.Button();
+            this._colorPickerParent = new IV_Play.ColorPicker();
+            this._colorPickerClone = new IV_Play.ColorPicker();
             this._lblClonesColor = new System.Windows.Forms.Label();
             this._lblParentsColor = new System.Windows.Forms.Label();
             this._chkHideNonWorking = new System.Windows.Forms.CheckBox();
-            this._chkAuditGames = new System.Windows.Forms.CheckBox();
             this._chkHideNonWorkingMechanical = new System.Windows.Forms.CheckBox();
             this._groupArt = new System.Windows.Forms.GroupBox();
             this._lblOpacityPercentage = new System.Windows.Forms.Label();
             this._picBG = new System.Windows.Forms.PictureBox();
             this._borderWidth = new System.Windows.Forms.NumericUpDown();
+            this._colorPickerBorder = new IV_Play.ColorPicker();
             this._lblBackground = new System.Windows.Forms.Label();
             this._lblBorderColor = new System.Windows.Forms.Label();
             this._lblBorderWidth = new System.Windows.Forms.Label();
@@ -81,14 +84,10 @@
             this._fontDialog2 = new System.Windows.Forms.FontDialog();
             this._btnReset = new System.Windows.Forms.Button();
             this._groupMame = new System.Windows.Forms.GroupBox();
+            this.autoCompleteTextBox1 = new IV_Play.AutoCompleteTextBox();
             this._lblCommandLine = new System.Windows.Forms.Label();
             this._groupFilters = new System.Windows.Forms.GroupBox();
             this._chkHideClones = new System.Windows.Forms.CheckBox();
-            this.autoCompleteTextBox1 = new IV_Play.AutoCompleteTextBox();
-            this._colorPickerBorder = new IV_Play.ColorPicker();
-            this._colorPickerFav = new IV_Play.ColorPicker();
-            this._colorPickerParent = new IV_Play.ColorPicker();
-            this._colorPickerClone = new IV_Play.ColorPicker();
             this._groupGameList.SuspendLayout();
             this._groupArt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._picBG)).BeginInit();
@@ -345,6 +344,17 @@
             this._lblColorGame.TabIndex = 30;
             this._lblColorGame.Text = "Game List Colors:";
             // 
+            // _colorPickerFav
+            // 
+            this._colorPickerFav.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerFav.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerFav.Location = new System.Drawing.Point(318, 59);
+            this._colorPickerFav.Name = "_colorPickerFav";
+            this._colorPickerFav.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerFav.TabIndex = 3;
+            this._colorPickerFav.TabStop = false;
+            // 
             // _btnGameFont
             // 
             this._btnGameFont.Location = new System.Drawing.Point(6, 19);
@@ -354,6 +364,28 @@
             this._btnGameFont.Text = "Game List Font";
             this._btnGameFont.UseVisualStyleBackColor = true;
             this._btnGameFont.Click += new System.EventHandler(this._btnFont_Click);
+            // 
+            // _colorPickerParent
+            // 
+            this._colorPickerParent.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerParent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerParent.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerParent.Location = new System.Drawing.Point(318, 19);
+            this._colorPickerParent.Name = "_colorPickerParent";
+            this._colorPickerParent.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerParent.TabIndex = 1;
+            this._colorPickerParent.TabStop = false;
+            // 
+            // _colorPickerClone
+            // 
+            this._colorPickerClone.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerClone.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerClone.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerClone.Location = new System.Drawing.Point(318, 39);
+            this._colorPickerClone.Name = "_colorPickerClone";
+            this._colorPickerClone.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerClone.TabIndex = 2;
+            this._colorPickerClone.TabStop = false;
             // 
             // _lblClonesColor
             // 
@@ -375,21 +407,11 @@
             // 
             // _chkHideNonWorking
             // 
-            this._chkHideNonWorking.Location = new System.Drawing.Point(9, 42);
+            this._chkHideNonWorking.Location = new System.Drawing.Point(9, 40);
             this._chkHideNonWorking.Name = "_chkHideNonWorking";
-            this._chkHideNonWorking.Size = new System.Drawing.Size(156, 24);
+            this._chkHideNonWorking.Size = new System.Drawing.Size(156, 17);
             this._chkHideNonWorking.TabIndex = 0;
             this._chkHideNonWorking.Text = "Hide Non-Working Games";
-            // 
-            // _chkAuditGames
-            // 
-            this._chkAuditGames.AutoSize = true;
-            this._chkAuditGames.Location = new System.Drawing.Point(177, 42);
-            this._chkAuditGames.Name = "_chkAuditGames";
-            this._chkAuditGames.Size = new System.Drawing.Size(166, 17);
-            this._chkAuditGames.TabIndex = 39;
-            this._chkAuditGames.Text = "Audit Game List (MAME_g.ini)";
-            this._chkAuditGames.UseVisualStyleBackColor = true;
             // 
             // _chkHideNonWorkingMechanical
             // 
@@ -455,6 +477,17 @@
             0,
             0,
             0});
+            // 
+            // _colorPickerBorder
+            // 
+            this._colorPickerBorder.BackColor = System.Drawing.SystemColors.Control;
+            this._colorPickerBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._colorPickerBorder.Color = System.Drawing.SystemColors.Control;
+            this._colorPickerBorder.Location = new System.Drawing.Point(9, 141);
+            this._colorPickerBorder.Name = "_colorPickerBorder";
+            this._colorPickerBorder.Size = new System.Drawing.Size(16, 16);
+            this._colorPickerBorder.TabIndex = 3;
+            this._colorPickerBorder.TabStop = false;
             // 
             // _lblBackground
             // 
@@ -659,6 +692,14 @@
             this._groupMame.TabStop = false;
             this._groupMame.Text = "Mame Settings:";
             // 
+            // autoCompleteTextBox1
+            // 
+            this.autoCompleteTextBox1.Items = ((System.Collections.Generic.SortedDictionary<string, string>)(resources.GetObject("autoCompleteTextBox1.Items")));
+            this.autoCompleteTextBox1.Location = new System.Drawing.Point(6, 32);
+            this.autoCompleteTextBox1.Name = "autoCompleteTextBox1";
+            this.autoCompleteTextBox1.Size = new System.Drawing.Size(428, 20);
+            this.autoCompleteTextBox1.TabIndex = 1;
+            // 
             // _lblCommandLine
             // 
             this._lblCommandLine.AutoSize = true;
@@ -673,7 +714,6 @@
             this._groupFilters.Controls.Add(this._chkHideNonWorking);
             this._groupFilters.Controls.Add(this._chkHideClones);
             this._groupFilters.Controls.Add(this._chkHideNonWorkingMechanical);
-            this._groupFilters.Controls.Add(this._chkAuditGames);
             this._groupFilters.Location = new System.Drawing.Point(12, 303);
             this._groupFilters.Name = "_groupFilters";
             this._groupFilters.Size = new System.Drawing.Size(342, 74);
@@ -690,58 +730,6 @@
             this._chkHideClones.TabIndex = 38;
             this._chkHideClones.Text = "Hide Clones";
             this._chkHideClones.UseVisualStyleBackColor = true;
-            // 
-            // autoCompleteTextBox1
-            // 
-            this.autoCompleteTextBox1.Items = ((System.Collections.Generic.SortedDictionary<string, string>)(resources.GetObject("autoCompleteTextBox1.Items")));
-            this.autoCompleteTextBox1.Location = new System.Drawing.Point(6, 32);
-            this.autoCompleteTextBox1.Name = "autoCompleteTextBox1";
-            this.autoCompleteTextBox1.Size = new System.Drawing.Size(428, 20);
-            this.autoCompleteTextBox1.TabIndex = 1;
-            // 
-            // _colorPickerBorder
-            // 
-            this._colorPickerBorder.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerBorder.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerBorder.Location = new System.Drawing.Point(9, 141);
-            this._colorPickerBorder.Name = "_colorPickerBorder";
-            this._colorPickerBorder.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerBorder.TabIndex = 3;
-            this._colorPickerBorder.TabStop = false;
-            // 
-            // _colorPickerFav
-            // 
-            this._colorPickerFav.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerFav.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerFav.Location = new System.Drawing.Point(318, 59);
-            this._colorPickerFav.Name = "_colorPickerFav";
-            this._colorPickerFav.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerFav.TabIndex = 3;
-            this._colorPickerFav.TabStop = false;
-            // 
-            // _colorPickerParent
-            // 
-            this._colorPickerParent.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerParent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerParent.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerParent.Location = new System.Drawing.Point(318, 19);
-            this._colorPickerParent.Name = "_colorPickerParent";
-            this._colorPickerParent.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerParent.TabIndex = 1;
-            this._colorPickerParent.TabStop = false;
-            // 
-            // _colorPickerClone
-            // 
-            this._colorPickerClone.BackColor = System.Drawing.SystemColors.Control;
-            this._colorPickerClone.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._colorPickerClone.Color = System.Drawing.SystemColors.Control;
-            this._colorPickerClone.Location = new System.Drawing.Point(318, 39);
-            this._colorPickerClone.Name = "_colorPickerClone";
-            this._colorPickerClone.Size = new System.Drawing.Size(16, 16);
-            this._colorPickerClone.TabIndex = 2;
-            this._colorPickerClone.TabStop = false;
             // 
             // ConfigForm
             // 
@@ -844,7 +832,6 @@
         private System.Windows.Forms.CheckBox _chkFullscreen;
         private System.Windows.Forms.CheckBox _chkShowError;
         private System.Windows.Forms.CheckBox _chkHideNonWorking;
-        private System.Windows.Forms.CheckBox _chkAuditGames;
         private System.Windows.Forms.CheckBox _chkHideClones;
     }
 }
