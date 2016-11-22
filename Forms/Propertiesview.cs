@@ -20,7 +20,14 @@ namespace IV_Play
         public PropertiesView(Game game)
         {
             InitializeComponent();            
-            _game = new XmlParser().ReadGameByName(game.Name);
+            try
+            {
+                _game = new XmlParser().ReadGameByName(game.Name);
+            }
+            catch
+            {
+                _game = game;
+            }            
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
