@@ -53,14 +53,10 @@ namespace IV_Play.Data
             }
         }
 
-        public static void SaveMachines(Dictionary<string, Machine> machines)
+        public static void SaveMachines(List<Machine> machines)
         {
-            machinesCollection.Delete(Query.All());
-            using (database.BeginTrans())
-            {
-                foreach (var m in machines)
-                    machinesCollection.Insert(m.Value);
-            }
+            machinesCollection.Delete(Query.All());            
+            machinesCollection.Insert(machines);            
         }
 
         public static void UpdateMachines(List<Machine> machines)
@@ -68,7 +64,11 @@ namespace IV_Play.Data
 
             using (database.BeginTrans())
             {
-                machines.ForEach(x => machinesCollection.Update(x));
+                var indexes = machinesCollection.FindAll().ToDictionary(x => x.name);
+                machines.ForEach(x => {
+                    x.Id = indexes[x.name].Id;
+                    machinesCollection.Update(x);
+                });
             }
         }
 

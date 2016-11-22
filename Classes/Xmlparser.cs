@@ -5,6 +5,7 @@ using IV_Play.Data.Models;
 using IV_Play.Properties;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -48,25 +49,13 @@ namespace IV_Play
         /// </summary>
         public void MakeQuickDat()
         {
-            var machines = new Dictionary<string, Machine>();
+
             _mameInfo = CreateMameInfo();
             SettingsManager.MameCommands = _mameInfo.Commands;
-            var totalGames = 0;
-            using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
-            {
-                // Read the header line.
-                var line = listFull.ReadLine();
-                var regex = new Regex(@"^(\S*)\s+""(.*)""$");
-                while ((line = listFull.ReadLine()) != null)
-                {
-                    var match = regex.Match(line);
-                    var name = match.Groups[1].Value;
-                    var description = match.Groups[2].Value;
-                    machines.Add(name, new Machine() { description = description, name = name });
-                    totalGames++;
-                }
-            }
 
+            var machinesDictionary = new Dictionary<string, Machine>();
+            var clonesDictionary = new Dictionary<string, List<string>>();
+            var clonesHashtable = new Hashtable();
             using (StreamReader listClones = ExecuteMameCommand("-listclones").StandardOutput)
             {
                 // Read the header line.
@@ -78,15 +67,52 @@ namespace IV_Play
                     var clone = match.Groups[1].Value;
                     var parent = match.Groups[2].Value;
 
-                    machines[clone].cloneof = parent;
+                    clonesHashtable.Add(clone, true);
+                    if (clonesDictionary.ContainsKey(parent))
+                        clonesDictionary[parent].Add(clone);
+                    else
+                        clonesDictionary.Add(parent, new List<string>() { clone });
                 }
             }
 
-            DatabaseManager.SaveMachines(machines);
+            using (StreamReader listFull = ExecuteMameCommand("-listfull").StandardOutput)
+            {
+                // Read the header line.
+                var line = listFull.ReadLine();
+                var regex = new Regex(@"^(\S*)\s+""(.*)""$");
+                while ((line = listFull.ReadLine()) != null)
+                {
+                    var match = regex.Match(line);
+                    var name = match.Groups[1].Value;
+                    var description = match.Groups[2].Value;
+                    machinesDictionary.Add(name, new Machine() { description = description, name = name });
+
+                }
+            }
+
+            var sortedParents = machinesDictionary.Values.Where(x => !clonesHashtable.ContainsKey(x.name)).OrderBy(x => x.description);
+
+            var results = new List<Machine>();
+            foreach (var parent in sortedParents)
+            {
+                results.Add(parent);
+                if (clonesDictionary.ContainsKey(parent.name))
+                {
+                    foreach (var clone in clonesDictionary[parent.name])
+                    {
+                        machinesDictionary[clone].cloneof = parent.name;
+                        results.Add(machinesDictionary[clone]);
+                    }
+                }
+
+            }
+
+
+            DatabaseManager.SaveMachines(results);
             DatabaseManager.SaveMameInfo(_mameInfo);
-    
-            _games = CreateGamesFromMachines(machines.Values.ToList());
-            _games.TotalGames = totalGames;
+
+            _games = CreateGamesFromMachines(results);
+            _games.TotalGames = results.Count;
         }
 
         /// <summary>
