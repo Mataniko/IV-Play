@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -117,6 +118,21 @@ namespace IV_Play.Data.Models
             return sb.ToString();
         }
 
+        [BsonIgnore]
+        public string icon
+        {
+            get
+            {
+                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", this.name)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", this.name);
+
+                if (this.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", this.cloneof)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", this.cloneof);
+
+                return @"D:\Games\Emulators\MAME\icons\unknown.ico";
+            }
+
+        }
     }
 }
 
