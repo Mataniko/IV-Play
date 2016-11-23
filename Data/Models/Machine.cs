@@ -131,6 +131,15 @@ namespace IV_Play.Data.Models
 
                 return @"D:\Games\Emulators\MAME\icons\unknown.ico";
             }
+        }
+
+        [BsonIgnore]
+        public string ListText
+        {
+            get
+            {         
+                return string.Format("{0} {1} {2}", description, year, manufacturer).Trim();
+            }
 
         }
     }

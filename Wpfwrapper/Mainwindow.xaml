@@ -25,9 +25,7 @@
                 <DataTemplate>
                     <WrapPanel Margin="{Binding cloneof, Converter={StaticResource CloneMarginConverter}}">
                         <Image Name="icon" Source="{Binding icon}" Width="16" Height="16" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding description}" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding manufacturer}" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding year}" />
+                        <TextBlock Text="{Binding ListText}" Margin="0,0,5,0"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

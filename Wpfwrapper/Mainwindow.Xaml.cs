@@ -2,10 +2,12 @@
 
 using IV_Play.Data;
 using IV_Play.Data.Models;
+using IV_Play.Properties;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
@@ -24,6 +26,8 @@ namespace IV_Play
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool updating = false;
+        private MameInfo _mameInfo;
         public MainWindow()
         {
             try
@@ -49,29 +53,58 @@ namespace IV_Play
                     //Display the form. While the status is retry it will just create new instances
                     //This allows us to close the form and restart the application when refreshing
                     //our data files.
-                    MainForm mainForm;
-                    DialogResult dialogResult = System.Windows.Forms.DialogResult.Retry;
+                    //MainForm mainForm;
+                    //DialogResult dialogResult = System.Windows.Forms.DialogResult.Retry;
 
+
+                   
+                   
                     //while (true)
                     //{
-                        if (dialogResult == System.Windows.Forms.DialogResult.Retry)
-                        {
-                            mainForm = new MainForm();
-                            mainForm.BringToFront();
-                            mainForm.Show();
-                        }
-                        //else
-                        //{
-                        //    break;
-                        //}
+                    //if (dialogResult == System.Windows.Forms.DialogResult.Retry)
+                    //{
+                    //    mainForm = new MainForm();
+                    //    mainForm.BringToFront();
+                    //    mainForm.Show();
+                    //}
+                    //else
+                    //{
+                    //    break;
+                    //}
                     //}
                     //Close();
                 }
-            }
+                }
             catch (Exception ex)
             {
                 Logger.WriteToLog(ex);
                 Close();
+            }
+        }
+
+        private async void LoadGames()
+        {
+            Console.WriteLine(Settings.Default.MAME_EXE);
+            if (!File.Exists(Properties.Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
+            {
+                var xmlParser = new XmlParser();
+                updating = true;
+                xmlParser.MakeQuickDat();
+                var machines = DatabaseManager.GetMachines();
+                gameList.ItemsSource = machines;
+                _mameInfo = xmlParser.MameInfo;
+                SettingsManager.MameCommands = _mameInfo.Commands;
+                var progress = new Progress<int>();
+                //progress.ProgressChanged += Progress_ProgressChanged;
+                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+                machines = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
+                gameList.ItemsSource = machines;
+                //updateList(xmlParser.Games);
+                updating = false;
+                //UpdateTitleBar();
+            } else
+            {
+                gameList.ItemsSource = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
             }
         }
 
@@ -83,7 +116,8 @@ namespace IV_Play
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            gameList.ItemsSource = from machine in DatabaseManager.GetMachines() where machine.ismechanical == "no" select machine;
+            LoadGames();
+            //gameList.ItemsSource = from machine in DatabaseManager.GetMachines() where machine.ismechanical == "no" select machine;
         }
 
         private void gameList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
