@@ -16,15 +16,11 @@ namespace IV_Play.WPFWrapper
             if (value == null) return new Thickness();
 
             return new Thickness(20, 0, 40, 0);
-
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            Console.WriteLine("converting from");
+        {            
             return new Thickness();
-            //throw new NotImplementedException();
         }
     }
 }

@@ -50,7 +50,7 @@
         <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="7" Margin="10" Text="{Binding Machine.rominfo, ElementName=PropertiesWindow}"/>
         <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="2" Margin="10" Text="{Binding Machine.cloneof, ElementName=PropertiesWindow}"/>
         <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="3" Margin="10" Text="{Binding Machine.sourcefile, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="4" Margin="10" Text="{Binding Machine.input, ElementName=PropertiesWindow}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="4" Margin="10" Text="{Binding Machine.inputinfo, ElementName=PropertiesWindow}"/>
         <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="6" Margin="10" Text="{Binding Machine.soundinfo, ElementName=PropertiesWindow}"/>
         <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="7" Margin="10" Text="{Binding Machine.displayinfo, ElementName=PropertiesWindow}"/>
     </Grid>

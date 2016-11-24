@@ -6,6 +6,7 @@ using IV_Play.Properties;
 using IV_Play.View;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -172,6 +173,57 @@ namespace IV_Play
         private void gameList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
            
+        }
+
+        private void gameList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            try
+            {
+                var machine = (Machine)gameList.SelectedItem;
+                if (machine != null)
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.MAME_EXE);
+                    psi.RedirectStandardOutput = true;
+                    psi.RedirectStandardError = true;
+                    psi.WindowStyle = ProcessWindowStyle.Hidden;
+                    psi.UseShellExecute = false;
+                    psi.CreateNoWindow = true;
+                    psi.Arguments = Settings.Default.command_line_switches + " " + machine.name.Replace("fav_", "");
+                    psi.WorkingDirectory = Path.GetDirectoryName(Settings.Default.MAME_EXE);
+                    Process proc = Process.Start(psi);
+
+                    StreamReader streamReader = proc.StandardError;
+
+                    this.WindowState = WindowState.Minimized;
+
+                    //Thread jumpThread = new Thread(AddGameToJumpList);
+                    //jumpThread.SetApartmentState(ApartmentState.STA);
+                    //jumpThread.IsBackground = true;
+                    //jumpThread.Start();
+
+                    proc.WaitForExit();
+
+                    using (StringReader stringReader = new StringReader(streamReader.ReadToEnd()))
+                    {
+                        string s = stringReader.ReadToEnd();
+                        if (s != null)
+                            if (s.Contains("error", StringComparison.InvariantCultureIgnoreCase) && Settings.Default.show_error) // Check is MAME returned an error and display it.
+                            {
+                                MessageBox.Show(s);
+                            }
+                    }
+                    this.WindowState = WindowState.Normal;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error loading MAME, please check that MAME hasn't been moved.");
+            }
         }
     }
 }

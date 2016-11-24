@@ -20,7 +20,7 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" PreviewKeyDown="gameList_PreviewKeyDown" SelectionChanged="gameList_SelectionChanged" Panel.ZIndex="10" KeyUp="gameList_KeyUp">
+        <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" PreviewKeyDown="gameList_PreviewKeyDown" SelectionChanged="gameList_SelectionChanged" Panel.ZIndex="10" KeyUp="gameList_KeyUp" MouseDoubleClick="gameList_MouseDoubleClick">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Margin="{Binding cloneof, Converter={StaticResource CloneMarginConverter}}">
