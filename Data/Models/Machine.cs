@@ -44,7 +44,9 @@ namespace IV_Play.Data.Models
         public string manufacturer { get; set; }
         [BsonIgnore]
         public Input input { get; set; }
+
         public Driver driver { get; set; }
+
         [BsonIgnore]
         public Sound sound { get; set; }
 
@@ -78,32 +80,75 @@ namespace IV_Play.Data.Models
                 _description = value;
             }
         }
-
-        public string cpuinfo()
+        
+        public string driverinfo
         {
-            if (chip == null) return string.Empty;
-            return GetStringFromArray(chip.Where(x => x.type == "cpu").ToArray());
+            get
+            {
+                return driver.ToString();
+            }
+            set
+            {
+                return;
+            }
         }
 
-        public string rominfo()
+        [BsonIgnore]
+        public string cpuinfo
         {
-            var roms = GetStringFromArray(rom);
-            var disks = GetStringFromArray(disk);
-
-            return roms + "\r\n" + disks;
+            get
+            {
+                if (chip == null) return string.Empty;
+                return GetStringFromArray(chip.Where(x => x.type == "cpu").ToArray());
+            }
+            set
+            {
+                return;
+            }
         }
 
-        public string displayinfo()
+        [BsonIgnore]
+        public string rominfo
         {
-            return GetStringFromArray(display);
+            get
+            {
+                var roms = GetStringFromArray(rom);
+                var disks = GetStringFromArray(disk);
+
+                return roms + "\r\n" + disks;
+            }
+            set
+            {
+                return;
+            }
         }
 
-        public string soundinfo()
+        [BsonIgnore]
+        public string displayinfo
         {
-            if (chip == null || sound == null) return string.Empty;
-            var soundString = GetStringFromArray(chip.Where(x => x.type == "audio").ToArray());
-            return string.Format("{0} Channel(s)\r\n{1}", sound.channels, soundString);
+            get
+            {
+                return GetStringFromArray(display);
+            }
+            set
+            {
+                return;
+            }
         }
+
+        [BsonIgnore]
+        public string soundinfo { get
+            {
+                if (chip == null || sound == null) return string.Empty;
+                var soundString = GetStringFromArray(chip.Where(x => x.type == "audio").ToArray());
+                return string.Format("{0} Channel(s)\r\n{1}", sound.channels, soundString);
+            }
+            set
+            {
+                return;
+            }
+        }
+
         private string GetStringFromArray(object[] array)
         {
             if (array == null) return string.Empty;

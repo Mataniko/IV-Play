@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IV_Play.Data;
+using IV_Play.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,22 @@ namespace IV_Play.View
     /// </summary>
     public partial class Properties : Window
     {
-        public Properties()
+
+        public Machine Machine { get; set; } 
+        public Properties(Machine machine)
         {
+            try
+            {
+                Machine = new XmlParser().ReadMachineByName(machine.name);
+            }
+            catch
+            {
+                Machine = machine;
+            }
+
             InitializeComponent();
+
+           
         }
     }
 }

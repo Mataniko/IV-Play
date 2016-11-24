@@ -125,6 +125,15 @@ namespace IV_Play
 
         private void gameList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+
+           if (e.Key == Key.A)
+            {
+                if (gameList.SelectedItem == null) return;
+
+                var prop = new IV_Play.View.Properties((Machine)gameList.SelectedItem);
+                prop.ShowDialog();
+            }
+
             if (e.Key == Key.S)
             {
                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(gameList.ItemsSource);                
@@ -158,6 +167,11 @@ namespace IV_Play
                 previewImage.Source = null;
 
 
+        }               
+
+        private void gameList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+           
         }
     }
 }
