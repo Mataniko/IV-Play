@@ -3,12 +3,15 @@
 using IV_Play.Data;
 using IV_Play.Data.Models;
 using IV_Play.Properties;
+using IV_Play.View;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -28,6 +31,8 @@ namespace IV_Play
     {
         private bool updating = false;
         private MameInfo _mameInfo;
+        private List<Machine> machines;
+        private Navigation _navigation;
         public MainWindow()
         {
             try
@@ -36,12 +41,12 @@ namespace IV_Play
                 //Prevent multiple instances of the application from running.
                 using (Mutex mutex = new Mutex(false, @"IV-Play MameUI"))
                 {
-                    if (!mutex.WaitOne(0, false))
-                    {
-                        MessageBox.Show("An instance of IV-Play is already running.", "Warning:");
-                        Close();
-                        return;
-                    }
+                    //if (!mutex.WaitOne(0, false))
+                    //{
+                    //    MessageBox.Show("An instance of IV-Play is already running.", "Warning:");
+                    //    Close();
+                    //    return;
+                    //}
 
                     //Enabled all the winforms visual styles to give it the Windows look.
                     Application.EnableVisualStyles();
@@ -57,8 +62,8 @@ namespace IV_Play
                     //DialogResult dialogResult = System.Windows.Forms.DialogResult.Retry;
 
 
-                   
-                   
+                    LoadGames();
+
                     //while (true)
                     //{
                     //if (dialogResult == System.Windows.Forms.DialogResult.Retry)
@@ -90,21 +95,18 @@ namespace IV_Play
                 var xmlParser = new XmlParser();
                 updating = true;
                 xmlParser.MakeQuickDat();
-                var machines = DatabaseManager.GetMachines();
-                gameList.ItemsSource = machines;
+                machines = DatabaseManager.GetMachines();                
                 _mameInfo = xmlParser.MameInfo;
                 SettingsManager.MameCommands = _mameInfo.Commands;
-                var progress = new Progress<int>();
-                //progress.ProgressChanged += Progress_ProgressChanged;
+                var progress = new Progress<int>();                                
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                 machines = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
                 gameList.ItemsSource = machines;
-                //updateList(xmlParser.Games);
                 updating = false;
-                //UpdateTitleBar();
             } else
             {
-                gameList.ItemsSource = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
+                _mameInfo = DatabaseManager.GetMameInfo();
+                machines = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
             }
         }
 
@@ -116,56 +118,32 @@ namespace IV_Play
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadGames();
-            //gameList.ItemsSource = from machine in DatabaseManager.GetMachines() where machine.ismechanical == "no" select machine;
+
+            gameList.ItemsSource = machines;
+            _navigation = new Navigation(gameList);
         }
 
         private void gameList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.S)
             {
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(gameList.ItemsSource);
-
-
+               CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(gameList.ItemsSource);                
                view.Filter = UserFilter;
-            }
-            if (e.Key == Key.Right)
-            {
-                e.Handled = true;
-                var currentLetter = (int)((Machine)gameList.SelectedItem).description.ToLower()[0];
-                var index = gameList.SelectedIndex;
-                while (true)
-                {
-                    var nextItem = (Machine)gameList.Items[++index];
-
-                    if (nextItem.cloneof == null && (int)(nextItem.description.ToLower()[0]) > currentLetter)
-                    {
-                        gameList.SelectedIndex = index;
-                        gameList.ScrollIntoView(gameList.Items[index]);
-                        break;
-                    }
-                        
-                }
             }
 
             if (e.Key == Key.Left)
             {
                 e.Handled = true;
-                var currentLetter = (int)((Machine)gameList.SelectedItem).description.ToLower()[0];
-                var index = gameList.SelectedIndex;
-                while (true)
-                {
-                    var nextItem = (Machine)gameList.Items[--index];
-
-                    if (nextItem.cloneof == null && (int)(nextItem.description.ToLower()[0])+1 < currentLetter)
-                    {
-                        gameList.SelectedIndex = index;
-                        gameList.ScrollIntoView(gameList.Items[index]);
-                        break;
-                    }
-
-                }
+                _navigation.GoToPreviousCharacter();
             }
+
+            if (e.Key == Key.Right)
+            {
+                e.Handled = true;
+                _navigation.GoToNextLetter();                                
+            }
+
+           
         }
 
         private void gameList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

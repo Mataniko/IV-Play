@@ -162,6 +162,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="View\Navigation.cs" />
     <Compile Include="WPFWrapper\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
