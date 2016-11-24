@@ -137,6 +137,19 @@ namespace IV_Play.Data.Models
         }
 
         [BsonIgnore]
+        public string inputinfo
+        {
+            get
+            {
+                return input.ToString();
+            }
+            set
+            {
+                return;
+            }
+        }
+
+        [BsonIgnore]
         public string soundinfo { get
             {
                 if (chip == null || sound == null) return string.Empty;
