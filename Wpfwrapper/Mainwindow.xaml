@@ -14,13 +14,20 @@
             </VisualBrush.Visual>
         </VisualBrush>
     </Window.Background>
-
+        
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" PreviewKeyDown="gameList_PreviewKeyDown" SelectionChanged="gameList_SelectionChanged" Panel.ZIndex="10" KeyUp="gameList_KeyUp" MouseDoubleClick="gameList_MouseDoubleClick">
+            <ListView.InputBindings>
+                <KeyBinding Key="Return" />
+                <KeyBinding Key="Return" Modifiers="Alt" />
+                <KeyBinding Key="Left" />
+                <KeyBinding Key="Right" />
+                
+            </ListView.InputBindings>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Margin="{Binding cloneof, Converter={StaticResource CloneMarginConverter}}">

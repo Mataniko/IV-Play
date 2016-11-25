@@ -158,7 +158,9 @@ namespace IV_Play
 
         private void gameList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            
             var currentMachine = ((Machine)gameList.SelectedItem);
+            if (currentMachine == null) return;
 
             if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)))
                 previewImage.Source = new ImageSourceConverter().ConvertFromString(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)) as ImageSource;
@@ -172,7 +174,10 @@ namespace IV_Play
 
         private void gameList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-           
+           if (e.Key == Key.Enter)
+            {
+                StartGame();
+            }
         }
 
         private void gameList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
