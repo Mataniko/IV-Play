@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="700">
     <UserControl.InputBindings>
-        <KeyBinding Key="A" Command="{Binding GetProperties}"/>
+        <KeyBinding Key="Return" Modifiers="Ctrl" Command="{Binding GetProperties}"/>
     </UserControl.InputBindings>
     
     <UserControl.Resources>
@@ -47,7 +47,7 @@
             </ListView.ItemTemplate>
            
         </ListView>
-        <Image Name="previewImage" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="9" Margin="15,15,35,15" Source="{Binding CurrentMachine.Snap}">
+        <Image Name="previewImage" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="9" Margin="15,15,35,15" DataContext="{Binding CurrentMachine}" Source="{Binding Snap}">
             <Image.Effect>
                 <DropShadowEffect ShadowDepth="0.2" Color="Green" Opacity="1" BlurRadius="35" ></DropShadowEffect>
             </Image.Effect>

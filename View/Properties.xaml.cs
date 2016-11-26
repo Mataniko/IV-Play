@@ -1,5 +1,6 @@
 ﻿using IV_Play.Model;
 using IV_Play.ViewModel;
+using System;
 using System.Windows;
 
 namespace IV_Play.View
@@ -33,7 +34,7 @@ namespace IV_Play.View
             {
                 Machine = new XmlParser().ReadMachineByName(machine.Name);
             }
-            catch
+            catch (Exception ex)
             {
                 Machine = new Machine();
             }

@@ -46,9 +46,9 @@ namespace IV_Play.ViewModel
             else
             {
                 this._mameInfo = DatabaseManager.GetMameInfo();                                
-                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine));                
+                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();                
 
-                foreach (var machine in machineCollection)                
+                foreach (MachineViewModel machine in machineCollection)                
                     machine.PropertyChanged += this.Machine_PropertyChanged;
 
                 this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
@@ -92,7 +92,7 @@ namespace IV_Play.ViewModel
             if (e.PropertyName == IsSelected)
             {
                 this.OnPropertyChanged("MachineSelected");
-                CurrentMachine = sender as MachineViewModel;
+                CurrentMachine = sender as MachineViewModel;                
             }
                 
         }
