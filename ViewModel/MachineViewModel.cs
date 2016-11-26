@@ -1,9 +1,12 @@
 ﻿using IV_Play.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace IV_Play.ViewModel
 {
@@ -11,6 +14,7 @@ namespace IV_Play.ViewModel
     {
         readonly Machine _machine;
         bool _isSelected;
+        RelayCommand _propertiesCommand;
 
         public MachineViewModel(Machine machine)
         {
@@ -40,7 +44,6 @@ namespace IV_Play.ViewModel
             }
         }
 
-
         public string Year
         {
             get { return _machine.year; }
@@ -49,6 +52,56 @@ namespace IV_Play.ViewModel
                 _machine.year = value;
 
                 base.OnPropertyChanged("Year");
+            }
+        }
+
+        public string Manufacturer
+        {
+            get { return _machine.manufacturer; }
+            set
+            {
+                _machine.manufacturer = value;
+
+                base.OnPropertyChanged("Manufacturer");
+            }
+        }
+
+        public Thickness Margin
+        {
+            get {
+                if (_machine.cloneof == null) return new Thickness();
+
+                return new Thickness(20, 0, 40, 0);
+            }
+            set { }
+        }
+
+        public string Icon
+        {
+            get
+            {
+                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.name)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.name);
+
+                if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.cloneof)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.cloneof);
+
+                return @"D:\Games\Emulators\MAME\icons\unknown.ico";
+            }
+        }
+
+        public string Snap
+        {
+            get
+            {
+                if (!IsSelected) return "";
+                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name)))
+                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name);
+
+                if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
+                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof);
+
+                return @"D:\Games\Emulators\MAME\snap\unknown.png";
             }
         }
 
@@ -64,6 +117,27 @@ namespace IV_Play.ViewModel
 
                 base.OnPropertyChanged("IsSelected");
             }
+        }
+
+        public ICommand GetProperties
+        {
+            get
+            {
+                if (_propertiesCommand == null)
+                {
+                    _propertiesCommand = new RelayCommand(
+                        param => this.OpenPropertiesForm(),
+                        param => true
+                        );
+                }
+                return _propertiesCommand;
+            }
+        }
+
+        private void OpenPropertiesForm()
+        {
+            var props = new IV_Play.View.Properties(_machine);
+            props.ShowDialog();
         }
     }
 }

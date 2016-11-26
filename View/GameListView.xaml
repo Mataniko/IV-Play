@@ -7,22 +7,37 @@
              xmlns:vm="clr-namespace:IV_Play.ViewModel"
              xmlns:converter="clr-namespace:IV_Play.WPFWrapper"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="700">
     <UserControl.InputBindings>
         
     </UserControl.InputBindings>
-
+    
+    <UserControl.Resources>
+        <Style x:Key="MachineItemStyle" TargetType="ListViewItem">
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+        </Style>
+    </UserControl.Resources>
+    
     <UserControl.DataContext>
         <vm:GameListViewModel/>
     </UserControl.DataContext>
-    
+
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
-                  ItemsSource="{Binding Machines}">
+                  ItemsSource="{Binding Machines}"
+                  ItemContainerStyle="{StaticResource MachineItemStyle}">
             <ListView.InputBindings>
                 <KeyBinding Key="Return" />
                 <KeyBinding Key="Return" Modifiers="Alt" />
                 <KeyBinding Key="Up" />
+                <KeyBinding Key="A" Command="{Binding GetProperties}"/>
                 <KeyBinding Key="Right" />
             </ListView.InputBindings>
             <ListView.CommandBindings>
@@ -30,19 +45,20 @@
             </ListView.CommandBindings>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel>
-                        <!--<Image Name="icon" Source="{Binding icon}" Width="16" Height="16" Margin="0,0,5,0" />-->
-                        <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
+                    <WrapPanel Margin="{Binding Margin}">
+                        <Image Name="icon" Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,5,0" />                        
                         <TextBlock Text="{Binding Description}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Year}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Manufacturer}" Margin="0,0,5,0"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="TextBlock.Foreground" Value="White" />
-                </Style>
-            </ListView.ItemContainerStyle>
+           
         </ListView>
+        <Image Name="previewImage" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="9" Margin="15,15,35,15" Source="{Binding Snap}">
+            <Image.Effect>
+                <DropShadowEffect ShadowDepth="0.2" Color="Green" Opacity="1" BlurRadius="35" ></DropShadowEffect>
+            </Image.Effect>
+        </Image>
     </Grid>
 </UserControl>
