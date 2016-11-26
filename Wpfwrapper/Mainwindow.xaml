@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:IV_Play.ViewModel"        
         Title="MainWindow" Height="587.025" Width="1223.892" Loaded="Window_Loaded">
     <Window.Resources>
-        <local:CloneMarginConverter x:Key="CloneMarginConverter" />
+        
     </Window.Resources>
     <Window.Background>
         <VisualBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,100,100">
@@ -18,6 +18,6 @@
     </Window.Background>
 
     <Grid>
-        <vw:GameListView x:Name="gameList" />
+        <vw:GameListView x:Name="gameList"/>
     </Grid>
 </Window>

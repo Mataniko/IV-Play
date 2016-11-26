@@ -10,11 +10,10 @@ using System.Windows.Input;
 
 namespace IV_Play.ViewModel
 {
-    class MachineViewModel : ViewModelBase
+    public class MachineViewModel : ViewModelBase
     {
         readonly Machine _machine;
         bool _isSelected;
-        RelayCommand _propertiesCommand;
 
         public MachineViewModel(Machine machine)
         {
@@ -117,27 +116,6 @@ namespace IV_Play.ViewModel
 
                 base.OnPropertyChanged("IsSelected");
             }
-        }
-
-        public ICommand GetProperties
-        {
-            get
-            {
-                if (_propertiesCommand == null)
-                {
-                    _propertiesCommand = new RelayCommand(
-                        param => this.OpenPropertiesForm(),
-                        param => true
-                        );
-                }
-                return _propertiesCommand;
-            }
-        }
-
-        private void OpenPropertiesForm()
-        {
-            var props = new IV_Play.View.Properties(_machine);
-            props.ShowDialog();
-        }
+        }  
     }
 }

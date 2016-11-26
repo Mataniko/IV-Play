@@ -16,7 +16,7 @@ namespace IV_Play.ViewModel
     class GameListViewModel : ViewModelBase
     {        
         private MameInfo _mameInfo;
-        private MachineViewModel _currentMachine;
+        public MachineViewModel CurrentMachine { get; private set; }
 
         public ObservableCollection<MachineViewModel> Machines { get; private set; }
 
@@ -49,10 +49,10 @@ namespace IV_Play.ViewModel
                 var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine));                
 
                 foreach (var machine in machineCollection)                
-                    machine.PropertyChanged += Machine_PropertyChanged;
+                    machine.PropertyChanged += this.Machine_PropertyChanged;
 
                 this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
-                this.Machines.CollectionChanged += Machines_CollectionChanged;
+                this.Machines.CollectionChanged += this.Machines_CollectionChanged;
             }
         }
 
@@ -74,7 +74,7 @@ namespace IV_Play.ViewModel
 
         private void OpenPropertiesForm()
         {
-            var props = new IV_Play.View.Properties(new Machine());
+            var props = new IV_Play.View.Properties(CurrentMachine);
             props.ShowDialog();
         }
 
@@ -90,12 +90,22 @@ namespace IV_Play.ViewModel
             // world know that the TotalSelectedSales property has changed,
             // so that it will be queried again for a new value.
             if (e.PropertyName == IsSelected)
+            {
                 this.OnPropertyChanged("MachineSelected");
+                CurrentMachine = sender as MachineViewModel;
+            }
+                
         }
 
         private void Machines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            //throw new NotImplementedException();
+            if (e.NewItems != null && e.NewItems.Count != 0)
+                foreach (MachineViewModel machineVM in e.NewItems)
+                    machineVM.PropertyChanged += this.Machine_PropertyChanged;
+
+            if (e.OldItems != null && e.OldItems.Count != 0)
+                foreach (MachineViewModel machineVM in e.OldItems)
+                    machineVM.PropertyChanged -= this.Machine_PropertyChanged;
         }
     }
 }

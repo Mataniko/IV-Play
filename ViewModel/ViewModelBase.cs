@@ -12,6 +12,10 @@ namespace IV_Play.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected ViewModelBase()
+        {
+        }
+
         [Conditional("DEBUG")]
         [DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
@@ -33,7 +37,7 @@ namespace IV_Play.ViewModel
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            this.VerifyPropertyName(propertyName);
+            //this.VerifyPropertyName(propertyName);
 
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)

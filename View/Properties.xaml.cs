@@ -1,4 +1,5 @@
 ﻿using IV_Play.Model;
+using IV_Play.ViewModel;
 using System.Windows;
 
 namespace IV_Play.View
@@ -24,6 +25,22 @@ namespace IV_Play.View
             InitializeComponent();
 
            
+        }
+
+        public Properties(MachineViewModel machine)
+        {
+            try
+            {
+                Machine = new XmlParser().ReadMachineByName(machine.Name);
+            }
+            catch
+            {
+                Machine = new Machine();
+            }
+
+            InitializeComponent();
+
+
         }
     }
 }
