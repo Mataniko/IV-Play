@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IV_Play.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace IV_Play.View
     {
         public GameListView()
         {
-            InitializeComponent();
+            InitializeComponent();               
         }
     }
 }

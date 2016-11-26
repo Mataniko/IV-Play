@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:IV_Play"
         xmlns:local="clr-namespace:IV_Play.WPFWrapper"
-        xmlns:views="clr-namespace:IV_Play.View"
+        xmlns:vw="clr-namespace:IV_Play.View"
+        xmlns:vm="clr-namespace:IV_Play.ViewModel"        
         Title="MainWindow" Height="587.025" Width="1223.892" Loaded="Window_Loaded">
     <Window.Resources>
         <local:CloneMarginConverter x:Key="CloneMarginConverter" />
@@ -21,7 +22,7 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <views:GameListView x:Name="gameList" Grid.Column="0"/>
+        <vw:GameListView x:Name="gameList" Grid.Column="0"/>
         <MediaElement Grid.Column="1"></MediaElement>
         <!--<Border BorderBrush="Black" BorderThickness="10" Grid.Column="1" Margin="15,15,15,15" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="9">-->
             <Image Name="previewImage" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="9" Margin="15,15,35,15">

@@ -4,14 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IV_Play.View"
+             xmlns:vm="clr-namespace:IV_Play.ViewModel"
              xmlns:converter="clr-namespace:IV_Play.WPFWrapper"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.InputBindings>
         
     </UserControl.InputBindings>
+
+    <UserControl.DataContext>
+        <vm:GameListViewModel/>
+    </UserControl.DataContext>
+    
     <Grid>
-        <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent">
+        <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
+                  ItemsSource="{Binding Machines}">
             <ListView.InputBindings>
                 <KeyBinding Key="Return" />
                 <KeyBinding Key="Return" Modifiers="Alt" />
@@ -24,8 +31,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        <Image Name="icon" Source="{Binding icon}" Width="16" Height="16" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding ListText}" Margin="0,0,5,0"/>
+                        <!--<Image Name="icon" Source="{Binding icon}" Width="16" Height="16" Margin="0,0,5,0" />-->
+                        <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Description}" Margin="0,0,5,0"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

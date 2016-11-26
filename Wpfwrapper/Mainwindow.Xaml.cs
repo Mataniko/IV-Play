@@ -60,7 +60,7 @@ namespace IV_Play
                     //DialogResult dialogResult = System.Windows.Forms.DialogResult.Retry;
 
 
-                    LoadGames();
+                    //LoadGames();
 
                     //while (true)
                     //{
