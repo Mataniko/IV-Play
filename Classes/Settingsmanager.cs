@@ -9,12 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 
 using IV_Play.Properties;
 using System.ComponentModel;
-using System.Collections;
-using IV_Play.Data.Models;
+using IV_Play.Model;
 
 #endregion
 

@@ -1,16 +1,13 @@
 ﻿#region
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
-
 using IV_Play.Properties;
 using System.Threading.Tasks;
-using IV_Play.Data.Models;
-using IV_Play.Data;
+using IV_Play.Model;
+using IV_Play.DataAccess;
 
 #endregion
 

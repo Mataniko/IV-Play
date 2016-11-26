@@ -1,9 +1,6 @@
 ﻿#region
 
-using IV_Play.Data;
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 #endregion

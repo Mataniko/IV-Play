@@ -1,14 +1,12 @@
 ﻿using LiteDB;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
 using System.Xml.Serialization;
 
-namespace IV_Play.Data.Models
+namespace IV_Play.Model
 {
     public class Machine
     {

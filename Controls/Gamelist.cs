@@ -6,8 +6,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,9 +14,8 @@ using System.Windows.Forms;
 using System.Windows.Threading;
 
 using IV_Play.Properties;
-using IV_Play.Data;
-using System.Collections.Concurrent;
 using System.Collections;
+using IV_Play.DataAccess;
 
 #endregion
 

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:IV_Play"
         xmlns:local="clr-namespace:IV_Play.WPFWrapper"
+        xmlns:views="clr-namespace:IV_Play.View"
         Title="MainWindow" Height="587.025" Width="1223.892" Loaded="Window_Loaded">
     <Window.Resources>
         <local:CloneMarginConverter x:Key="CloneMarginConverter" />
@@ -20,29 +21,7 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" PreviewKeyDown="gameList_PreviewKeyDown" SelectionChanged="gameList_SelectionChanged" Panel.ZIndex="10" KeyUp="gameList_KeyUp" MouseDoubleClick="gameList_MouseDoubleClick">
-            <ListView.InputBindings>
-                <KeyBinding Key="Return" />
-                <KeyBinding Key="Return" Modifiers="Alt" />
-                <KeyBinding Key="Left" />
-                <KeyBinding Key="Right" />
-                
-            </ListView.InputBindings>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel Margin="{Binding cloneof, Converter={StaticResource CloneMarginConverter}}">
-                        <Image Name="icon" Source="{Binding icon}" Width="16" Height="16" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding ListText}" Margin="0,0,5,0"/>
-                    </WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="TextBlock.Foreground" Value="White" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <views:GameListView x:Name="gameList" Grid.Column="0"/>
         <MediaElement Grid.Column="1"></MediaElement>
         <!--<Border BorderBrush="Black" BorderThickness="10" Grid.Column="1" Margin="15,15,15,15" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="9">-->
             <Image Name="previewImage" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="9" Margin="15,15,35,15">

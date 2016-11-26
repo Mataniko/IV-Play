@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using IV_Play.Properties;
-using LiteDB;
 
-namespace IV_Play.Data.Models
+namespace IV_Play.Model
 {
     public class MameCommands
     {

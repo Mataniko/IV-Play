@@ -1,13 +1,10 @@
-﻿using IV_Play.Data.Models;
+﻿using IV_Play.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace IV_Play.View
-{    
+{
     class Navigation
     {
 

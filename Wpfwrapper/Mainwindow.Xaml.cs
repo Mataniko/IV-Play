@@ -1,7 +1,7 @@
 ﻿#region
 
-using IV_Play.Data;
-using IV_Play.Data.Models;
+using IV_Play.DataAccess;
+using IV_Play.Model;
 using IV_Play.Properties;
 using IV_Play.View;
 using System;
@@ -12,12 +12,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Application = System.Windows.Forms.Application;
 using MessageBox = System.Windows.MessageBox;
 
@@ -102,7 +99,7 @@ namespace IV_Play
                 var progress = new Progress<int>();                                
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                 machines = DatabaseManager.GetMachines().Where(x => x.ismechanical == "no").ToList();
-                gameList.ItemsSource = machines;
+                gameList.DataContext = machines;
                 updating = false;
             } else
             {
@@ -120,37 +117,37 @@ namespace IV_Play
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            gameList.ItemsSource = machines;
-            _navigation = new Navigation(gameList);
+           // gameList.ItemsSource = machines;
+           // _navigation = new Navigation(gameList);
         }
 
         private void gameList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
 
-           if (e.Key == Key.A)
-            {
-                if (gameList.SelectedItem == null) return;
+           //if (e.Key == Key.A)
+           // {
+           //     if (gameList.SelectedItem == null) return;
 
-                var prop = new IV_Play.View.Properties((Machine)gameList.SelectedItem);
-                prop.ShowDialog();
-            }
+           //     var prop = new IV_Play.View.Properties((Machine)gameList.SelectedItem);
+           //     prop.ShowDialog();
+           // }
 
-            if (e.Key == Key.S)
-            {
-               CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(gameList.ItemsSource);                
-               view.Filter = UserFilter;
-            }
+           // if (e.Key == Key.S)
+           // {
+           //    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(gameList.ItemsSource);                
+           //    view.Filter = UserFilter;
+           // }
 
             if (e.Key == Key.Left)
             {
-                e.Handled = true;
-                _navigation.GoToPreviousCharacter();
+                //e.Handled = true;
+                //_navigation.GoToPreviousCharacter();
             }
 
             if (e.Key == Key.Right)
             {
-                e.Handled = true;
-                _navigation.GoToNextLetter();                                
+                //e.Handled = true;
+                //_navigation.GoToNextLetter();                                
             }
 
            
@@ -159,15 +156,15 @@ namespace IV_Play
         private void gameList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             
-            var currentMachine = ((Machine)gameList.SelectedItem);
-            if (currentMachine == null) return;
+            //var currentMachine = ((Machine)gameList.SelectedItem);
+            //if (currentMachine == null) return;
 
-            if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)))
-                previewImage.Source = new ImageSourceConverter().ConvertFromString(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)) as ImageSource;
-            else if ((File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.cloneof))))
-                previewImage.Source = new ImageSourceConverter().ConvertFromString(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.cloneof)) as ImageSource;
-            else
-                previewImage.Source = null;
+            //if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)))
+            //    previewImage.Source = new ImageSourceConverter().ConvertFromString(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.name)) as ImageSource;
+            //else if ((File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.cloneof))))
+            //    previewImage.Source = new ImageSourceConverter().ConvertFromString(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", currentMachine.cloneof)) as ImageSource;
+            //else
+            //    previewImage.Source = null;
 
 
         }               
@@ -187,48 +184,53 @@ namespace IV_Play
 
         private void StartGame()
         {
-            try
-            {
-                var machine = (Machine)gameList.SelectedItem;
-                if (machine != null)
-                {
-                    ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.MAME_EXE);
-                    psi.RedirectStandardOutput = true;
-                    psi.RedirectStandardError = true;
-                    psi.WindowStyle = ProcessWindowStyle.Hidden;
-                    psi.UseShellExecute = false;
-                    psi.CreateNoWindow = true;
-                    psi.Arguments = Settings.Default.command_line_switches + " " + machine.name.Replace("fav_", "");
-                    psi.WorkingDirectory = Path.GetDirectoryName(Settings.Default.MAME_EXE);
-                    Process proc = Process.Start(psi);
+            //try
+            //{
+            //    var machine = (Machine)gameList.SelectedItem;
+            //    if (machine != null)
+            //    {
+            //        ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.MAME_EXE);
+            //        psi.RedirectStandardOutput = true;
+            //        psi.RedirectStandardError = true;
+            //        psi.WindowStyle = ProcessWindowStyle.Hidden;
+            //        psi.UseShellExecute = false;
+            //        psi.CreateNoWindow = true;
+            //        psi.Arguments = Settings.Default.command_line_switches + " " + machine.name.Replace("fav_", "");
+            //        psi.WorkingDirectory = Path.GetDirectoryName(Settings.Default.MAME_EXE);
+            //        Process proc = Process.Start(psi);
 
-                    StreamReader streamReader = proc.StandardError;
+            //        StreamReader streamReader = proc.StandardError;
 
-                    this.WindowState = WindowState.Minimized;
+            //        this.WindowState = WindowState.Minimized;
 
-                    //Thread jumpThread = new Thread(AddGameToJumpList);
-                    //jumpThread.SetApartmentState(ApartmentState.STA);
-                    //jumpThread.IsBackground = true;
-                    //jumpThread.Start();
+            //        //Thread jumpThread = new Thread(AddGameToJumpList);
+            //        //jumpThread.SetApartmentState(ApartmentState.STA);
+            //        //jumpThread.IsBackground = true;
+            //        //jumpThread.Start();
 
-                    proc.WaitForExit();
+            //        proc.WaitForExit();
 
-                    using (StringReader stringReader = new StringReader(streamReader.ReadToEnd()))
-                    {
-                        string s = stringReader.ReadToEnd();
-                        if (s != null)
-                            if (s.Contains("error", StringComparison.InvariantCultureIgnoreCase) && Settings.Default.show_error) // Check is MAME returned an error and display it.
-                            {
-                                MessageBox.Show(s);
-                            }
-                    }
-                    this.WindowState = WindowState.Normal;
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error loading MAME, please check that MAME hasn't been moved.");
-            }
+            //        using (StringReader stringReader = new StringReader(streamReader.ReadToEnd()))
+            //        {
+            //            string s = stringReader.ReadToEnd();
+            //            if (s != null)
+            //                if (s.Contains("error", StringComparison.InvariantCultureIgnoreCase) && Settings.Default.show_error) // Check is MAME returned an error and display it.
+            //                {
+            //                    MessageBox.Show(s);
+            //                }
+            //        }
+            //        this.WindowState = WindowState.Normal;
+            //    }
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Error loading MAME, please check that MAME hasn't been moved.");
+            //}
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = false;
         }
     }
 }

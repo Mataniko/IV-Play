@@ -5,10 +5,10 @@ using System.Text;
 using LiteDB;
 using System.IO;
 using System.IO.Compression;
-using IV_Play.Data.Models;
+using IV_Play.Model;
 using IV_Play.Properties;
 
-namespace IV_Play.Data
+namespace IV_Play.DataAccess
 {
     static class DatabaseManager
     {

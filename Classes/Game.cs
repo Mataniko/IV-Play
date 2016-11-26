@@ -1,10 +1,10 @@
 ﻿#region
 
-using IV_Play.Data.Models;
 using IV_Play.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using IV_Play.Model;
 
 #endregion
 
@@ -46,7 +46,7 @@ namespace IV_Play
             Roms = machine.rominfo;
             IsMechanical = machine.ismechanical == "yes";
             ShowAsParent = false;
-        }
+        }       
 
         public string Roms { get; set; }
         public string Name { get; set; }

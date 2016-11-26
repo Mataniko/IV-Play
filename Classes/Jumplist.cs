@@ -5,8 +5,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Shell;
 using IV_Play.Properties;
-using IV_Play.Data;
-using IV_Play.Data.Models;
+using IV_Play.DataAccess;
+using IV_Play.Model;
 
 #endregion
 

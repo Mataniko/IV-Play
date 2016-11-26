@@ -1,7 +1,4 @@
 ﻿#region
-
-using IV_Play.Data;
-using IV_Play.Data.Models;
 using IV_Play.Properties;
 using System;
 using System.Collections.Generic;
@@ -13,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using IV_Play.Model;
+using IV_Play.DataAccess;
 
 #endregion
 
