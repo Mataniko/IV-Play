@@ -11,32 +11,17 @@ namespace IV_Play.View
     public partial class Properties : Window
     {
 
-        public Machine Machine { get; set; } 
-        public Properties(Machine machine)
-        {
-            try
-            {
-                Machine = new XmlParser().ReadMachineByName(machine.name);
-            }
-            catch
-            {
-                Machine = machine;
-            }
-
-            InitializeComponent();
-
-           
-        }
-
+        public MachineViewModel Machine { get; set; } 
+       
         public Properties(MachineViewModel machine)
         {
             try
             {
-                Machine = new XmlParser().ReadMachineByName(machine.Name);
+                Machine = new MachineViewModel(new XmlParser().ReadMachineByName(machine.Name));
             }
             catch (Exception ex)
             {
-                Machine = new Machine();
+                Machine = machine;
             }
 
             InitializeComponent();

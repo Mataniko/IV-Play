@@ -28,22 +28,22 @@ namespace IV_Play
             Children = new SortedList<string, Game>();
             IsFavorite = false;
             CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof;
-            CPU = machine.cpuinfo;
+            //CPU = machine.cpuinfo;
             Description = machine.description;
             SourceFile = machine.sourcefile;
             Name = machine.name;
             Manufacturer = machine.manufacturer;
             ParentSet = machine.cloneof;
-            Screen = machine.displayinfo;
-            Sound = machine.soundinfo;
+            //Screen = machine.displayinfo;
+            //Sound = machine.soundinfo;
             Working = machine.driver != null ? machine.driver.emulation == "good" : true;
             Year = machine.year;
             IconPath = Settings.Default.icons_directory + machine.name + ".ico";
             Driver = machine.driver != null ? machine.driver.ToString() : null;
             Input = machine.input != null ? machine.input.ToString() : null;
-            Display = machine.displayinfo;
+            //Display = machine.displayinfo;
             //Colors = colors, Doesn't exist anymore?
-            Roms = machine.rominfo;
+            //Roms = machine.rominfo;
             IsMechanical = machine.ismechanical == "yes";
             ShowAsParent = false;
         }       

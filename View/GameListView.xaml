@@ -33,16 +33,18 @@
         <vm:GameListViewModel/>
     </UserControl.DataContext>
 
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
+        
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
                   ItemsSource="{Binding Machines}"                  
                   ItemContainerStyle="{StaticResource MachineItemStyle}"
-                  Style="{StaticResource ListViewStyle}">
+                  Style="{StaticResource ListViewStyle}"
+                  Panel.ZIndex="10">
             
             <i:Interaction.Behaviors>
                 <local:ScrollAndFocusBehavior/>

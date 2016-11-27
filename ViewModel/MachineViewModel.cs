@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -36,7 +37,14 @@ namespace IV_Play.ViewModel
 
         public string Description
         {
-            get { return _machine.description; }
+            get {
+                var descriptionMatch = Regex.Match(_machine.description, @"^(?<opening>(?:the|a|an))\s(?<content>[^\(]*)\s(?<info>\(.*)$", RegexOptions.IgnoreCase);
+
+                if (!descriptionMatch.Success)
+                    return _machine.description.TrimStart('\'');
+
+                return string.Format("{0}, {1} {2}", descriptionMatch.Groups[2], descriptionMatch.Groups[1], descriptionMatch.Groups[3]).TrimStart('\'');
+            }
             set
             {
                 _machine.description = value;
@@ -77,6 +85,16 @@ namespace IV_Play.ViewModel
             }
         }
 
+        public string SourceFile
+        {
+            get { return _machine.sourcefile; }
+            set
+            {
+                _machine.sourcefile = value;
+
+                base.OnPropertyChanged("SourceFile");
+            }
+        }
 
         public Thickness Margin
         {
@@ -113,6 +131,83 @@ namespace IV_Play.ViewModel
                 else
                     return @"D:\Games\Emulators\MAME\snap\005.png";
             }
+        }     
+
+        public string Driver
+        {
+            get
+            {
+                return _machine.driver.ToString();
+            }
+            set { }
+        }
+
+        public string CPU
+        {
+            get
+            {
+                if (_machine.chip == null) return string.Empty;
+                return GetStringFromArray(_machine.chip.Where(x => x.type == "cpu").ToArray());
+            }
+            set { }
+        }
+
+        public string Roms
+        {
+            get
+            {
+                var roms = GetStringFromArray(_machine.rom);
+                var disks = GetStringFromArray(_machine.disk);
+
+                return roms + "\r\n" + disks;
+            }
+            set { }
+        }
+
+        public string Display
+        {
+            get
+            {
+                return GetStringFromArray(_machine.display);
+            }
+            set { }
+        }
+
+        public string Input
+        {
+            get
+            {
+                return _machine.input.ToString();
+            }
+            set { }
+        }
+
+        public string Sound
+        {
+            get
+            {
+                if (_machine.chip == null || _machine.sound == null) return string.Empty;
+                var soundString = GetStringFromArray(_machine.chip.Where(x => x.type == "audio").ToArray());
+                return string.Format("{0} Channel(s)\r\n{1}", _machine.sound.channels, soundString);
+            }
+            set
+            {
+                return;
+            }
+        }
+
+        private string GetStringFromArray(object[] array)
+        {
+            if (array == null) return string.Empty;
+
+            var sb = new StringBuilder();
+
+            foreach (var obj in array)
+            {
+                sb.AppendLine(obj.ToString());
+            }
+
+            return sb.ToString();
         }
 
         public bool IsSelected
