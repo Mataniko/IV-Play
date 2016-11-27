@@ -29,7 +29,7 @@ namespace IV_Play.ViewModel
             private set
             {
                 if (_machine == value) return;
-
+          
                 _machine = value;
                 base.OnPropertyChanged("CurrentMachine");
             }
@@ -134,7 +134,7 @@ namespace IV_Play.ViewModel
                 if (_leftCommand == null)
                 {
                     _leftCommand = new RelayCommand(
-                        param => this.GoToPreviousCharacter(),
+                        param => this.GoToPreviousLetter(),
                         param => true
                         );
                 }
@@ -142,7 +142,23 @@ namespace IV_Play.ViewModel
             }
         }
 
-        internal void GoToPreviousCharacter()
+        private RelayCommand _rightCommand;
+        public ICommand RightCommand
+        {
+            get
+            {
+                if (_rightCommand == null)
+                {
+                    _rightCommand = new RelayCommand(
+                        param => this.GoToNextLetter(),
+                        param => true
+                        );
+                }
+                return _rightCommand;
+            }
+        }
+
+        internal void GoToPreviousLetter()
         {         
             if (CurrentMachine == null)
                 return;
@@ -150,7 +166,7 @@ namespace IV_Play.ViewModel
             MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
 
             char nextKey;
-            char key = Char.ToLower(CurrentMachine.Description[0]);
+            char key = Char.ToLower(parent.Description[0]);
 
             nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
             var parents = from mvm in Machines where mvm.CloneOf == null select mvm;
@@ -160,12 +176,8 @@ namespace IV_Play.ViewModel
                 var machines = (from m in parents where char.ToLower(m.Description[0]) == nextKey select m);
                 if (machines.Count() > 0)
                 {
-                    CurrentMachine.IsSelected = false;
-                    CurrentMachine.IsFocused = false;
-
                     var newMachine = machines.First();
-                    newMachine.IsFocused = true;
-                    newMachine.IsSelected = true;                    
+                    CurrentMachine = newMachine;                 
                     return;
                 }
 
@@ -179,6 +191,43 @@ namespace IV_Play.ViewModel
                 }
                 else
                     nextKey--;
+            }
+        }
+
+        internal void GoToNextLetter()
+        {
+
+            if (CurrentMachine == null)
+                return;
+
+            MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
+
+            char nextKey;
+            char key = Char.ToLower(parent.Description[0]);
+
+            nextKey = key == '9' ? 'a' : Char.ToLower((char)(key + 1));
+            var parents = from mvm in Machines where mvm.CloneOf == null select mvm;
+
+            while (true)
+            {
+                var machines = (from m in parents where char.ToLower(m.Description[0]) == nextKey select m);
+                if (machines.Count() > 0)
+                {
+                    var newMachine = machines.First();
+                    CurrentMachine = newMachine;
+                    return;
+                }
+
+                if (nextKey == '(' + 1)
+                {
+                    nextKey = '0';
+                }
+                else if (nextKey == 'z' + 1)
+                {
+                    nextKey = '(';
+                }
+                else
+                    nextKey++;
             }
         }
 

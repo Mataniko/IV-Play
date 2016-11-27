@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
              xmlns:vm="clr-namespace:IV_Play.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vw="clr-namespace:IV_Play.View"
              xmlns:local="clr-namespace:IV_Play"
              mc:Ignorable="d" 
@@ -23,8 +24,8 @@
             <Setter Property="TextBlock.Foreground" Value="White" />
         </Style>
 
-        <Style x:Key="GameListStyle" TargetType="ListView">
-            <Setter Property="FocusManager.FocusedElement" Value="{Binding Path=CurrentMachine, Mode=TwoWay}"/>
+        <Style x:Key="ListViewStyle" TargetType="ListView">
+            <Setter Property="SelectedItem" Value="{Binding Path=CurrentMachine, Mode=TwoWay}" />
         </Style>
     </UserControl.Resources>
     
@@ -41,8 +42,11 @@
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
                   ItemsSource="{Binding Machines}"                  
                   ItemContainerStyle="{StaticResource MachineItemStyle}"
-                  Style="{StaticResource GameListStyle}">
-
+                  Style="{StaticResource ListViewStyle}">
+            
+            <i:Interaction.Behaviors>
+                <local:ScrollAndFocusBehavior/>
+            </i:Interaction.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Margin="{Binding Margin}">

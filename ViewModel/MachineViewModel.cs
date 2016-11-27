@@ -111,7 +111,7 @@ namespace IV_Play.ViewModel
                 else if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
                     return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof);
                 else
-                    return @"D:\Games\Emulators\MAME\snap\unknown.png";
+                    return @"D:\Games\Emulators\MAME\snap\005.png";
             }
         }
 
