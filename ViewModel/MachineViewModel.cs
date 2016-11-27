@@ -88,7 +88,6 @@ namespace IV_Play.ViewModel
                 return @"D:\Games\Emulators\MAME\icons\unknown.ico";
             }
         }
-
         public string Snap
         {
             get
@@ -96,11 +95,10 @@ namespace IV_Play.ViewModel
                 if (!IsSelected) return "";
                 if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name)))
                     return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name);
-
-                if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
+                else if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
                     return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof);
-
-                return @"D:\Games\Emulators\MAME\snap\unknown.png";
+                else
+                    return @"D:\Games\Emulators\MAME\snap\unknown.png";
             }
         }
 

@@ -16,7 +16,19 @@ namespace IV_Play.ViewModel
     class GameListViewModel : ViewModelBase
     {        
         private MameInfo _mameInfo;
-        public MachineViewModel CurrentMachine { get; private set; }
+        private MachineViewModel _machine;
+        public MachineViewModel CurrentMachine { get
+            {
+                return _machine;
+            }
+            private set
+            {
+                if (_machine == value) return;
+
+                _machine = value;
+                base.OnPropertyChanged("CurrentMachine");
+            }
+        }
 
         public ObservableCollection<MachineViewModel> Machines { get; private set; }
 
