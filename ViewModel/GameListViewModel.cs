@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace IV_Play.ViewModel
@@ -118,6 +120,67 @@ namespace IV_Play.ViewModel
             if (e.OldItems != null && e.OldItems.Count != 0)
                 foreach (MachineViewModel machineVM in e.OldItems)
                     machineVM.PropertyChanged -= this.Machine_PropertyChanged;
+        }
+
+        private RelayCommand _startCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                if (_startCommand == null)
+                {
+                    _startCommand = new RelayCommand(
+                        param => this.StartGame(),
+                        param => true
+                        );
+                }
+                return _startCommand;
+            }
+        }
+
+        private void StartGame()
+        {
+            try
+            {
+                if (CurrentMachine == null) return;
+
+                Console.WriteLine(Settings.Default.MAME_EXE);
+                ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.MAME_EXE);
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = true;
+                psi.Arguments = Settings.Default.command_line_switches + " " + CurrentMachine.Name.Replace("fav_", "");
+                psi.WorkingDirectory = Path.GetDirectoryName(Settings.Default.MAME_EXE);
+                Process proc = Process.Start(psi);
+
+                StreamReader streamReader = proc.StandardError;
+                
+                App.Current.MainWindow.WindowState = WindowState.Minimized;
+
+                //Thread jumpThread = new Thread(AddGameToJumpList);
+                //jumpThread.SetApartmentState(ApartmentState.STA);
+                //jumpThread.IsBackground = true;
+                //jumpThread.Start();
+
+                proc.WaitForExit();
+
+                using (StringReader stringReader = new StringReader(streamReader.ReadToEnd()))
+                {
+                    string s = stringReader.ReadToEnd();
+                    if (s != null)
+                        if (s.Contains("error", StringComparison.InvariantCultureIgnoreCase) && Settings.Default.show_error) // Check is MAME returned an error and display it.
+                        {
+                            MessageBox.Show(s);
+                        }
+                }
+                App.Current.MainWindow.WindowState = WindowState.Normal;                
+            }
+            catch
+            {
+                MessageBox.Show("Error loading MAME, please check that MAME hasn't been moved.");
+            }
         }
     }
 }
