@@ -14,6 +14,7 @@ namespace IV_Play.ViewModel
     {
         readonly Machine _machine;
         bool _isSelected;
+        bool _isFocused;
 
         public MachineViewModel(Machine machine)
         {
@@ -65,6 +66,18 @@ namespace IV_Play.ViewModel
             }
         }
 
+        public string CloneOf
+        {
+            get { return _machine.cloneof; }
+            set
+            {
+                _machine.cloneof = value;
+
+                base.OnPropertyChanged("CloneOf");
+            }
+        }
+
+
         public Thickness Margin
         {
             get {
@@ -114,6 +127,20 @@ namespace IV_Play.ViewModel
 
                 base.OnPropertyChanged("IsSelected");
             }
-        }  
+        }
+
+        public bool IsFocused
+        {
+            get { return _isFocused; }
+            set
+            {
+                if (value == _isFocused)
+                    return;
+
+                _isFocused = value;
+
+                base.OnPropertyChanged("IsFocused");
+            }
+        }
     }
 }

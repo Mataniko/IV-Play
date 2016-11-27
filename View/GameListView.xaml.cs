@@ -23,7 +23,7 @@ namespace IV_Play.View
     {
         public GameListView()
         {
-            InitializeComponent();               
+            InitializeComponent();            
         }
     }
 }

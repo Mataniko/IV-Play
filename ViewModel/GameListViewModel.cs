@@ -19,7 +19,10 @@ namespace IV_Play.ViewModel
     {        
         private MameInfo _mameInfo;
         private MachineViewModel _machine;
-        public MachineViewModel CurrentMachine { get
+
+        public MachineViewModel CurrentMachine
+        {
+            get
             {
                 return _machine;
             }
@@ -37,6 +40,7 @@ namespace IV_Play.ViewModel
         public GameListViewModel()
         {
             LoadMachines();
+            SettingsManager.GetBackgroundImage();
         }
 
         private async void LoadMachines()
@@ -122,6 +126,62 @@ namespace IV_Play.ViewModel
                     machineVM.PropertyChanged -= this.Machine_PropertyChanged;
         }
 
+        private RelayCommand _leftCommand;
+        public ICommand LeftCommand
+        {
+            get
+            {
+                if (_leftCommand == null)
+                {
+                    _leftCommand = new RelayCommand(
+                        param => this.GoToPreviousCharacter(),
+                        param => true
+                        );
+                }
+                return _leftCommand;
+            }
+        }
+
+        internal void GoToPreviousCharacter()
+        {         
+            if (CurrentMachine == null)
+                return;
+
+            MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
+
+            char nextKey;
+            char key = Char.ToLower(CurrentMachine.Description[0]);
+
+            nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
+            var parents = from mvm in Machines where mvm.CloneOf == null select mvm;
+
+            while (true)
+            {
+                var machines = (from m in parents where char.ToLower(m.Description[0]) == nextKey select m);
+                if (machines.Count() > 0)
+                {
+                    CurrentMachine.IsSelected = false;
+                    CurrentMachine.IsFocused = false;
+
+                    var newMachine = machines.First();
+                    newMachine.IsFocused = true;
+                    newMachine.IsSelected = true;                    
+                    return;
+                }
+
+                if (nextKey == '0' - 1)
+                {
+                    nextKey = '(';
+                }
+                else if (nextKey == '(' - 1)
+                {
+                    nextKey = 'z';
+                }
+                else
+                    nextKey--;
+            }
+        }
+
         private RelayCommand _startCommand;
         public ICommand StartCommand
         {
@@ -156,8 +216,9 @@ namespace IV_Play.ViewModel
                 Process proc = Process.Start(psi);
 
                 StreamReader streamReader = proc.StandardError;
-                
-                App.Current.MainWindow.WindowState = WindowState.Minimized;
+
+                var window = App.Current.MainWindow;
+                window.WindowState = WindowState.Minimized;
 
                 //Thread jumpThread = new Thread(AddGameToJumpList);
                 //jumpThread.SetApartmentState(ApartmentState.STA);
@@ -175,7 +236,7 @@ namespace IV_Play.ViewModel
                             MessageBox.Show(s);
                         }
                 }
-                App.Current.MainWindow.WindowState = WindowState.Normal;                
+                window.WindowState = WindowState.Normal;                
             }
             catch
             {
