@@ -21,6 +21,7 @@ namespace IV_Play.ViewModel
         private MameInfo _mameInfo;
         private MachineViewModel _machine;
         private readonly object _MachinesLock = new object();
+        private CollectionView _view;
 
         public MachineViewModel CurrentMachine
         {
@@ -65,10 +66,27 @@ namespace IV_Play.ViewModel
                 this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
 
+                _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
+                _view.Filter = UserFilter;
+
                 BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
                 var progress = new Progress<int>();
-                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));                
+                progress.ProgressChanged += Progress_ProgressChanged;
+                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
             } 
+        }
+
+        private void Progress_ProgressChanged(object sender, int e)
+        {
+            if (e % 300 == 0)
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => _view.Refresh()));
+        }
+
+        private bool UserFilter(object item)
+        {
+            //if ((item as MachineViewModel).IsMechanical)
+            //    Console.WriteLine((item as MachineViewModel).Description);
+            return ((item as MachineViewModel).IsMechanical == false);
         }
 
         private RelayCommand _propertiesCommand;
@@ -109,6 +127,11 @@ namespace IV_Play.ViewModel
                 this.OnPropertyChanged("MachineSelected");
                 CurrentMachine = sender as MachineViewModel;                
             }
+
+            if (e.PropertyName == "IsMechanical" && (sender as MachineViewModel).IsMechanical)
+            {
+                this.OnPropertyChanged("IsMechanical");                
+            } 
                 
         }
 
@@ -120,7 +143,7 @@ namespace IV_Play.ViewModel
 
             if (e.OldItems != null && e.OldItems.Count != 0)
                 foreach (MachineViewModel machineVM in e.OldItems)
-                    machineVM.PropertyChanged -= this.Machine_PropertyChanged;
+                    machineVM.PropertyChanged -= this.Machine_PropertyChanged;            
         }
 
         private RelayCommand _leftCommand;
@@ -166,7 +189,7 @@ namespace IV_Play.ViewModel
             char key = Char.ToLower(parent.Description[0]);
 
             nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
-            var parents = from mvm in Machines where mvm.CloneOf == null select mvm;
+            var parents = (from mvm in Machines where mvm.CloneOf == null select mvm);
 
             while (true)
             {

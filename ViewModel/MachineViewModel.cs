@@ -34,6 +34,17 @@ namespace IV_Play.ViewModel
             }
         }
 
+        public bool IsMechanical
+        {
+            get { return _machine.ismechanical == "yes"; }
+            set
+            {
+                _machine.ismechanical = value == true ? "yes" : "no";
+
+                base.OnPropertyChanged("IsMechanical");
+            }
+        }
+
         public string Description
         {
             get {
@@ -139,6 +150,20 @@ namespace IV_Play.ViewModel
                 return _machine.driver.ToString();
             }
             set { }
+        }
+
+        public bool IsWorking
+        {
+            get { return _machine.driver != null ? _machine.driver.emulation == "good" : true; }
+            set
+            {
+                if (_machine.driver == null) _machine.driver = new Driver();
+
+                if (value) _machine.driver.emulation = "good";
+                else _machine.driver.emulation = "notgood!";
+
+                base.OnPropertyChanged("IsWorking");
+            }
         }
 
         public string CPU

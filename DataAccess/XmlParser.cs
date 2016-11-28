@@ -124,9 +124,14 @@ namespace IV_Play.DataAccess
                             if (machinesDatabase.ContainsKey(machine.name))
                             {
                                 machine.Id = machinesDatabase[machine.name].Id;
-                                machinesDatabase[machine.name] = machine;                                
-                                Machines.RemoveAt(machinesIndexDictionary[machine.name]);
-                                Machines.Insert(machinesIndexDictionary[machine.name], new MachineViewModel(machine));
+                                machinesDatabase[machine.name] = machine;
+                                var gameListMachine = Machines[machinesIndexDictionary[machine.name]];
+
+                                gameListMachine.IsMechanical = machine.ismechanical == "yes";
+                                gameListMachine.SourceFile = machine.sourcefile;
+                                gameListMachine.Year = machine.year;
+                                gameListMachine.Manufacturer = machine.manufacturer;
+                                gameListMachine.IsWorking = machine.driver != null ? machine.driver.emulation == "good" : true;                                
                             }
                             counter++;                            
                             progress.Report(counter);
