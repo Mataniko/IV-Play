@@ -38,11 +38,24 @@ namespace IV_Play.ViewModel
             }
         }
 
+        private string _filter = "";
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {                
+                _filter = value;
+
+                _view.Refresh();
+                base.OnPropertyChanged("Filter");
+            }
+        }
+
         public ObservableCollection<MachineViewModel> Machines { get; private set; }
 
         public GameListViewModel()
         {
-            
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
@@ -73,20 +86,30 @@ namespace IV_Play.ViewModel
                 var progress = new Progress<int>();
                 progress.ProgressChanged += Progress_ProgressChanged;
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
+                _view.Refresh();
             } 
         }
 
         private void Progress_ProgressChanged(object sender, int e)
         {
-            if (e % 300 == 0)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => _view.Refresh()));
+            //if (e % 300 == 0)
+            //    Application.Current.Dispatcher.BeginInvoke(new Action(() => _view.Refresh()));
         }
 
         private bool UserFilter(object item)
         {
             //if ((item as MachineViewModel).IsMechanical)
             //    Console.WriteLine((item as MachineViewModel).Description);
-            return ((item as MachineViewModel).IsMechanical == false);
+            var mvm = (item as MachineViewModel);
+            return mvm.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
+                                      mvm.Manufacturer.Contains(_filter,
+                                                                        StringComparison.InvariantCultureIgnoreCase) ||
+                                      mvm.Year.Contains(_filter,
+                                                                StringComparison.InvariantCultureIgnoreCase) ||
+                                      mvm.SourceFile.Contains(_filter,
+                                                                      StringComparison.InvariantCultureIgnoreCase) ||
+                                      mvm.Description.Contains(_filter,
+                                                                       StringComparison.InvariantCultureIgnoreCase);           
         }
 
         private RelayCommand _propertiesCommand;

@@ -138,7 +138,7 @@ namespace IV_Play.DataAccess
                         } // end while loop
 
                         DatabaseManager.UpdateMachines(machinesDatabase);
-                        DatabaseManager.SaveToDisk();
+                        //DatabaseManager.SaveToDisk();
 
                         progress.Report(-1);                                      
                     } // END XmlReader
