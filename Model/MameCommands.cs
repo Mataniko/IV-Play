@@ -50,7 +50,6 @@ namespace IV_Play.Model
 
                     }
                 }
-
             }
         }
     }

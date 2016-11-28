@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace IV_Play.ViewModel
@@ -19,6 +20,7 @@ namespace IV_Play.ViewModel
     {        
         private MameInfo _mameInfo;
         private MachineViewModel _machine;
+        private readonly object _MachinesLock = new object();
 
         public MachineViewModel CurrentMachine
         {
@@ -39,39 +41,34 @@ namespace IV_Play.ViewModel
 
         public GameListViewModel()
         {
+            
+            if (Settings.Default.MAME_EXE == "")
+                SettingsManager.GetMamePath(true, true);
+
             LoadMachines();
             SettingsManager.GetBackgroundImage();
         }
 
         private async void LoadMachines()
-        {
-            Console.WriteLine(Settings.Default.MAME_EXE);
-            if (!File.Exists(Properties.Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
+        {            
+            var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
+
+            if (!machineCollection.Any())
             {
-                //var xmlParser = new XmlParser();
+                var xmlParser = new XmlParser();
+                xmlParser.MakeQuickDat();
+                machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
 
-                //xmlParser.MakeQuickDat();
-                //this.Machines = new ObservableCollection<MachineViewModel>(DatabaseManager.GetMachines());
-                //this.Machines.CollectionChanged += Machines_CollectionChanged;
-
-                //this._mameInfo = xmlParser.MameInfo;
-                //SettingsManager.MameCommands = _mameInfo.Commands;
-                //var progress = new Progress<int>();
-                //await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
-                //this.Machines = new ObservableCollection<MachineViewModel>(DatabaseManager.GetMachines().Where(x => x.ismechanical == "no"));
-                //this.Machines.CollectionChanged += Machines_CollectionChanged;
-            }
-            else
-            {
-                this._mameInfo = DatabaseManager.GetMameInfo();                                
-                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();                
-
-                foreach (MachineViewModel machine in machineCollection)                
+                foreach (MachineViewModel machine in machineCollection)
                     machine.PropertyChanged += this.Machine_PropertyChanged;
 
                 this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
-            }
+
+                BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
+                var progress = new Progress<int>();
+                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));                
+            } 
         }
 
         private RelayCommand _propertiesCommand;

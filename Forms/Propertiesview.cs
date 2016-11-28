@@ -1,5 +1,6 @@
 ﻿#region
 
+using IV_Play.DataAccess;
 using System;
 using System.Windows.Forms;
 
@@ -19,7 +20,7 @@ namespace IV_Play
             InitializeComponent();            
             try
             {
-                _game = new XmlParser().ReadGameByName(game.Name);
+                //_game = new XmlParser().ReadGameByName(game.Name);
             }
             catch
             {

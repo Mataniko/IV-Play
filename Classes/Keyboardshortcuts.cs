@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using IV_Play.Properties;
 using System.Threading.Tasks;
+using IV_Play.DataAccess;
 
 namespace IV_Play
 {
@@ -68,13 +69,13 @@ namespace IV_Play
                 updating = true;
                 var xmlParser = new XmlParser();
                 xmlParser.MakeQuickDat();
-                _mameInfo = xmlParser.MameInfo;
+                //_mameInfo = xmlParser.MameInfo;
                 SettingsManager.MameCommands = _mameInfo.Commands;
-                updateList(xmlParser.Games);
+                //updateList(xmlParser.Games);
                 var progress = new Progress<int>();
                 progress.ProgressChanged += Progress_ProgressChanged;
-                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
-                updateList(xmlParser.Games);
+               // await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+                //updateList(xmlParser.Games);
                 updating = false;
                 UpdateTitleBar();
             }

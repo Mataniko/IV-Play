@@ -59,22 +59,21 @@ namespace IV_Play.DataAccess
             machinesCollection.Insert(machines);            
         }
 
-        public static void UpdateMachines(List<Machine> machines)
+        public static void UpdateMachines(Dictionary<string, Machine> machines)
         {
 
             using (database.BeginTrans())
-            {
-                var indexes = machinesCollection.FindAll().ToDictionary(x => x.name);
-                machines.ForEach(x => {
-                    x.Id = indexes[x.name].Id;
-                    machinesCollection.Update(x);
-                });
+            {                
+                foreach (var m in machines.Values)
+                {
+                    machinesCollection.Update(m);
+                }
             }
         }
 
-        public static List<Machine> GetMachines()
+        public static IEnumerable<Machine> GetMachines()
         {
-            return machinesCollection.FindAll().ToList();
+            return machinesCollection.FindAll();
         }
 
         public static Machine GetMachineByName(string name)

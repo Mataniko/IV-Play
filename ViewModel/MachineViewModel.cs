@@ -20,8 +20,7 @@ namespace IV_Play.ViewModel
         public MachineViewModel(Machine machine)
         {
             if (machine == null)
-                throw new ArgumentNullException("Can't create MachineViewModel");
-
+                throw new ArgumentNullException("Can't create MachineViewModel");            
             _machine = machine;
         }
 

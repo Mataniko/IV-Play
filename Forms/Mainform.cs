@@ -78,22 +78,22 @@ namespace IV_Play
                 {
                     updating = true;
                     xmlParser.MakeQuickDat();
-                    _mameInfo = xmlParser.MameInfo;
+                    //_mameInfo = xmlParser.MameInfo;
                     SettingsManager.MameCommands = _mameInfo.Commands;
-                    updateList(xmlParser.Games);
+                    //updateList(xmlParser.Games);
                     var progress = new Progress<int>();
                     progress.ProgressChanged += Progress_ProgressChanged;
-                    await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
-                    updateList(xmlParser.Games);
+                    //await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
+                    //updateList(xmlParser.Games);
                     updating = false;
                     UpdateTitleBar();
                 }
                 else
                 {
-                    xmlParser.ReadDat();
-                    _mameInfo = xmlParser.MameInfo;
+                    //xmlParser.ReadDat();
+                    //_mameInfo = xmlParser.MameInfo;
                     SettingsManager.MameCommands = _mameInfo.Commands;
-                    updateList(xmlParser.Games);
+                    //updateList(xmlParser.Games);
                 }
             }
             catch (Exception ex)
