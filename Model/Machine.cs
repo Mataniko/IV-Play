@@ -60,7 +60,24 @@ namespace IV_Play.Model
         [XmlElement]
         [BsonIgnore]
         public Display[] display { get; set; }
-        public string description { get; set; }
+
+        private string _description;
+        public string description
+        {
+            get
+            {
+                var descriptionMatch = Regex.Match(_description, @"^(?<opening>(?:the|a|an))\s(?<content>[^\(]*)\s(?<info>\(.*)$", RegexOptions.IgnoreCase);
+
+                if (!descriptionMatch.Success)
+                    return _description.TrimStart('\'');
+
+                return string.Format("{0}, {1} {2}", descriptionMatch.Groups[2], descriptionMatch.Groups[1], descriptionMatch.Groups[3]).TrimStart('\'');
+            }
+            set
+            {
+                _description = value;
+            }
+        }
 
     }
 }

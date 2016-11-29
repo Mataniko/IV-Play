@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace IV_Play.ViewModel
 {
@@ -101,6 +102,7 @@ namespace IV_Play.ViewModel
             //if ((item as MachineViewModel).IsMechanical)
             //    Console.WriteLine((item as MachineViewModel).Description);
             var mvm = (item as MachineViewModel);
+            if (mvm.IsMechanical) return false;
             return mvm.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                                       mvm.Manufacturer.Contains(_filter,
                                                                         StringComparison.InvariantCultureIgnoreCase) ||
@@ -153,7 +155,8 @@ namespace IV_Play.ViewModel
 
             if (e.PropertyName == "IsMechanical" && (sender as MachineViewModel).IsMechanical)
             {
-                this.OnPropertyChanged("IsMechanical");                
+                this.OnPropertyChanged("IsMechanical");
+                Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => _view.Refresh()));         
             } 
                 
         }
@@ -207,12 +210,12 @@ namespace IV_Play.ViewModel
                 return;
 
             MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
-
+            
             char nextKey;
             char key = Char.ToLower(parent.Description[0]);
 
             nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
-            var parents = (from mvm in Machines where mvm.CloneOf == null select mvm);
+            var parents = (from MachineViewModel mvm in _view where mvm.CloneOf == null select mvm);
 
             while (true)
             {
@@ -249,7 +252,7 @@ namespace IV_Play.ViewModel
             char key = Char.ToLower(parent.Description[0]);
 
             nextKey = key == '9' ? 'a' : Char.ToLower((char)(key + 1));
-            var parents = from mvm in Machines where mvm.CloneOf == null select mvm;
+            var parents = from MachineViewModel mvm in _view where mvm.CloneOf == null select mvm;
 
             while (true)
             {

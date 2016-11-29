@@ -48,12 +48,7 @@ namespace IV_Play.ViewModel
         public string Description
         {
             get {
-                var descriptionMatch = Regex.Match(_machine.description, @"^(?<opening>(?:the|a|an))\s(?<content>[^\(]*)\s(?<info>\(.*)$", RegexOptions.IgnoreCase);
-
-                if (!descriptionMatch.Success)
-                    return _machine.description.TrimStart('\'');
-
-                return string.Format("{0}, {1} {2}", descriptionMatch.Groups[2], descriptionMatch.Groups[1], descriptionMatch.Groups[3]).TrimStart('\'');
+                return _machine.description;
             }
             set
             {

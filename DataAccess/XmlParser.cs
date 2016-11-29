@@ -39,6 +39,7 @@ namespace IV_Play.DataAccess
             {
                 // Read the header line.
                 var line = listClones.ReadLine();
+                
                 var regex = new Regex(@"^(\S+)\s+(\S+)\s*$");
                 while ((line = listClones.ReadLine()) != null)
                 {

@@ -25,7 +25,7 @@
         </Style>
 
         <Style x:Key="ListViewStyle" TargetType="ListView">
-            <Setter Property="SelectedItem" Value="{Binding Path=CurrentMachine, Mode=TwoWay}" />
+            <!--<Setter Property="SelectedItem" Value="{Binding Path=CurrentMachine, Mode=TwoWay}" />-->
         </Style>
     </UserControl.Resources>
     
@@ -43,7 +43,8 @@
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
                   ItemsSource="{Binding Machines}"                  
                   ItemContainerStyle="{StaticResource MachineItemStyle}"
-                  Style="{StaticResource ListViewStyle}"
+                  Style="{StaticResource ListViewStyle}"     
+                  SelectedItem="{Binding CurrentMachine, Mode=TwoWay}"
                   Panel.ZIndex="10">
             
             <i:Interaction.Behaviors>
