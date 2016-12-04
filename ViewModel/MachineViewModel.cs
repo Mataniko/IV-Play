@@ -1,6 +1,8 @@
 ﻿using IV_Play.Model;
+using IV_Play.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,7 +13,7 @@ using System.Windows.Input;
 
 namespace IV_Play.ViewModel
 {
-    public class MachineViewModel : ViewModelBase
+    public class MachineViewModel : ViewModelBase, IEditableObject
     {
         readonly Machine _machine;
         bool _isSelected;
@@ -227,6 +229,40 @@ namespace IV_Play.ViewModel
             }
 
             return sb.ToString();
+        }
+
+        public string Label {
+            get
+            {
+                string text = "";
+
+                if (Settings.Default.GameListManufacturer && Settings.Default.GameListYear)
+                    text = "{0} {1} {2}";
+                else if (!Settings.Default.GameListManufacturer && Settings.Default.GameListYear)
+                    text = "{0} {1}";
+                else if (Settings.Default.GameListManufacturer && !Settings.Default.GameListYear)
+                    text = "{0} {2}";
+                else
+                    text = "{0}";
+                
+                return string.Format(text, _machine.description, _machine.year, _machine.manufacturer);
+            }
+            set { }
+        }
+
+        public void BeginEdit()
+        {
+           // throw new NotImplementedException();
+        }
+
+        public void EndEdit()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void CancelEdit()
+        {
+           // throw new NotImplementedException();
         }
 
         public bool IsSelected

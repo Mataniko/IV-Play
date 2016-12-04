@@ -14,7 +14,7 @@
         <KeyBinding Key="Return" Command="{Binding StartCommand}"/>
         <KeyBinding Key="Left" Command="{Binding LeftCommand}"/>
         <KeyBinding Key="Right" Command="{Binding RightCommand}"/>
-        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding StartCommand}"/>
+        <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding StartCommand}"/>-->
     </UserControl.InputBindings>
     
     <UserControl.Resources>
@@ -46,17 +46,18 @@
                   Style="{StaticResource ListViewStyle}"     
                   SelectedItem="{Binding CurrentMachine, Mode=TwoWay}"
                   Panel.ZIndex="10">
-            
+
             <i:Interaction.Behaviors>
                 <local:ScrollAndFocusBehavior/>
             </i:Interaction.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Margin="{Binding Margin}">
-                        <Image Name="icon" Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,5,0" />                        
-                        <TextBlock Text="{Binding Description}" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding Year}" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding Manufacturer}" Margin="0,0,5,0"/>
+                        <WrapPanel.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                        </WrapPanel.InputBindings>
+                        <Image Name="icon" Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Label}" Margin="0,0,5,0"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

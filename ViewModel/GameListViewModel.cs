@@ -56,6 +56,7 @@ namespace IV_Play.ViewModel
 
         public GameListViewModel()
         {
+            SettingsManager.GetBackgroundImage();
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
@@ -66,7 +67,7 @@ namespace IV_Play.ViewModel
 
         private async void LoadMachines()
         {            
-            var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
+            var machineCollection = (from machine in DatabaseManager.GetMachines() select new MachineViewModel(machine));
 
             if (!machineCollection.Any())
             {
@@ -88,7 +89,14 @@ namespace IV_Play.ViewModel
                 progress.ProgressChanged += Progress_ProgressChanged;
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
                 _view.Refresh();
-            } 
+            } else
+            {
+                
+                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
+                this.Machines.CollectionChanged += this.Machines_CollectionChanged;
+                _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
+                _view.Filter = UserFilter;
+            }
         }
 
         private void Progress_ProgressChanged(object sender, int e)
@@ -99,10 +107,9 @@ namespace IV_Play.ViewModel
 
         private bool UserFilter(object item)
         {
-            //if ((item as MachineViewModel).IsMechanical)
-            //    Console.WriteLine((item as MachineViewModel).Description);
             var mvm = (item as MachineViewModel);
-            if (mvm.IsMechanical) return false;
+            if (Settings.Default.hide_mechanical_games && mvm.IsMechanical) return false;
+            if (Settings.Default.hide_nonworking && !mvm.IsWorking) return false;
             return mvm.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                                       mvm.Manufacturer.Contains(_filter,
                                                                         StringComparison.InvariantCultureIgnoreCase) ||
@@ -156,7 +163,9 @@ namespace IV_Play.ViewModel
             if (e.PropertyName == "IsMechanical" && (sender as MachineViewModel).IsMechanical)
             {
                 this.OnPropertyChanged("IsMechanical");
-                Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => _view.Refresh()));         
+                
+                //if ((sender as MachineViewModel).CloneOf == null)
+                //    Application.Current.Dispatcher.BeginInvoke(new Action(()=> _view.Refresh()));               
             } 
                 
         }
