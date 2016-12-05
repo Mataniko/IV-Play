@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IV_Play.View"
         xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="SettingsView" Height="461.538" Width="825.385" Background="Gray">
+        Title="SettingsView" Height="565.439" Width="1070.372" Background="Gray">
     <Grid>
         <TabControl x:Name="tabControl" TabStripPlacement="Left" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
             <TabItem Header="Appearance">
@@ -15,16 +15,20 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
                     <GroupBox x:Name="fontsAndColorsGroupBox" Grid.Column="0" Header="Fonts &amp; Colors" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
                         <StackPanel>
-                            <local:ColorComboBoxControl Text="Parent Color:" Value="AliceBlue"/>
+                            <local:ColorComboBoxControl Text="Parent Color:" Value="#ffffff"/>
                             <local:ColorComboBoxControl Text="Clones Color:" Value="Green"/>
-                            <local:ColorComboBoxControl Text="Favorites Color:" Value="Fuchsia"/>
+                            <local:ColorComboBoxControl Text="Favorites Color:" Value="WhiteSmoke"/>
                             <local:ColorComboBoxControl Text="Non-Working Color:" Value="LemonChiffon"/>
                             <local:ColorComboBoxControl Text="Mechnaical Color:" Value="RosyBrown"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox x:Name="fontsAndColorsGroupBox_Copy" Grid.Column="1" Header="Game List" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" >
+                    <GroupBox x:Name="fontsAndColorsGroupBox_Copy" Grid.Column="0" Grid.Row="1" Header="Game List" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" >
                         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="141,187,0,0" VerticalAlignment="Top" Width="75"/>
                     </GroupBox>
                 </Grid>

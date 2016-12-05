@@ -22,7 +22,7 @@ namespace IV_Play.View
     {
         public ColorComboBoxControl()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         public string Text

@@ -9,12 +9,12 @@ namespace IV_Play.View
     /// <summary>
     /// Interaction logic for Properties.xaml
     /// </summary>
-    public partial class Properties : Window
+    public partial class MachinePropertiesView : Window
     {
 
         public MachineViewModel Machine { get; set; } 
        
-        public Properties(MachineViewModel machine)
+        public MachinePropertiesView(MachineViewModel machine)
         {
             try
             {

@@ -15,7 +15,6 @@
         <KeyBinding Key="Left" Command="{Binding LeftCommand}"/>
         <KeyBinding Key="Right" Command="{Binding RightCommand}"/>
         <KeyBinding Key="F1" Command="{Binding SettingsCommand}" />
-        <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding StartCommand}"/>-->
     </UserControl.InputBindings>
     
     <UserControl.Resources>
@@ -23,10 +22,6 @@
             <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="TextBlock.Foreground" Value="White" />
-        </Style>
-
-        <Style x:Key="ListViewStyle" TargetType="ListView">
-            <!--<Setter Property="SelectedItem" Value="{Binding Path=CurrentMachine, Mode=TwoWay}" />-->
         </Style>
     </UserControl.Resources>
     
@@ -43,8 +38,7 @@
         
         <ListView Name="gameList" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent"
                   ItemsSource="{Binding Machines}"                  
-                  ItemContainerStyle="{StaticResource MachineItemStyle}"
-                  Style="{StaticResource ListViewStyle}"     
+                  ItemContainerStyle="{StaticResource MachineItemStyle}"                   
                   SelectedItem="{Binding CurrentMachine, Mode=TwoWay}"
                   Panel.ZIndex="10">
 

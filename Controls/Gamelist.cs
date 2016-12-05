@@ -256,7 +256,7 @@ namespace IV_Play
         /// </summary>
         private void AddGameToJumpList()
         {
-            jumpListClass.AddTask(SelectedGame);
+            //jumpListClass.AddTask(SelectedGame);
             Dispatcher.Run();
         }
 

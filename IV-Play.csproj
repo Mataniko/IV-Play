@@ -73,6 +73,10 @@
       <HintPath>packages\LiteDB.2.0.4\lib\net35\LiteDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -178,8 +182,8 @@
       <DependentUpon>GameListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Navigation.cs" />
-    <Compile Include="View\Properties.xaml.cs">
-      <DependentUpon>Properties.xaml</DependentUpon>
+    <Compile Include="View\MachinePropertiesView.xaml.cs">
+      <DependentUpon>MachinePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -232,6 +236,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModel\GameListViewModelCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -268,7 +273,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Properties.xaml">
+    <Page Include="View\MachinePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
