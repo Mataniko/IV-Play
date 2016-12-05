@@ -1,6 +1,7 @@
 ﻿using IV_Play.DataAccess;
 using IV_Play.Model;
 using IV_Play.Properties;
+using IV_Play.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -211,6 +212,28 @@ namespace IV_Play.ViewModel
                 }
                 return _rightCommand;
             }
+        }
+
+        private RelayCommand _settingsCommand;
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                if (_settingsCommand == null)
+                {
+                    _settingsCommand = new RelayCommand(
+                        param => this.OpenSettingsDialog(),
+                        param => true
+                        );
+                }
+                return _settingsCommand;
+            }
+        }
+
+        private void OpenSettingsDialog()
+        {
+            var settingsDialog = new SettingsView();
+            settingsDialog.ShowDialog();
         }
 
         internal void GoToPreviousLetter()

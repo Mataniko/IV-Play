@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace IV_Play.ViewModel
 {
@@ -130,6 +131,9 @@ namespace IV_Play.ViewModel
         {
             get
             {
+                var s = typeof(Colors).GetProperties();
+                
+
                 if (!IsSelected) return "";
                 if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name)))
                     return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name);
