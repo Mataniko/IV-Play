@@ -1,6 +1,5 @@
 ﻿#region
 
-using System.ComponentModel;
 using System.Configuration;
 
 #endregion

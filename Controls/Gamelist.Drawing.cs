@@ -1,14 +1,13 @@
 ﻿#region
 
+using IV_Play.DataAccess;
+using IV_Play.Properties;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-
-using IV_Play.Properties;
-using IV_Play.DataAccess;
 
 #endregion
 

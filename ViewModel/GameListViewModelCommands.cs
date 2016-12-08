@@ -1,17 +1,12 @@
-﻿using IV_Play.DataAccess;
-using IV_Play.Properties;
+﻿using IV_Play.Properties;
 using IV_Play.View;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Shell;
 
 namespace IV_Play.ViewModel
 {

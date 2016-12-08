@@ -1,15 +1,11 @@
 ﻿using IV_Play.Model;
 using IV_Play.Properties;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace IV_Play.ViewModel

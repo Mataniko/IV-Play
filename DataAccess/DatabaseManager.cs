@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using IV_Play.Model;
+using IV_Play.Properties;
 using LiteDB;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using IV_Play.Model;
-using IV_Play.Properties;
 
 namespace IV_Play.DataAccess
 {

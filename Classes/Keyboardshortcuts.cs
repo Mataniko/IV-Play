@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
+﻿using IV_Play.DataAccess;
 using IV_Play.Properties;
-using System.Threading.Tasks;
-using IV_Play.DataAccess;
+using System;
+using System.Windows.Forms;
 
 namespace IV_Play
 {

@@ -1,22 +1,9 @@
 ﻿#region
 
-using IV_Play.DataAccess;
 using IV_Play.Model;
-using IV_Play.Properties;
-using IV_Play.View;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using Application = System.Windows.Forms.Application;
-using MessageBox = System.Windows.MessageBox;
 
 #endregion
 

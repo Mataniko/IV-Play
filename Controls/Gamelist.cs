@@ -1,6 +1,9 @@
 ﻿#region
 
+using IV_Play.DataAccess;
+using IV_Play.Properties;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -12,10 +15,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
-
-using IV_Play.Properties;
-using System.Collections;
-using IV_Play.DataAccess;
 
 #endregion
 

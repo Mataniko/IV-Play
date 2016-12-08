@@ -1,8 +1,11 @@
 ﻿#region
+using IV_Play.Model;
 using IV_Play.Properties;
+using IV_Play.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,10 +13,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using IV_Play.Model;
-using IV_Play.DataAccess;
-using System.Collections.ObjectModel;
-using IV_Play.ViewModel;
 
 #endregion
 

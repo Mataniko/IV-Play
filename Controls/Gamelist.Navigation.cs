@@ -1,9 +1,8 @@
 ﻿#region
 
+using IV_Play.Properties;
 using System;
 using System.Linq;
-
-using IV_Play.Properties;
 
 #endregion
 

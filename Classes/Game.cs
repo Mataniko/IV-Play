@@ -1,10 +1,10 @@
 ﻿#region
 
+using IV_Play.Model;
 using IV_Play.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using IV_Play.Model;
 
 #endregion
 
