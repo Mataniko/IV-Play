@@ -54,6 +54,21 @@ namespace IV_Play.ViewModel
             }
         }
 
+        private string _title;
+        
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+
+                OnPropertyChanged("Title");
+            }
+        }
         public ObservableCollection<MachineViewModel> Machines { get; private set; }
 
         public GameListViewModel()
@@ -66,6 +81,7 @@ namespace IV_Play.ViewModel
             _jumpList = new JumpListClass();
             LoadMachines();
             SettingsManager.GetBackgroundImage();
+            
         }
 
         private async void LoadMachines()

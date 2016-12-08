@@ -173,6 +173,7 @@
     <Compile Include="ScrollAndFocusBehavior.cs" />
     <Compile Include="ViewModel\GameListViewModel.cs" />
     <Compile Include="ViewModel\MachineViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ColorComboBoxControl.xaml.cs">
       <DependentUpon>ColorComboBoxControl.xaml</DependentUpon>

@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vw="clr-namespace:IV_Play.View"
              xmlns:local="clr-namespace:IV_Play"
+             x:Name="gameListControl"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="700">
     <UserControl.InputBindings>
@@ -23,10 +24,11 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="TextBlock.Foreground" Value="White" />
         </Style>
+            
     </UserControl.Resources>
     
     <UserControl.DataContext>
-        <vm:GameListViewModel/>
+        <vm:GameListViewModel />
     </UserControl.DataContext>
 
     

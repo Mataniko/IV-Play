@@ -35,6 +35,8 @@ namespace IV_Play.ViewModel
 
         protected virtual bool ThrowOnInvalidPropertyName { get; private set; }
 
+        public virtual string DisplayName { get; protected set; }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             //this.VerifyPropertyName(propertyName);
