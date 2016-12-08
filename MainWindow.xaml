@@ -4,7 +4,11 @@
         xmlns:p="clr-namespace:IV_Play"
         xmlns:vw="clr-namespace:IV_Play.View"
         xmlns:vm="clr-namespace:IV_Play.ViewModel"        
-        Title="MainWindow" Height="587.025" Width="1223.892">
+        Height="587.025" Width="1223.892"
+        Title="{Binding ElementName=gameList, Path=DataContext.Title}">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         
     </Window.Resources>
@@ -17,6 +21,7 @@
     </Window.Background>
 
     <Grid>
-        <vw:GameListView x:Name="gameList"/>
+        <vw:GameListView x:Name="gameList" />
     </Grid>
+   
 </Window>
