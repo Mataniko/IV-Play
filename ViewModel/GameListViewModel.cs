@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Shell;
 
 namespace IV_Play.ViewModel
 {
@@ -39,10 +40,10 @@ namespace IV_Play.ViewModel
         {
             get { return _filter; }
             set
-            {                
+            {
                 _filter = value;
-
                 _view.Refresh();
+                UpdateTitle();
                 base.OnPropertyChanged("Filter");
             }
         }
@@ -97,24 +98,35 @@ namespace IV_Play.ViewModel
                 _view.Filter = UserFilter;
 
                 BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
+                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
                 var progress = new Progress<int>();
                 progress.ProgressChanged += Progress_ProgressChanged;
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
                 _view.Refresh();
+                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
             } else
-            {
-                
+            {                
                 this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;
             }
+
+            UpdateTitle();                        
+        }
+
+        private void UpdateTitle()
+        {
+            Title = "IV/Play " + _view.Count + " Games";
         }
 
         private void Progress_ProgressChanged(object sender, int e)
         {
-            //if (e % 300 == 0)
-            //    Application.Current.Dispatcher.BeginInvoke(new Action(() => _view.Refresh()));
+            var percentage = (((float)e / (float)Machines.Count));
+            Title = string.Format("Updating {0} of {1} Games", e, Machines.Count);
+            if (App.Current.MainWindow != null)            
+                App.Current.MainWindow.TaskbarItemInfo.ProgressValue = percentage;            
+
         }
 
         private bool UserFilter(object item)

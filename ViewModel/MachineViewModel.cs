@@ -33,6 +33,18 @@ namespace IV_Play.ViewModel
             }
         }
 
+        private bool _isFavorite;
+        public bool IsFavorite
+        {
+            get { return _isFavorite; }
+            set
+            {
+                _isFavorite = value;
+
+                base.OnPropertyChanged("IsFavorite");
+            }
+        }
+
         public bool IsMechanical
         {
             get { return _machine.ismechanical == "yes"; }

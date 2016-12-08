@@ -9,9 +9,11 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        
-    </Window.Resources>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo />
+    </Window.TaskbarItemInfo>
+    
     <Window.Background>
         <VisualBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,100,100">
             <VisualBrush.Visual>
