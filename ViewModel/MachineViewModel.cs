@@ -49,12 +49,20 @@ namespace IV_Play.ViewModel
                 base.OnPropertyChanged("IsFavorite");
             }
         }
+
+        public FontFamily Font
+        {
+            get
+            {
+                return new FontFamily(Settings.Default.game_list_font.FontFamily.Name);
+            }
+        }
         
         public Brush TextForeground {
             get
             {
                 if (IsFavorite)
-                    return new SolidColorBrush(Colors.White);
+                    return Settings.Default.favorites_color.ToBrush();
 
                 if (IsMechanical)
                     return new SolidColorBrush(Colors.Brown);
@@ -63,11 +71,10 @@ namespace IV_Play.ViewModel
                     return new SolidColorBrush(Colors.Red);
 
                 if (CloneOf == null)
-                    return new SolidColorBrush(Colors.Yellow);
+                    return Settings.Default.game_list_clone_color.ToBrush();
 
-                return new SolidColorBrush(Colors.Orange);
-            }
-            set { }
+                return Settings.Default.game_list_color.ToBrush();
+            }            
         }
 
         public bool IsMechanical

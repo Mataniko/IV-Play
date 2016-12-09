@@ -40,5 +40,10 @@ namespace IV_Play
         {
             graphics.DrawRectangle(pen, rectangleF.X, rectangleF.Y, rectangleF.Width, rectangleF.Height);
         }
+
+        public static System.Windows.Media.Brush ToBrush(this System.Drawing.Color color)
+        {
+            return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+        }
     }
 }
