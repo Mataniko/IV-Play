@@ -44,6 +44,26 @@ namespace IV_Play.ViewModel
                 base.OnPropertyChanged("IsFavorite");
             }
         }
+        
+        public Brush TextForeground {
+            get
+            {
+                if (IsFavorite)
+                    return new SolidColorBrush(Colors.White);
+
+                if (IsMechanical)
+                    return new SolidColorBrush(Colors.Brown);
+
+                if (!IsWorking)
+                    return new SolidColorBrush(Colors.Red);
+
+                if (CloneOf == null)
+                    return new SolidColorBrush(Colors.Yellow);
+
+                return new SolidColorBrush(Colors.Orange);
+            }
+            set { }
+        }
 
         public bool IsMechanical
         {
