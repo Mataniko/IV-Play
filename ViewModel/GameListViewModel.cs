@@ -79,13 +79,14 @@ namespace IV_Play.ViewModel
             
         }
 
-        private async void LoadMachines()
+        private void LoadMachines()
         {            
             var machineCollection = (from machine in DatabaseManager.GetMachines() select new MachineViewModel(machine)).ToList();           
 
             if (!machineCollection.Any())
             {
                 RefreshGameList();
+                UpdateTitle();
             } else
             {
                 var favorites = LoadFavorites();
@@ -112,6 +113,12 @@ namespace IV_Play.ViewModel
 
             if (_mameInfo == null)
                 _mameInfo = DatabaseManager.GetMameInfo();
+
+            if (this.Machines == null)
+            {
+                Title = "IV/Play";
+                return;
+            }                
 
             var titleSB = "";
             titleSB += string.Format("IV/Play - {0} {1} {2} Games", _mameInfo.Product, _mameInfo.Version,
@@ -146,8 +153,13 @@ namespace IV_Play.ViewModel
         private bool UserFilter(object item)
         {
             var mvm = (item as MachineViewModel);
-            if (Settings.Default.hide_mechanical_games && mvm.IsMechanical) return false;
-            if (Settings.Default.hide_nonworking && !mvm.IsWorking) return false;
+            if (!mvm.IsFavorite)
+            {
+                if (Settings.Default.hide_mechanical_games && mvm.IsMechanical) return false;
+                if (Settings.Default.hide_nonworking && !mvm.IsWorking) return false;
+                if (Settings.Default.hide_clones && mvm.CloneOf != null) return false;
+            }            
+
             return mvm.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                                       mvm.Manufacturer.Contains(_filter,
                                                                         StringComparison.InvariantCultureIgnoreCase) ||

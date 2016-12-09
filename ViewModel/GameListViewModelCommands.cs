@@ -199,7 +199,7 @@ namespace IV_Play.ViewModel
             {
                 _updating = true;
                 var xmlParser = new XmlParser();
-                xmlParser.MakeQuickDat();
+                xmlParser.MakeQuickDat();                
                 var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
                 var favorites = LoadFavorites();
 
@@ -229,6 +229,7 @@ namespace IV_Play.ViewModel
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;
                 _view.Refresh();
+                UpdateTitle();
 
                 BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
                 App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
