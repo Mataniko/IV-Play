@@ -1,7 +1,7 @@
 ﻿#region
-using IV_Play.Model;
-using IV_Play.Properties;
-using IV_Play.ViewModel;
+using IVPlay.Model;
+using IVPlay.Properties;
+using IVPlay.ViewModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 
 #endregion
 
-namespace IV_Play.DataAccess
+namespace IVPlay.DataAccess
 {
     /// <summary>
     /// This Class handles the creation and parsing of Mame Machine data.

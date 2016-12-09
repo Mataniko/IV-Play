@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace IV_Play.View
+namespace IVPlay.View
 {
     /// <summary>
     /// Interaction logic for GameListView.xaml

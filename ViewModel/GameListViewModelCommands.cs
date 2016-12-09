@@ -1,6 +1,6 @@
-﻿using IV_Play.DataAccess;
-using IV_Play.Properties;
-using IV_Play.View;
+﻿using IVPlay.DataAccess;
+using IVPlay.Properties;
+using IVPlay.View;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
 
-namespace IV_Play.ViewModel
+namespace IVPlay.ViewModel
 {
     partial class GameListViewModel
     {

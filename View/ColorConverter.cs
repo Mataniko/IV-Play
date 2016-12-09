@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace IV_Play.View
+namespace IVPlay.View
 {
     public class ColorValueConverter : IValueConverter
     {

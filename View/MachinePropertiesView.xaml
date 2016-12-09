@@ -1,9 +1,9 @@
-﻿<Window x:Class="IV_Play.View.MachinePropertiesView"
+﻿<Window x:Class="IVPlay.View.MachinePropertiesView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:IV_Play.View"        
+        xmlns:local="clr-namespace:IVPlay.View"        
         mc:Ignorable="d"
         Title="Properties" Height="461" Width="916" Background="Gray" ResizeMode="NoResize" Foreground="White" FontWeight="Bold"
         x:Name="PropertiesWindow">

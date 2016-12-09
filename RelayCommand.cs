@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace IV_Play
+namespace IVPlay
 {
     public class RelayCommand : ICommand
     {

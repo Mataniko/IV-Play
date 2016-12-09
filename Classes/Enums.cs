@@ -1,4 +1,4 @@
-﻿namespace IV_Play
+﻿namespace IVPlay
 {
     /// <summary>
     /// Determine what kind of art to draw

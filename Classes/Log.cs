@@ -6,7 +6,7 @@ using System.Text;
 
 #endregion
 
-namespace IV_Play
+namespace IVPlay
 {
 
     /// <summary>

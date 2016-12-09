@@ -1,11 +1,11 @@
-﻿using IV_Play.Model;
-using IV_Play.Properties;
+﻿using IVPlay.Model;
+using IVPlay.Properties;
 using LiteDB;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
-namespace IV_Play.DataAccess
+namespace IVPlay.DataAccess
 {
     static class DatabaseManager
     {

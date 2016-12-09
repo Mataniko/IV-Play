@@ -1,9 +1,9 @@
-﻿<Window x:Class="IV_Play.MainWindow"
+﻿<Window x:Class="IVPlay.MainWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:p="clr-namespace:IV_Play"
-        xmlns:vw="clr-namespace:IV_Play.View"
-        xmlns:vm="clr-namespace:IV_Play.ViewModel"        
+        xmlns:p="clr-namespace:IVPlay"
+        xmlns:vw="clr-namespace:IVPlay.View"
+        xmlns:vm="clr-namespace:IVPlay.ViewModel"        
         Height="432" Width="1015">
     <Window.DataContext>
         <vm:MainWindowViewModel/>

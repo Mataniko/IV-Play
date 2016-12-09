@@ -1,5 +1,5 @@
-﻿using IV_Play.Model;
-using IV_Play.Properties;
+﻿using IVPlay.Model;
+using IVPlay.Properties;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace IV_Play.ViewModel
+namespace IVPlay.ViewModel
 {
     public class MachineViewModel : ViewModelBase
     {

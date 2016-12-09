@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace IV_Play
+namespace IVPlay
 {
     public class InfoParser
     {

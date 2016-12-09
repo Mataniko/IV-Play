@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace IV_Play.ViewModel
+namespace IVPlay.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {

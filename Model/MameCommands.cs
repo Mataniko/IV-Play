@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace IV_Play.Model
+namespace IVPlay.Model
 {
     public class MameCommands
     {

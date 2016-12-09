@@ -1,4 +1,4 @@
-﻿namespace IV_Play
+﻿namespace IVPlay
 {
     public class Info
     {

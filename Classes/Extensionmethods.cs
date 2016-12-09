@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
-namespace IV_Play
+namespace IVPlay
 {
     public static class ExtensionMethods
     {

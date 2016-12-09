@@ -1,5 +1,5 @@
 ﻿
-namespace IV_Play.Model
+namespace IVPlay.Model
 {
     public class MameInfo
     {

@@ -1,7 +1,7 @@
 ﻿#region
 
-using IV_Play.Model;
-using IV_Play.Properties;
+using IVPlay.Model;
+using IVPlay.Properties;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Windows;
 
 #endregion
 
-namespace IV_Play.DataAccess
+namespace IVPlay.DataAccess
 {
 
     /// <summary>

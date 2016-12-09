@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace IV_Play
+namespace IVPlay
 {
     public static class FocusExtension
     {

@@ -1,13 +1,13 @@
 ﻿#region
 
-using IV_Play.Model;
+using IVPlay.Model;
 using System;
 using System.Threading;
 using System.Windows;
 
 #endregion
 
-namespace IV_Play
+namespace IVPlay
 {
     /// <summary>
     /// Wrapper WPF window for our application, this enables us to use cool features like the JumpList

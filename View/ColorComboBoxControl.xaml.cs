@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace IV_Play.View
+namespace IVPlay.View
 {
     /// <summary>
     /// Interaction logic for ColorComboBoxControl.xaml

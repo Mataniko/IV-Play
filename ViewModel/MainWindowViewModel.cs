@@ -1,4 +1,4 @@
-﻿namespace IV_Play.ViewModel
+﻿namespace IVPlay.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {        

@@ -4,7 +4,7 @@ using System.Windows;
 
 #endregion
 
-namespace IV_Play
+namespace IVPlay
 {
     /// <summary>
     /// Our entry point to the application

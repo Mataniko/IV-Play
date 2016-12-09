@@ -1,8 +1,8 @@
 ﻿#region
 
-using IV_Play.DataAccess;
-using IV_Play.Properties;
-using IV_Play.ViewModel;
+using IVPlay.DataAccess;
+using IVPlay.Properties;
+using IVPlay.ViewModel;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -10,7 +10,7 @@ using System.Windows.Shell;
 
 #endregion
 
-namespace IV_Play
+namespace IVPlay
 {
 
     /// <summary>

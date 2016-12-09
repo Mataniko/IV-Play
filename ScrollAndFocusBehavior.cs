@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace IV_Play
+namespace IVPlay
 {
     public class ScrollAndFocusBehavior : Behavior<ListView>
     {

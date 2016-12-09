@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace IV_Play.View
+namespace IVPlay.View
 {
     /// <summary>
     /// Interaction logic for SettingsView.xaml

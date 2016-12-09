@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IV_Play.Properties {
+namespace IVPlay.Properties {
     using System;
     
     

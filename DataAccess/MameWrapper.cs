@@ -1,9 +1,9 @@
-﻿using IV_Play.Properties;
+﻿using IVPlay.Properties;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace IV_Play.DataAccess
+namespace IVPlay.DataAccess
 {
     static class MameWrapper
     {

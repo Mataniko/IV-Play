@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 using System.Xml.Serialization;
 
-namespace IV_Play.Model
+namespace IVPlay.Model
 {
     public class Machine
     {

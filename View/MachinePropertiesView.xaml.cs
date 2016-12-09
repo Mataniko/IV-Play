@@ -1,9 +1,9 @@
-﻿using IV_Play.DataAccess;
-using IV_Play.ViewModel;
+﻿using IVPlay.DataAccess;
+using IVPlay.ViewModel;
 using System;
 using System.Windows;
 
-namespace IV_Play.View
+namespace IVPlay.View
 {
     /// <summary>
     /// Interaction logic for Properties.xaml
