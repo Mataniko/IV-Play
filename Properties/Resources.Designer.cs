@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IV_Play.Properties
-{
-
-
+namespace IV_Play.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -61,11 +61,29 @@ namespace IV_Play.Properties
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IV/Play.
+        /// </summary>
+        internal static string Application_Name {
+            get {
+                return ResourceManager.GetString("Application_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IV-Play.cfg.
+        /// </summary>
+        internal static string Configuration_File_Name {
+            get {
+                return ResourceManager.GetString("Configuration_File_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IV-Play.db.
         /// </summary>
-        internal static string DB_NAME {
+        internal static string Database_File_Name {
             get {
-                return ResourceManager.GetString("DB_NAME", resourceCulture);
+                return ResourceManager.GetString("Database_File_Name", resourceCulture);
             }
         }
         
@@ -106,6 +124,15 @@ namespace IV_Play.Properties
             get {
                 object obj = ResourceManager.GetObject("default_parent", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorites.ini.
+        /// </summary>
+        internal static string Favorites_File_Name {
+            get {
+                return ResourceManager.GetString("Favorites_File_Name", resourceCulture);
             }
         }
         

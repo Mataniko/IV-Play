@@ -28,9 +28,6 @@ namespace IV_Play.DataAccess
         /// </summary>
         public void MakeQuickDat()
         {
-            //_mameInfo = CreateMameInfo();
-            //SettingsManager.MameCommands = _mameInfo.Commands;
-
             var machinesDictionary = new Dictionary<string, Machine>();
             var clonesDictionary = new Dictionary<string, List<string>>();
             var clonesHashtable = new Hashtable();
@@ -86,8 +83,7 @@ namespace IV_Play.DataAccess
 
             }
 
-            DatabaseManager.SaveMachines(results);
-            //DatabaseManager.SaveMameInfo(_mameInfo);
+            DatabaseManager.SaveMachines(results);          
         }
 
         /// <summary>

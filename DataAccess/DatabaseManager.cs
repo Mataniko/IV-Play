@@ -25,9 +25,9 @@ namespace IV_Play.DataAccess
         {
             dbMemoryStream = new MemoryStream();
 
-            if (File.Exists(Resources.DB_NAME))
+            if (File.Exists(Resources.Database_File_Name))
             {
-                using (FileStream infileStream = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+                using (FileStream infileStream = File.Open(Resources.Database_File_Name, FileMode.OpenOrCreate))
                 {
                     using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
                     {
@@ -41,7 +41,7 @@ namespace IV_Play.DataAccess
 
         public static void SaveToDisk()
         {
-            using (FileStream outFile = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+            using (FileStream outFile = File.Open(Resources.Database_File_Name, FileMode.OpenOrCreate))
             {
                 using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
                 {

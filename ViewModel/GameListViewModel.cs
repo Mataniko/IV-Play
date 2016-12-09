@@ -80,33 +80,22 @@ namespace IV_Play.ViewModel
 
         private async void LoadMachines()
         {            
-            var machineCollection = (from machine in DatabaseManager.GetMachines() select new MachineViewModel(machine));
+            var machineCollection = (from machine in DatabaseManager.GetMachines() select new MachineViewModel(machine)).ToList();           
 
             if (!machineCollection.Any())
             {
-                var xmlParser = new XmlParser();
-                xmlParser.MakeQuickDat();
-                machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
+                RefreshGameList();
+            } else
+            {
+                var favorites = LoadFavorites();
 
                 foreach (MachineViewModel machine in machineCollection)
+                {                    
                     machine.PropertyChanged += this.Machine_PropertyChanged;
-
-                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
-                this.Machines.CollectionChanged += this.Machines_CollectionChanged;
-
-                _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
-                _view.Filter = UserFilter;
-
-                BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
-                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
-                var progress = new Progress<int>();
-                progress.ProgressChanged += Progress_ProgressChanged;
-                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
-                _view.Refresh();
-                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
-            } else
-            {                
-                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection);
+                    machine.IsFavorite = favorites.Contains(machine.Name);
+                }
+                
+                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderBy(x => x.IsFavorite == false).ThenBy(y => y.Id));
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;

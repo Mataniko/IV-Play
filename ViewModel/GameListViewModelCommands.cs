@@ -1,12 +1,19 @@
-﻿using IV_Play.Properties;
+﻿using IV_Play.DataAccess;
+using IV_Play.Properties;
 using IV_Play.View;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Shell;
 
 namespace IV_Play.ViewModel
 {
@@ -165,6 +172,80 @@ namespace IV_Play.ViewModel
         {
             var settingsDialog = new SettingsView();
             settingsDialog.ShowDialog();
+        }
+        #endregion
+
+        #region Refresh Command (F4, F5)
+        private RelayCommand _refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (_refreshCommand == null)
+                {
+                    _refreshCommand = new RelayCommand(
+                        param => this.RefreshGameList(),
+                        param => true
+                        );
+                }
+                return _refreshCommand;
+            }
+        }
+
+        private bool _updating = false;
+        private async void RefreshGameList()
+        {
+            if (!_updating)
+            {
+                _updating = true;
+                var xmlParser = new XmlParser();
+                xmlParser.MakeQuickDat();
+                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
+                var favorites = LoadFavorites();
+
+                foreach (MachineViewModel machine in machineCollection)
+                {
+                    machine.IsFavorite = favorites.Contains(machine.Name);
+                    machine.PropertyChanged += this.Machine_PropertyChanged;
+                }
+                
+                if (this.Machines == null)
+                {
+                    this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderBy(x => x.IsFavorite).ThenBy(x => x.Id));
+                    this.Machines.CollectionChanged += this.Machines_CollectionChanged;
+                } else
+                {                                        
+                    this.Machines.CollectionChanged -= this.Machines_CollectionChanged;
+                    this.Machines.Clear();
+                    foreach (var machine in machineCollection)
+                    {
+                        this.Machines.Add(machine);
+                    }
+                    this.Machines.CollectionChanged += this.Machines_CollectionChanged;
+                }                
+                
+                _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
+                _view.Filter = UserFilter;
+                _view.Refresh();
+
+                BindingOperations.EnableCollectionSynchronization(this.Machines, _MachinesLock);
+                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+                var progress = new Progress<int>();
+                progress.ProgressChanged += Progress_ProgressChanged;
+                await Task.Factory.StartNew(() => xmlParser.MakeDat(progress, this.Machines));
+                _view.Refresh();
+                App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+                _updating = false;
+            }            
+        }
+
+        private HashSet<string> LoadFavorites()
+        {
+            if (!File.Exists(Settings.Default.favorites_ini))
+                return new HashSet<string>();
+            
+            string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
+            return new HashSet<string>(favs);                                   
         }
         #endregion
 

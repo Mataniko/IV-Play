@@ -23,6 +23,11 @@ namespace IV_Play.ViewModel
             _machine = machine;
         }
 
+        public int Id
+        {
+            get { return _machine.Id; }
+        }
+
         public string Name
         {
             get { return _machine.name; }
@@ -135,11 +140,10 @@ namespace IV_Play.ViewModel
         public Thickness Margin
         {
             get {
-                if (_machine.cloneof == null) return new Thickness();
+                if (_machine.cloneof == null || IsFavorite) return new Thickness();
 
                 return new Thickness(20, 0, 40, 0);
             }
-            set { }
         }
 
         public string Icon

@@ -73,7 +73,7 @@ namespace IV_Play
             {
                 var xmlParser = new XmlParser();
 
-                if (!File.Exists(Resources.DB_NAME) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
+                if (!File.Exists(Resources.Database_File_Name) && !string.IsNullOrEmpty(Settings.Default.MAME_EXE))
                 {
                     updating = true;
                     xmlParser.MakeQuickDat();
