@@ -21,19 +21,19 @@ namespace IV_Play.ViewModel
     {
         #region Machine Properties Command (CTRL+Enter)
 
-        private RelayCommand _propertiesCommand;
-        public ICommand GetProperties
+        private RelayCommand _propertiesFormCommand;
+        public ICommand PropertiesFormCommand
         {
             get
             {
-                if (_propertiesCommand == null)
+                if (_propertiesFormCommand == null)
                 {
-                    _propertiesCommand = new RelayCommand(
+                    _propertiesFormCommand = new RelayCommand(
                         param => this.OpenPropertiesForm(),
                         param => true
                         );
                 }
-                return _propertiesCommand;
+                return _propertiesFormCommand;
             }
         }
 
@@ -211,7 +211,9 @@ namespace IV_Play.ViewModel
                 
                 if (this.Machines == null)
                 {
-                    this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderByDescending(x => x.IsFavorite).ThenBy(y => y.Id));
+                    var favoritesMachines = machineCollection.Where(x => x.IsFavorite).OrderBy(y=>y.Description);
+                    var normalMachines = machineCollection.Where(x => !x.IsFavorite).OrderBy(y => y.Id);
+                    this.Machines = new ObservableCollection<MachineViewModel>(favoritesMachines.Concat(normalMachines));
                     this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 } else
                 {                                        
@@ -236,6 +238,7 @@ namespace IV_Play.ViewModel
                 _view.Refresh();
                 App.Current.MainWindow.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
                 _updating = false;
+                UpdateTitle();
             }            
         }
 
@@ -249,6 +252,45 @@ namespace IV_Play.ViewModel
         }
         #endregion
 
+        #region Favorites Command (CTRL+D)
+        private RelayCommand _addRemoveFavoriteCommand;
+        public ICommand AddRemoveFavoriteCommand
+        {
+            get
+            {
+                if (_addRemoveFavoriteCommand == null)
+                {
+                    _addRemoveFavoriteCommand = new RelayCommand(
+                        param => this.UpdateFavorites(),
+                        param => true
+                        );
+                }
+                return _addRemoveFavoriteCommand;
+            }
+        }     
+
+        private void UpdateFavorites()
+        {
+            if (CurrentMachine == null) return;
+
+            if (CurrentMachine.IsFavorite)
+            {                             
+                if (!File.Exists(Settings.Default.favorites_ini)) return;
+                
+                var favs = File.ReadAllLines(Settings.Default.favorites_ini).ToList();
+
+                favs.Remove(CurrentMachine.Name);
+                File.WriteAllLines(Settings.Default.favorites_ini, favs);
+                CurrentMachine.IsFavorite = false;
+            }
+            else //Add game to favorites
+            {
+                CurrentMachine.IsFavorite = true;
+                var favs = (from mvm in Machines where mvm.IsFavorite select mvm.Name).ToList();
+                File.WriteAllLines(Settings.Default.favorites_ini, favs);                
+            }
+        }
+        #endregion
         #region Start Command (Enter, LeftDoubleClick)
         private RelayCommand _startCommand;
         public ICommand StartCommand

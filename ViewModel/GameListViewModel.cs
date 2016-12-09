@@ -94,8 +94,10 @@ namespace IV_Play.ViewModel
                     machine.PropertyChanged += this.Machine_PropertyChanged;
                     machine.IsFavorite = favorites.Contains(machine.Name);
                 }
-                
-                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderByDescending(x => x.IsFavorite).ThenBy(y => y.Id));
+
+                var favoritesMachines = machineCollection.Where(x => x.IsFavorite).OrderBy(y => y.Description);
+                var normalMachines = machineCollection.Where(x => !x.IsFavorite).OrderBy(y => y.Id);
+                this.Machines = new ObservableCollection<MachineViewModel>(favoritesMachines.Concat(normalMachines));                
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;
@@ -137,10 +139,10 @@ namespace IV_Play.ViewModel
         private void Machine_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             string IsSelected = "IsSelected";
-
+            var senderMachineViewModel = (sender as MachineViewModel);
             // Make sure that the property name we're referencing is valid.
             // This is a debugging technique, and does not execute in a Release build.
-            (sender as MachineViewModel).VerifyPropertyName(IsSelected);
+            senderMachineViewModel.VerifyPropertyName(IsSelected);
 
             // When a customer is selected or unselected, we must let the
             // world know that the TotalSelectedSales property has changed,
@@ -149,6 +151,31 @@ namespace IV_Play.ViewModel
             {
                 this.OnPropertyChanged("MachineSelected");
                 CurrentMachine = sender as MachineViewModel;                
+            }
+
+            if (e.PropertyName == "IsFavorite")
+            {
+                if (this.Machines == null) return;
+
+                if (senderMachineViewModel.IsFavorite) // Reorder favorites when inserting
+                {
+                    var favorites = (from m in this.Machines where m.IsFavorite orderby m.Description descending select m);
+
+                    foreach (var machine in favorites)
+                    {
+                        var indexOfMachine = this.Machines.IndexOf(machine);
+                        this.Machines.Move(indexOfMachine, 0);
+                        if (indexOfMachine == 0) // Force a refresh if we're not moving an item
+                            _view.Refresh();                                                                                
+                    }
+                }
+                else // Move unfavorited game back to its place in the list
+                {
+                    var nextMachine = (from m in this.Machines where m.Id > senderMachineViewModel.Id && !m.IsFavorite select m);
+                    var insertionIndex = nextMachine.Any() ? Machines.IndexOf(nextMachine.First()) - 1 : Machines.Count - 1;
+                    this.Machines.Move(this.Machines.IndexOf(senderMachineViewModel), insertionIndex);
+                }
+                
             }
 
             if (e.PropertyName == "IsMechanical" && (sender as MachineViewModel).IsMechanical)
