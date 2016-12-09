@@ -291,6 +291,30 @@ namespace IV_Play.ViewModel
             }
         }
         #endregion
+
+        #region Filter Command (CTRL+F)
+        private RelayCommand _filterCommand;
+        public ICommand FilterCommand
+        {
+            get
+            {
+                if (_filterCommand == null)
+                {
+                    _filterCommand = new RelayCommand(
+                        param => this.StartFiltering(),
+                        param => true
+                        );
+                }
+                return _filterCommand;
+            }
+        }
+
+        private void StartFiltering()
+        {
+            
+        }
+        #endregion
+
         #region Start Command (Enter, LeftDoubleClick)
         private RelayCommand _startCommand;
         public ICommand StartCommand

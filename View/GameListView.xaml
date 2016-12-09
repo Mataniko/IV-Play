@@ -13,6 +13,7 @@
     <UserControl.InputBindings>
         <KeyBinding Key="Return" Modifiers="Ctrl" Command="{Binding GetProperties}"/>
         <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding AddRemoveFavoriteCommand}"/>
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding FilterCommand}"/>
         <KeyBinding Key="Return" Command="{Binding StartCommand}"/>
         <KeyBinding Key="Left" Command="{Binding LeftCommand}"/>
         <KeyBinding Key="Right" Command="{Binding RightCommand}"/>
@@ -67,6 +68,6 @@
                 <DropShadowEffect ShadowDepth="0.2" Color="Green" Opacity="1" BlurRadius="35" ></DropShadowEffect>
             </Image.Effect>
         </Image>
-        <TextBox Name="textBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}" Grid.Column="1"  Height="20" Margin="10,370,267,10" Panel.ZIndex="15"/>
+        <TextBox Name="filterTextBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}" Grid.Column="0"  Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10" Panel.ZIndex="15"/>
     </Grid>
 </UserControl>
