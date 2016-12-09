@@ -52,10 +52,7 @@ namespace IVPlay.ViewModel
 
         public FontFamily Font
         {
-            get
-            {
-                return new FontFamily(Settings.Default.game_list_font.FontFamily.Name);
-            }
+            get { return new FontFamily(Settings.Default.game_list_font.FontFamily.Name); }
         }
         
         public Brush TextForeground {
@@ -183,11 +180,7 @@ namespace IVPlay.ViewModel
 
         public string Driver
         {
-            get
-            {
-                return _machine.Driver.ToString();
-            }
-            set { }
+            get { return _machine.Driver.ToString(); }
         }
 
         public bool IsWorking
@@ -211,7 +204,6 @@ namespace IVPlay.ViewModel
                 if (_machine.Chip == null) return string.Empty;
                 return GetStringFromArray(_machine.Chip.Where(x => x.Type == "cpu").ToArray());
             }
-            set { }
         }
 
         public string Roms
@@ -223,25 +215,16 @@ namespace IVPlay.ViewModel
 
                 return roms + "\r\n" + disks;
             }
-            set { }
         }
 
         public string Display
         {
-            get
-            {
-                return GetStringFromArray(_machine.Display);
-            }
-            set { }
+            get { return GetStringFromArray(_machine.Display); }
         }
 
         public string Input
         {
-            get
-            {
-                return _machine.Input.ToString();
-            }
-            set { }
+            get { return _machine.Input.ToString(); }
         }
 
         public string Sound
@@ -251,10 +234,6 @@ namespace IVPlay.ViewModel
                 if (_machine.Chip == null || _machine.Sound == null) return string.Empty;
                 var soundString = GetStringFromArray(_machine.Chip.Where(x => x.Type == "audio").ToArray());
                 return string.Format("{0} Channel(s)\r\n{1}", _machine.Sound.channels, soundString);
-            }
-            set
-            {
-                return;
             }
         }
 
@@ -288,7 +267,6 @@ namespace IVPlay.ViewModel
                 
                 return string.Format(text, _machine.Description, _machine.Year, _machine.Manufacturer);
             }
-            set { }
         }
 
         public bool IsSelected
