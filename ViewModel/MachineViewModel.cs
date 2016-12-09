@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace IV_Play.ViewModel
 {
-    public class MachineViewModel : ViewModelBase, IEditableObject
+    public class MachineViewModel : ViewModelBase
     {
         readonly Machine _machine;
         bool _isSelected;
@@ -170,10 +170,8 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                var s = typeof(Colors).GetProperties();
-                
-
                 if (!IsSelected) return "";
+
                 if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name)))
                     return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name);
                 else if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
@@ -291,21 +289,6 @@ namespace IV_Play.ViewModel
                 return string.Format(text, _machine.description, _machine.year, _machine.manufacturer);
             }
             set { }
-        }
-
-        public void BeginEdit()
-        {
-           // throw new NotImplementedException();
-        }
-
-        public void EndEdit()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void CancelEdit()
-        {
-           // throw new NotImplementedException();
         }
 
         public bool IsSelected

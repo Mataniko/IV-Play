@@ -109,7 +109,7 @@ namespace IV_Play.DataAccess
                     //If an exception happened, the item is probably not a setting and will be ignored.
                     try
                     {
-                        if (param != "")
+                        if (!String.IsNullOrEmpty(param))
                             Settings.Default[param] = CastHelper(type,
                                                                  Settings.Default.Properties[param].DefaultValue.
                                                                      ToString());

@@ -167,7 +167,7 @@ namespace IV_Play.DataAccess
             var xmlRootAttribute = FileVersionInfo.GetVersionInfo(Settings.Default.MAME_EXE).FileMinorPart < 162 ? "game" : "machine";
             var xmlSerializer = new XmlSerializer(typeof(Machine), new XmlRootAttribute(xmlRootAttribute));
             var mameCommand = ExecuteMameCommand("-listxml " + name);
-            var machines = new List<Machine>();
+
             //Setup the XML Reader/Writer options                
             xmlReaderSettings = new XmlReaderSettings();
             xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;

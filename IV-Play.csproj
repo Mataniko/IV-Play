@@ -182,7 +182,6 @@
     <Compile Include="View\GameListView.xaml.cs">
       <DependentUpon>GameListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Navigation.cs" />
     <Compile Include="View\MachinePropertiesView.xaml.cs">
       <DependentUpon>MachinePropertiesView.xaml</DependentUpon>
     </Compile>

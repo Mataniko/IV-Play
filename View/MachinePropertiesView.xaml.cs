@@ -21,6 +21,7 @@ namespace IV_Play.View
             }
             catch (Exception ex)
             {
+                Logger.WriteToLog(ex);
                 Machine = machine;
             }
 

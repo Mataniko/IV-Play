@@ -36,13 +36,5 @@ namespace IV_Play
                 Close();
             }
         }
-
-        private bool UserFilter(object item)
-        {            
-            var machine = (Machine)item;
-            return machine.description.IndexOf("slug", StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        
     }
 }
