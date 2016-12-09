@@ -4,23 +4,23 @@ namespace IV_Play.Model
 {
     public class Display
     {
-        [XmlAttribute]
-        public string refresh { get; set; }
-        [XmlAttribute]
-        public short rotate { get; set; }
-        [XmlAttribute]
-        public int width { get; set; }
-        [XmlAttribute]
-        public int height { get; set; }
-        [XmlAttribute]
-        public string type { get; set; }
-        [XmlAttribute]
-        public string rag { get; set; }
+        [XmlAttribute("refresh")]
+        public string Refresh { get; set; }
+        [XmlAttribute("rotate")]
+        public short Rotate { get; set; }
+        [XmlAttribute("width")]
+        public int Width { get; set; }
+        [XmlAttribute("height")]
+        public int Height { get; set; }
+        [XmlAttribute("type")]
+        public string Type { get; set; }
+        [XmlAttribute("tag")]
+        public string Tag { get; set; }
 
         public override string ToString()
         {
-            var rotation = rotate == 0 || rotate == 180 ? 'H' : 'V';
-            return string.Format("{0}x{1} ({2}) {3} Hz", width, height, rotation, refresh.TrimEnd('0').TrimEnd('.'));
+            var rotation = Rotate == 0 || Rotate == 180 ? 'H' : 'V';
+            return string.Format("{0}x{1} ({2}) {3} Hz", Width, Height, rotation, Refresh.TrimEnd('0').TrimEnd('.'));
         }
     }
 }

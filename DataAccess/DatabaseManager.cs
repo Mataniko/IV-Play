@@ -75,7 +75,7 @@ namespace IV_Play.DataAccess
 
         public static Machine GetMachineByName(string name)
         {
-            return machinesCollection.FindOne(m => m.name == name);
+            return machinesCollection.FindOne(m => m.Name == name);
         }
 
         public static void SaveMameInfo(MameInfo mameInfo)

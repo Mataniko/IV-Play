@@ -4,41 +4,41 @@ namespace IV_Play.Model
 {
     public class Driver
     {
-        [XmlAttribute]
-        public string status { get; set; }
-        [XmlAttribute]
-        public string color { get; set; }
-        [XmlAttribute]
-        public string sound { get; set; }
-        [XmlAttribute]
-        public string graphic { get; set; }
-        [XmlAttribute]
-        public string cocktail { get; set; }
-        [XmlAttribute]
-        public string protection { get; set; }
-        [XmlAttribute]
-        public string savestate { get; set; }
-        [XmlAttribute]
-        public string emulation { get; set; }
+        [XmlAttribute("status")]
+        public string Status { get; set; }
+        [XmlAttribute("color")]
+        public string Color { get; set; }
+        [XmlAttribute("sound")]
+        public string Sound { get; set; }
+        [XmlAttribute("graphic")]
+        public string Graphic { get; set; }
+        [XmlAttribute("cocktail")]
+        public string Cocktail { get; set; }
+        [XmlAttribute("protection")]
+        public string Protection { get; set; }
+        [XmlAttribute("savestate")]
+        public string Savestate { get; set; }
+        [XmlAttribute("emulation")]
+        public string Emulation { get; set; }
 
         public override string ToString()
         {
             var returnString = string.Format("Status={0}, Emulation={1}, Color={2}, Sound={3}, Graphic={4}, Savestate={5}",
-                this.status,
-                this.emulation,
-                this.color,
-                this.sound,
-                this.graphic,
-                this.savestate
+                this.Status,
+                this.Emulation,
+                this.Color,
+                this.Sound,
+                this.Graphic,
+                this.Savestate
                 );
-            if (!string.IsNullOrEmpty(this.cocktail))
+            if (!string.IsNullOrEmpty(this.Cocktail))
             {
-                returnString += string.Format(" Cocktail={0}", this.cocktail);
+                returnString += string.Format(" Cocktail={0}", this.Cocktail);
             }
 
-            if (!string.IsNullOrEmpty(this.protection))
+            if (!string.IsNullOrEmpty(this.Protection))
             {
-                returnString += string.Format(" Protection={0}", this.protection);
+                returnString += string.Format(" Protection={0}", this.Protection);
             }
 
             return returnString;

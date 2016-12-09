@@ -4,13 +4,13 @@ namespace IV_Play.Model
 {
     public class Control
     {
-        [XmlAttribute]
-        public string type { get; set; }
+        [XmlAttribute("type")]
+        public string Type { get; set; }
 
-        [XmlAttribute]
-        public short buttons { get; set; }
+        [XmlAttribute("buttons")]
+        public short Buttons { get; set; }
 
-        [XmlAttribute]
-        public short player { get; set; }
+        [XmlAttribute("player")]
+        public short Player { get; set; }
     }
 }

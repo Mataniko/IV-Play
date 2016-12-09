@@ -27,24 +27,24 @@ namespace IV_Play
         {
             Children = new SortedList<string, Game>();
             IsFavorite = false;
-            CloneOf = string.IsNullOrEmpty(machine.cloneof) ? machine.name : machine.cloneof;
+            CloneOf = string.IsNullOrEmpty(machine.CloneOf) ? machine.Name : machine.CloneOf;
             //CPU = machine.cpuinfo;
-            Description = machine.description;
-            SourceFile = machine.sourcefile;
-            Name = machine.name;
-            Manufacturer = machine.manufacturer;
-            ParentSet = machine.cloneof;
+            Description = machine.Description;
+            SourceFile = machine.Sourcefile;
+            Name = machine.Name;
+            Manufacturer = machine.Manufacturer;
+            ParentSet = machine.CloneOf;
             //Screen = machine.displayinfo;
             //Sound = machine.soundinfo;
-            Working = machine.driver != null ? machine.driver.emulation == "good" : true;
-            Year = machine.year;
-            IconPath = Settings.Default.icons_directory + machine.name + ".ico";
-            Driver = machine.driver != null ? machine.driver.ToString() : null;
-            Input = machine.input != null ? machine.input.ToString() : null;
+            Working = machine.Driver != null ? machine.Driver.Emulation == "good" : true;
+            Year = machine.Year;
+            IconPath = Settings.Default.icons_directory + machine.Name + ".ico";
+            Driver = machine.Driver != null ? machine.Driver.ToString() : null;
+            Input = machine.Input != null ? machine.Input.ToString() : null;
             //Display = machine.displayinfo;
             //Colors = colors, Doesn't exist anymore?
             //Roms = machine.rominfo;
-            IsMechanical = machine.ismechanical == "yes";
+            IsMechanical = machine.IsMechanical == "yes";
             ShowAsParent = false;
         }       
 

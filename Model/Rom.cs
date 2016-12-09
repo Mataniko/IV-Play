@@ -4,18 +4,18 @@ namespace IV_Play.Model
 {
     public class Rom
     {
-        [XmlAttribute]
-        public string name { get; set; }
-        [XmlAttribute]
-        public string region { get; set; }
-        [XmlAttribute]
-        public string status { get; set; } = "good";
-        [XmlAttribute]
-        public string size { get; set; }
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+        [XmlAttribute("region")]
+        public string Region { get; set; }
+        [XmlAttribute("status")]
+        public string Status { get; set; } = "good";
+        [XmlAttribute("size")]
+        public string Size { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0,-8} {1,-8} {2, -16}", region, status, name);
+            return string.Format("{0,-8} {1,-8} {2, -16}", Region, Status, Name);
         }
     }
 }

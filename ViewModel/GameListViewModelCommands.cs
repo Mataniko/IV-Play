@@ -200,7 +200,7 @@ namespace IV_Play.ViewModel
                 _updating = true;
                 var xmlParser = new XmlParser();
                 xmlParser.MakeQuickDat();                
-                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.ismechanical == "no") select new MachineViewModel(machine)).ToList();
+                var machineCollection = (from machine in DatabaseManager.GetMachines().Where(x => x.IsMechanical == "no") select new MachineViewModel(machine)).ToList();
                 var favorites = LoadFavorites();
 
                 foreach (MachineViewModel machine in machineCollection)

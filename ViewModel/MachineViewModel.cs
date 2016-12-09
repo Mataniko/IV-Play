@@ -30,9 +30,9 @@ namespace IV_Play.ViewModel
 
         public string Name
         {
-            get { return _machine.name; }
+            get { return _machine.Name; }
             set {
-                _machine.name = value;
+                _machine.Name = value;
 
                 base.OnPropertyChanged("Name");
             }
@@ -79,10 +79,10 @@ namespace IV_Play.ViewModel
 
         public bool IsMechanical
         {
-            get { return _machine.ismechanical == "yes"; }
+            get { return _machine.IsMechanical == "yes"; }
             set
             {
-                _machine.ismechanical = value == true ? "yes" : "no";
+                _machine.IsMechanical = value == true ? "yes" : "no";
 
                 base.OnPropertyChanged("IsMechanical");
             }
@@ -91,21 +91,21 @@ namespace IV_Play.ViewModel
         public string Description
         {
             get {
-                return _machine.description;
+                return _machine.Description;
             }
             set
             {
-                _machine.description = value;
+                _machine.Description = value;
                 base.OnPropertyChanged("Description");
             }
         }
 
         public string Year
         {
-            get { return _machine.year; }
+            get { return _machine.Year; }
             set
             {
-                _machine.year = value;
+                _machine.Year = value;
 
                 base.OnPropertyChanged("Year");
             }
@@ -113,10 +113,10 @@ namespace IV_Play.ViewModel
 
         public string Manufacturer
         {
-            get { return _machine.manufacturer; }
+            get { return _machine.Manufacturer; }
             set
             {
-                _machine.manufacturer = value;
+                _machine.Manufacturer = value;
 
                 base.OnPropertyChanged("Manufacturer");
             }
@@ -124,10 +124,10 @@ namespace IV_Play.ViewModel
 
         public string CloneOf
         {
-            get { return _machine.cloneof; }
+            get { return _machine.CloneOf; }
             set
             {
-                _machine.cloneof = value;
+                _machine.CloneOf = value;
 
                 base.OnPropertyChanged("CloneOf");
             }
@@ -135,10 +135,10 @@ namespace IV_Play.ViewModel
 
         public string SourceFile
         {
-            get { return _machine.sourcefile; }
+            get { return _machine.Sourcefile; }
             set
             {
-                _machine.sourcefile = value;
+                _machine.Sourcefile = value;
 
                 base.OnPropertyChanged("SourceFile");
             }
@@ -147,7 +147,7 @@ namespace IV_Play.ViewModel
         public Thickness Margin
         {
             get {
-                if (_machine.cloneof == null || IsFavorite) return new Thickness();
+                if (_machine.CloneOf == null || IsFavorite) return new Thickness();
 
                 return new Thickness(20, 0, 40, 0);
             }
@@ -157,11 +157,11 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.name)))
-                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.name);
+                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.Name)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.Name);
 
-                if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.cloneof)))
-                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.cloneof);
+                if (_machine.CloneOf != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.CloneOf)))
+                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.CloneOf);
 
                 return @"D:\Games\Emulators\MAME\icons\unknown.ico";
             }
@@ -172,10 +172,10 @@ namespace IV_Play.ViewModel
             {
                 if (!IsSelected) return "";
 
-                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name)))
-                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.name);
-                else if (_machine.cloneof != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof)))
-                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.cloneof);
+                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.Name)))
+                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.Name);
+                else if (_machine.CloneOf != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.CloneOf)))
+                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.CloneOf);
                 else
                     return @"D:\Games\Emulators\MAME\snap\005.png";
             }
@@ -185,20 +185,20 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                return _machine.driver.ToString();
+                return _machine.Driver.ToString();
             }
             set { }
         }
 
         public bool IsWorking
         {
-            get { return _machine.driver != null ? _machine.driver.emulation == "good" : true; }
+            get { return _machine.Driver != null ? _machine.Driver.Emulation == "good" : true; }
             set
             {
-                if (_machine.driver == null) _machine.driver = new Driver();
+                if (_machine.Driver == null) _machine.Driver = new Driver();
 
-                if (value) _machine.driver.emulation = "good";
-                else _machine.driver.emulation = "notgood!";
+                if (value) _machine.Driver.Emulation = "good";
+                else _machine.Driver.Emulation = "notgood!";
 
                 base.OnPropertyChanged("IsWorking");
             }
@@ -208,8 +208,8 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                if (_machine.chip == null) return string.Empty;
-                return GetStringFromArray(_machine.chip.Where(x => x.type == "cpu").ToArray());
+                if (_machine.Chip == null) return string.Empty;
+                return GetStringFromArray(_machine.Chip.Where(x => x.Type == "cpu").ToArray());
             }
             set { }
         }
@@ -218,8 +218,8 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                var roms = GetStringFromArray(_machine.rom);
-                var disks = GetStringFromArray(_machine.disk);
+                var roms = GetStringFromArray(_machine.Rom);
+                var disks = GetStringFromArray(_machine.Disk);
 
                 return roms + "\r\n" + disks;
             }
@@ -230,7 +230,7 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                return GetStringFromArray(_machine.display);
+                return GetStringFromArray(_machine.Display);
             }
             set { }
         }
@@ -239,7 +239,7 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                return _machine.input.ToString();
+                return _machine.Input.ToString();
             }
             set { }
         }
@@ -248,9 +248,9 @@ namespace IV_Play.ViewModel
         {
             get
             {
-                if (_machine.chip == null || _machine.sound == null) return string.Empty;
-                var soundString = GetStringFromArray(_machine.chip.Where(x => x.type == "audio").ToArray());
-                return string.Format("{0} Channel(s)\r\n{1}", _machine.sound.channels, soundString);
+                if (_machine.Chip == null || _machine.Sound == null) return string.Empty;
+                var soundString = GetStringFromArray(_machine.Chip.Where(x => x.Type == "audio").ToArray());
+                return string.Format("{0} Channel(s)\r\n{1}", _machine.Sound.channels, soundString);
             }
             set
             {
@@ -286,7 +286,7 @@ namespace IV_Play.ViewModel
                 else
                     text = "{0}";
                 
-                return string.Format(text, _machine.description, _machine.year, _machine.manufacturer);
+                return string.Format(text, _machine.Description, _machine.Year, _machine.Manufacturer);
             }
             set { }
         }

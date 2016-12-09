@@ -4,19 +4,19 @@ namespace IV_Play.Model
 {
     public class Input
     {
-        [XmlAttribute]
-        public short players { get; set; }
-        [XmlElement]
-        public Control[] control { get; set; }
+        [XmlAttribute("players")]
+        public short Players { get; set; }
+        [XmlElement("control")]
+        public Control[] Control { get; set; }
 
         public override string ToString()
         {
-            if (control == null || control.Length == 0)
+            if (Control == null || Control.Length == 0)
             {
-                return string.Format("{0} Player(s)", players);
+                return string.Format("{0} Player(s)", Players);
             }
 
-            return string.Format("{0} Player(s) {1} Button(s) {2}", players, control[0].buttons, control[0].type);
+            return string.Format("{0} Player(s) {1} Button(s) {2}", Players, Control[0].Buttons, Control[0].Type);
         }
     }
 }

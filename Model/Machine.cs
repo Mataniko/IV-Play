@@ -10,56 +10,63 @@ namespace IV_Play.Model
         [BsonId]
         public int Id { get; set; }
 
-        [XmlAttribute]
+        [XmlAttribute("name")]
         [BsonIndex(unique: true)]        
-        public string name { get; set; }
-        [XmlAttribute]
-        public string sourcefile { get; set; }
-        [XmlAttribute]
+        public string Name { get; set; }
+        [XmlAttribute("sourcefile")]
+        public string Sourcefile { get; set; }
+        [XmlAttribute("isbios")]
         [BsonIgnore]
         public string isbios { get; set; } = "no";
-        [XmlAttribute]
+        [XmlAttribute("isdevice")]
         [BsonIgnore]
-        public string isdevice { get; set; } = "no";
-        [XmlAttribute]
-        public string ismechanical { get; set; } = "no";
-        [XmlAttribute]
+        public string IsDevice { get; set; } = "no";
+        [XmlAttribute("ismechanical")]
+        public string IsMechanical { get; set; } = "no";
+        [XmlAttribute("Runnable")]
         [BsonIgnore]
-        public string runnable { get; set; } = "yes";
-        [XmlAttribute]
-        public string cloneof { get; set; }
-        [XmlAttribute]
-        public string romof { get; set; }
+        public string Runnable { get; set; } = "yes";
+        [XmlAttribute("cloneof")]
+        public string CloneOf { get; set; }
+        [XmlAttribute("romof")]
+        public string RomOf { get; set; }
 
-        [XmlAttribute]
+        [XmlAttribute("sampleof")]
         [BsonIgnore]
-        public string sampleof { get; set; }
+        public string SampleOf { get; set; }
 
-        public string year { get; set; }
-        public string manufacturer { get; set; }
-        [BsonIgnore]
-        public Input input { get; set; }
-
-        public Driver driver { get; set; }
+        [XmlElement("year")]
+        public string Year { get; set; }
+        [XmlElement("manufacturer")]
+        public string Manufacturer { get; set; }
 
         [BsonIgnore]
-        public Sound sound { get; set; }
+        [XmlElement("input")]
+        public Input Input { get; set; }
 
-        [XmlElement]
+        [XmlElement("driver")]
+        public Driver Driver { get; set; }
+
         [BsonIgnore]
-        public Rom[] rom { get; set; }
-        [XmlElement]
+        [XmlElement("sound")]
+        public Sound Sound { get; set; }
+
+        [XmlElement("rom")]
         [BsonIgnore]
-        public Disk[] disk { get; set; }
-        [XmlElement]
+        public Rom[] Rom { get; set; }
+        [XmlElement("disk")]
         [BsonIgnore]
-        public Chip[] chip { get; set; }
-        [XmlElement]
+        public Disk[] Disk { get; set; }
+        [XmlElement("chip")]
         [BsonIgnore]
-        public Display[] display { get; set; }
+        public Chip[] Chip { get; set; }
+        [XmlElement("display")]
+        [BsonIgnore]
+        public Display[] Display { get; set; }
 
         private string _description;
-        public string description
+        [XmlElement("description")]
+        public string Description
         {
             get
             {

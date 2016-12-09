@@ -61,22 +61,22 @@ namespace IV_Play.DataAccess
                     var match = regex.Match(line);
                     var name = match.Groups[1].Value;
                     var description = match.Groups[2].Value;
-                    machinesDictionary.Add(name, new Machine() { description = description, name = name });
+                    machinesDictionary.Add(name, new Machine() { Description = description, Name = name });
 
                 }
             }
 
-            var sortedParents = machinesDictionary.Values.Where(x => !clonesHashtable.ContainsKey(x.name)).OrderBy(x => x.description);
+            var sortedParents = machinesDictionary.Values.Where(x => !clonesHashtable.ContainsKey(x.Name)).OrderBy(x => x.Description);
 
             var results = new List<Machine>();
             foreach (var parent in sortedParents)
             {
                 results.Add(parent);
-                if (clonesDictionary.ContainsKey(parent.name))
+                if (clonesDictionary.ContainsKey(parent.Name))
                 {
-                    foreach (var clone in clonesDictionary[parent.name])
+                    foreach (var clone in clonesDictionary[parent.Name])
                     {
-                        machinesDictionary[clone].cloneof = parent.name;
+                        machinesDictionary[clone].CloneOf = parent.Name;
                         results.Add(machinesDictionary[clone]);
                     }
                 }
@@ -103,7 +103,7 @@ namespace IV_Play.DataAccess
                 xmlReaderSettings = new XmlReaderSettings();
                 xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
 
-                var machinesDatabase = DatabaseManager.GetMachines().ToDictionary(x => x.name);
+                var machinesDatabase = DatabaseManager.GetMachines().ToDictionary(x => x.Name);
                 
                 var counter = 0;
 
@@ -118,17 +118,17 @@ namespace IV_Play.DataAccess
                             if (xmlReader["isdevice"] == "yes") break;
 
                             var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
-                            if (machinesDatabase.ContainsKey(machine.name))
+                            if (machinesDatabase.ContainsKey(machine.Name))
                             {
-                                machine.Id = machinesDatabase[machine.name].Id;
-                                machinesDatabase[machine.name] = machine;
-                                var gameListMachine = Machines[machinesIndexDictionary[machine.name]];
+                                machine.Id = machinesDatabase[machine.Name].Id;
+                                machinesDatabase[machine.Name] = machine;
+                                var gameListMachine = Machines[machinesIndexDictionary[machine.Name]];
 
-                                gameListMachine.IsMechanical = machine.ismechanical == "yes";
-                                gameListMachine.SourceFile = machine.sourcefile;
-                                gameListMachine.Year = machine.year;
-                                gameListMachine.Manufacturer = machine.manufacturer;
-                                gameListMachine.IsWorking = machine.driver != null ? machine.driver.emulation == "good" : true;                                
+                                gameListMachine.IsMechanical = machine.IsMechanical == "yes";
+                                gameListMachine.SourceFile = machine.Sourcefile;
+                                gameListMachine.Year = machine.Year;
+                                gameListMachine.Manufacturer = machine.Manufacturer;
+                                gameListMachine.IsWorking = machine.Driver != null ? machine.Driver.Emulation == "good" : true;                                
                             }
                             counter++;                            
                             progress.Report(counter);
