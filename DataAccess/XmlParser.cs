@@ -108,38 +108,37 @@ namespace IVPlay.DataAccess
                 var counter = 0;
 
                 var machinesIndexDictionary = Machines.ToDictionary(x => x.Name, y => Machines.IndexOf(y));
-                using (StreamReader myOutput = MameWrapper.StartMameProcess("-listxml").StandardOutput)
-                {                    
-                    using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
+
+                using (StreamReader myOutput = MameWrapper.StartMameProcess("-listxml").StandardOutput)               
+                using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
+                {
+                    while (xmlReader.ReadToFollowing(xmlRootAttribute))
                     {
-                        while (xmlReader.ReadToFollowing(xmlRootAttribute))
+                        // MAME lists all of its devices at the end, so we can just finish here.
+                        if (xmlReader["isdevice"] == "yes") break;
+
+                        var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
+                        if (machinesDatabase.ContainsKey(machine.Name))
                         {
-                            // MAME lists all of its devices at the end, so we can just finish here.
-                            if (xmlReader["isdevice"] == "yes") break;
+                            machine.Id = machinesDatabase[machine.Name].Id;
+                            machinesDatabase[machine.Name] = machine;
+                            var gameListMachine = Machines[machinesIndexDictionary[machine.Name]];
 
-                            var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
-                            if (machinesDatabase.ContainsKey(machine.Name))
-                            {
-                                machine.Id = machinesDatabase[machine.Name].Id;
-                                machinesDatabase[machine.Name] = machine;
-                                var gameListMachine = Machines[machinesIndexDictionary[machine.Name]];
+                            gameListMachine.IsMechanical = machine.IsMechanical == "yes";
+                            gameListMachine.SourceFile = machine.Sourcefile;
+                            gameListMachine.Year = machine.Year;
+                            gameListMachine.Manufacturer = machine.Manufacturer;
+                            gameListMachine.IsWorking = machine.Driver != null ? machine.Driver.Emulation == "good" : true;                                
+                        }
+                        counter++;                            
+                        progress.Report(counter);
+                    } // end while loop
 
-                                gameListMachine.IsMechanical = machine.IsMechanical == "yes";
-                                gameListMachine.SourceFile = machine.Sourcefile;
-                                gameListMachine.Year = machine.Year;
-                                gameListMachine.Manufacturer = machine.Manufacturer;
-                                gameListMachine.IsWorking = machine.Driver != null ? machine.Driver.Emulation == "good" : true;                                
-                            }
-                            counter++;                            
-                            progress.Report(counter);
-                        } // end while loop
+                    DatabaseManager.UpdateMachines(machinesDatabase);
+                    DatabaseManager.SaveToDisk();
 
-                        DatabaseManager.UpdateMachines(machinesDatabase);
-                        DatabaseManager.SaveToDisk();
-
-                        progress.Report(-1);                                      
-                    } // END XmlReader
-                } // END Output Stream
+                    progress.Report(-1);                                      
+                }
             }
             catch (Exception ex)
             {
@@ -174,16 +173,13 @@ namespace IVPlay.DataAccess
             xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
 
             using (StreamReader myOutput = mameCommand.StandardOutput)
+            using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
             {
-                // Create a fast XML Reader
-                using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
+                while (xmlReader.ReadToFollowing(xmlRootAttribute))
                 {
-                    while (xmlReader.ReadToFollowing(xmlRootAttribute))
-                    {
-                        return (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
-                    } // end while loop                    
-                } // END XmlReader
-            } // END Output Stream
+                    return (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
+                }                 
+            } 
 
             return null;
         }
