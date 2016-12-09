@@ -124,13 +124,9 @@ namespace IV_Play.ViewModel
             if (!string.IsNullOrEmpty(Filter))
                 titleSB += string.Format(" - Current Filter: {0}", Filter);       
 
-            //if (_updateProgress > 0)
-            //    titleSB += string.Format(" - Updating {0} of {1} Games", _updateProgress, Machines.Count);
-
             Title = titleSB;
         }
 
-        private int _updateProgress;
         private void Progress_ProgressChanged(object sender, int e)
         {
             var percentage = (((float)e / (float)Machines.Count));

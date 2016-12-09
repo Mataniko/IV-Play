@@ -271,7 +271,7 @@ namespace IV_Play.ViewModel
 
         private void UpdateFavorites()
         {
-            if (CurrentMachine == null) return;
+            if (CurrentMachine == null || _updating) return;
 
             if (CurrentMachine.IsFavorite)
             {                             
