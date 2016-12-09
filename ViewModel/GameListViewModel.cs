@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -72,7 +73,7 @@ namespace IV_Play.ViewModel
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
-            _jumpList = new JumpListClass();
+            _jumpList = new JumpListClass();            
             LoadMachines();
             SettingsManager.GetBackgroundImage();
             
@@ -102,19 +103,46 @@ namespace IV_Play.ViewModel
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;
             }
-
+            
             UpdateTitle();                        
         }
 
         private void UpdateTitle()
         {
-            Title = "IV/Play " + _view.Count + " Games";
+
+            if (_mameInfo == null)
+                _mameInfo = DatabaseManager.GetMameInfo();
+
+            var titleSB = "";
+            titleSB += string.Format("IV/Play - {0} {1} {2} Games", _mameInfo.Product, _mameInfo.Version,
+                                     _view.Count);
+
+            var favorites = (from m in Machines where m.IsFavorite select m);
+            if (favorites.Any())
+                titleSB += string.Format(@" / {0} Favorites", favorites.Count());
+
+            if (!string.IsNullOrEmpty(Filter))
+                titleSB += string.Format(" - Current Filter: {0}", Filter);       
+
+            //if (_updateProgress > 0)
+            //    titleSB += string.Format(" - Updating {0} of {1} Games", _updateProgress, Machines.Count);
+
+            Title = titleSB;
         }
 
+        private int _updateProgress;
         private void Progress_ProgressChanged(object sender, int e)
         {
             var percentage = (((float)e / (float)Machines.Count));
-            Title = string.Format("Updating {0} of {1} Games", e, Machines.Count);
+            _updateProgress = e;
+            if (Title.IndexOf("Updating") < 0)
+                Title += string.Format(" - Updating {0} of {1} Games", e, Machines.Count);
+            else
+            {
+                var currentTitle = Title.Replace((e-1)+ " of", e+ " of");
+                Title = currentTitle;
+            }
+            
             if (App.Current.MainWindow != null)            
                 App.Current.MainWindow.TaskbarItemInfo.ProgressValue = percentage;            
 

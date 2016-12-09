@@ -83,6 +83,7 @@ namespace IV_Play.DataAccess
 
             }
 
+            DatabaseManager.SaveMameInfo(CreateMameInfo());
             DatabaseManager.SaveMachines(results);          
         }
 
