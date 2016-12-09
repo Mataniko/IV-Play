@@ -63,7 +63,7 @@
     <ApplicationIcon>Resources\IV-Play Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>IV_Play.App</StartupObject>
+    <StartupObject>IVPlay.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
