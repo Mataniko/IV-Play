@@ -130,7 +130,6 @@ namespace IV_Play.ViewModel
         private void Progress_ProgressChanged(object sender, int e)
         {
             var percentage = (((float)e / (float)Machines.Count));
-            _updateProgress = e;
             if (Title.IndexOf("Updating") < 0)
                 Title += string.Format(" - Updating {0} of {1} Games", e, Machines.Count);
             else
