@@ -95,7 +95,7 @@ namespace IV_Play.ViewModel
                     machine.IsFavorite = favorites.Contains(machine.Name);
                 }
                 
-                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderBy(x => x.IsFavorite == false).ThenBy(y => y.Id));
+                this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderByDescending(x => x.IsFavorite).ThenBy(y => y.Id));
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;

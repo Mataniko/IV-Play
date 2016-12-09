@@ -211,7 +211,7 @@ namespace IV_Play.ViewModel
                 
                 if (this.Machines == null)
                 {
-                    this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderBy(x => x.IsFavorite).ThenBy(x => x.Id));
+                    this.Machines = new ObservableCollection<MachineViewModel>(machineCollection.OrderByDescending(x => x.IsFavorite).ThenBy(y => y.Id));
                     this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 } else
                 {                                        
