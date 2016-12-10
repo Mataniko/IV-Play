@@ -253,7 +253,36 @@ namespace IVPlay.ViewModel
         }
         #endregion
 
-        #region Favorites Command (CTRL+D)
+        #region Favorites Command (CTRL+D, ALT+D)
+        
+        private RelayCommand _favoritesModeCommand;
+        public ICommand FavoritesModeCommand
+        {
+            get
+            {
+                if (_favoritesModeCommand == null)
+                {
+                    _favoritesModeCommand = new RelayCommand(
+                        param => this.ChangeFavoritesMode(),
+                        param => true
+                        );
+                }
+                return _favoritesModeCommand;
+            }
+        }
+
+        private void ChangeFavoritesMode()
+        {
+            if (_favoritesMode == FavoritesMode.Games)
+                _favoritesMode = FavoritesMode.FavoritesAndGames;
+            else if (_favoritesMode == FavoritesMode.FavoritesAndGames)
+                _favoritesMode = FavoritesMode.Favorites;
+            else
+                _favoritesMode = FavoritesMode.Games;
+
+            _view.Refresh();                    
+        }
+
         private RelayCommand _addRemoveFavoriteCommand;
         public ICommand AddRemoveFavoriteCommand
         {
@@ -273,7 +302,7 @@ namespace IVPlay.ViewModel
         private void UpdateFavorites()
         {
             if (CurrentMachine == null || _updating) return;
-
+            
             if (CurrentMachine.IsFavorite)
             {                             
                 if (!File.Exists(Settings.Default.favorites_ini)) return;
@@ -282,11 +311,15 @@ namespace IVPlay.ViewModel
 
                 favs.Remove(CurrentMachine.Name);
                 File.WriteAllLines(Settings.Default.favorites_ini, favs);
-                CurrentMachine.IsFavorite = false;
+                Machines.Remove(CurrentMachine);                           
             }
             else //Add game to favorites
             {
-                CurrentMachine.IsFavorite = true;
+                if (Machines.Where(x => x.IsFavorite && x.Name == CurrentMachine.Name).Any()) return;
+
+                var favoriteCopyMachine = CurrentMachine.Copy();
+                Machines.Add(favoriteCopyMachine);
+                favoriteCopyMachine.IsFavorite = true;                
                 var favs = (from mvm in Machines where mvm.IsFavorite select mvm.Name).ToList();
                 File.WriteAllLines(Settings.Default.favorites_ini, favs);                
             }

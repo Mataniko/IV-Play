@@ -20,6 +20,7 @@ namespace IVPlay.ViewModel
         private readonly object _MachinesLock = new object();
         private CollectionView _view;
         private JumpListClass _jumpList;
+        private FavoritesMode _favoritesMode;
 
         public MachineViewModel CurrentMachine
         {
@@ -73,6 +74,7 @@ namespace IVPlay.ViewModel
             if (Settings.Default.MAME_EXE == "")
                 SettingsManager.GetMamePath(true, true);
 
+            _favoritesMode = (FavoritesMode)Settings.Default.favorites_mode;
             _jumpList = new JumpListClass();            
             LoadMachines();
             SettingsManager.GetBackgroundImage();
@@ -203,22 +205,12 @@ namespace IVPlay.ViewModel
                         if (indexOfMachine == 0) // Force a refresh if we're not moving an item
                             _view.Refresh();                                                                                
                     }
-                }
-                else // Move unfavorited game back to its place in the list
-                {
-                    var nextMachine = (from m in this.Machines where m.Id > senderMachineViewModel.Id && !m.IsFavorite select m);
-                    var insertionIndex = nextMachine.Any() ? Machines.IndexOf(nextMachine.First()) - 1 : Machines.Count - 1;
-                    this.Machines.Move(this.Machines.IndexOf(senderMachineViewModel), insertionIndex);
-                }
-                
+                }        
             }
 
             if (e.PropertyName == "IsMechanical" && (sender as MachineViewModel).IsMechanical)
             {
-                this.OnPropertyChanged("IsMechanical");
-                
-                //if ((sender as MachineViewModel).CloneOf == null)
-                //    Application.Current.Dispatcher.BeginInvoke(new Action(()=> _view.Refresh()));               
+                this.OnPropertyChanged("IsMechanical"); 
             } 
                 
         }
@@ -231,7 +223,9 @@ namespace IVPlay.ViewModel
 
             if (e.OldItems != null && e.OldItems.Count != 0)
                 foreach (MachineViewModel machineVM in e.OldItems)
-                    machineVM.PropertyChanged -= this.Machine_PropertyChanged;            
+                    machineVM.PropertyChanged -= this.Machine_PropertyChanged;
+
+            UpdateTitle();
         }
 
         

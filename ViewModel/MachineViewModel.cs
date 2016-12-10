@@ -296,5 +296,10 @@ namespace IVPlay.ViewModel
                 base.OnPropertyChanged("IsFocused");
             }
         }
+
+        public MachineViewModel Copy()
+        {
+            return new MachineViewModel(_machine);
+        }
     }
 }
