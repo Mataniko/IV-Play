@@ -93,6 +93,7 @@ namespace IVPlay
             
             foreach (string s in Settings.Default.jumplist.Split(','))
             {
+                if (string.IsNullOrEmpty(s)) continue;
                 MachineViewModel machineViewModel = new MachineViewModel(DatabaseManager.GetMachineByName(s));
                 if (machineViewModel != null)
                 {
