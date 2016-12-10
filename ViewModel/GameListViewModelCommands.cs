@@ -280,7 +280,10 @@ namespace IVPlay.ViewModel
             else
                 _favoritesMode = FavoritesMode.Games;
 
-            _view.Refresh();                    
+            Settings.Default.favorites_mode = (int)_favoritesMode;
+            SettingsManager.WriteSettingsToFile();            
+            _view.Refresh();
+            UpdateTitle();
         }
 
         private RelayCommand _addRemoveFavoriteCommand;

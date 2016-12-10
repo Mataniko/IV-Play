@@ -123,12 +123,23 @@ namespace IVPlay.ViewModel
             }                
 
             var titleSB = "";
-            titleSB += string.Format("IV/Play - {0} {1} {2} Games", _mameInfo.Product, _mameInfo.Version,
-                                     _view.Count);
+            titleSB += string.Format("IV/Play - {0} {1}", _mameInfo.Product, _mameInfo.Version);
 
-            var favorites = (from m in Machines where m.IsFavorite select m);
-            if (favorites.Any())
-                titleSB += string.Format(@" / {0} Favorites", favorites.Count());
+            // Favorites handling
+            if (_favoritesMode == FavoritesMode.Games)
+                titleSB += string.Format(" {0} Games", _view.Count);
+            else
+            {
+                var favorites = (from m in Machines where m.IsFavorite select m).Count();                
+                var count = _favoritesMode == FavoritesMode.FavoritesAndGames ? _view.Count - favorites : _view.Count;
+                if (favorites > 0)
+                    titleSB += string.Format(@" {0} Games / {1} Favorites", count, favorites);
+            }
+            
+            
+
+            
+            
 
             if (!string.IsNullOrEmpty(Filter))
                 titleSB += string.Format(" - Current Filter: {0}", Filter);       
@@ -155,6 +166,10 @@ namespace IVPlay.ViewModel
         private bool UserFilter(object item)
         {
             var mvm = (item as MachineViewModel);
+
+            if (_favoritesMode == FavoritesMode.Favorites && !mvm.IsFavorite) return false;
+            if (_favoritesMode == FavoritesMode.Games && mvm.IsFavorite) return false;
+
             if (!mvm.IsFavorite)
             {
                 if (Settings.Default.hide_mechanical_games && mvm.IsMechanical) return false;
