@@ -69,15 +69,15 @@ namespace IVPlay.ViewModel
 
         public GameListViewModel()
         {
-            SettingsManager.GetBackgroundImage();
+            //SettingsManager.GetBackgroundImage();
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
-            if (Settings.Default.MAME_EXE == "")
-                SettingsManager.GetMamePath(true, true);
-
+            //if (Settings.Default.MAME_EXE == "")
+            //    SettingsManager.GetMamePath(true, true);
+            
             _favoritesMode = (FavoritesMode)Settings.Default.favorites_mode;
             _jumpList = new JumpListClass();            
             LoadMachines();
-            SettingsManager.GetBackgroundImage();
+           // SettingsManager.GetBackgroundImage();
             
         }
 

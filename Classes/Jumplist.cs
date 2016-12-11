@@ -1,5 +1,6 @@
 ﻿#region
 
+
 using IVPlay.DataAccess;
 using IVPlay.Properties;
 using IVPlay.ViewModel;
@@ -40,7 +41,7 @@ namespace IVPlay
                 if (!jumpList.JumpItems.Exists(j => ((JumpTask)j).Title == machine.Description))
                 {
                     jumpList.JumpItems.Insert(0, jumpTask1);
-                    SettingsManager.AddGameToJumpList(machine.Name);
+                    //SettingsManager.AddGameToJumpList(machine.Name);
                 }
 
 

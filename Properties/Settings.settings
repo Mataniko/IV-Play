@@ -1,134 +1,134 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IV_Play.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IVPlay.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="last_game" Type="System.String" Scope="User">
+    <Setting Name="last_game" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="large_icon" Type="System.Boolean" Scope="User">
+    <Setting Name="large_icon" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Window_x" Type="System.Int32" Scope="User">
+    <Setting Name="Window_x" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">120</Value>
     </Setting>
-    <Setting Name="Window_y" Type="System.Int32" Scope="User">
+    <Setting Name="Window_y" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">120</Value>
     </Setting>
-    <Setting Name="window_width" Type="System.Int32" Scope="User">
+    <Setting Name="window_width" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1015</Value>
     </Setting>
-    <Setting Name="window_height" Type="System.Int32" Scope="User">
+    <Setting Name="window_height" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">432</Value>
     </Setting>
-    <Setting Name="art_area" Type="System.Int32" Scope="User">
+    <Setting Name="art_area" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="art_opacity" Type="System.Int32" Scope="User">
+    <Setting Name="art_opacity" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">75</Value>
     </Setting>
-    <Setting Name="art_border" Type="System.Boolean" Scope="User">
+    <Setting Name="art_border" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="art_border_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Black</Value>
+    <Setting Name="art_border_color" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF000000</Value>
     </Setting>
-    <Setting Name="art_border_width" Type="System.Int32" Scope="User">
+    <Setting Name="art_border_width" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">11</Value>
     </Setting>
-    <Setting Name="art_type" Type="System.Int32" Scope="User">
+    <Setting Name="art_type" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="game_list_font" Type="System.Drawing.Font" Scope="User">
+    <Setting Name="game_list_font" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.FontFamily" Scope="User">
       <Value Profile="(Default)">Segoe UI, 9.75pt</Value>
     </Setting>
-    <Setting Name="game_list_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">209, 219, 189</Value>
+    <Setting Name="game_list_color" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFD1DBBD</Value>
     </Setting>
-    <Setting Name="game_list_clone_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">145, 170, 157</Value>
+    <Setting Name="game_list_clone_color" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF91AA9D</Value>
     </Setting>
-    <Setting Name="favorites_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">252, 255, 245</Value>
+    <Setting Name="favorites_color" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFFCFFF5</Value>
     </Setting>
-    <Setting Name="MAME_EXE" Type="System.String" Scope="User">
+    <Setting Name="MAME_EXE" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="bkground_image" Type="System.String" Scope="User">
+    <Setting Name="bkground_image" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">bkground.png</Value>
     </Setting>
-    <Setting Name="bkground_directory" Type="System.String" Scope="User">
+    <Setting Name="bkground_directory" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">bkground\</Value>
     </Setting>
-    <Setting Name="icons_directory" Type="System.String" Scope="User">
+    <Setting Name="icons_directory" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">icons\</Value>
     </Setting>
-    <Setting Name="GameListYear" Type="System.Boolean" Scope="User">
+    <Setting Name="GameListYear" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="GameListManufacturer" Type="System.Boolean" Scope="User">
+    <Setting Name="GameListManufacturer" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="favorites_ini" Type="System.String" Scope="User">
+    <Setting Name="favorites_ini" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">Favorites.ini</Value>
     </Setting>
-    <Setting Name="rotate_background" Type="System.Boolean" Scope="User">
+    <Setting Name="rotate_background" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="favorites_mode" Type="System.Int32" Scope="User">
+    <Setting Name="favorites_mode" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="jumplist" Type="System.String" Scope="User">
+    <Setting Name="jumplist" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="art_view_folders" Type="System.String" Scope="User">
+    <Setting Name="art_view_folders" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="info_font" Type="System.Drawing.Font" Scope="User">
+    <Setting Name="info_font" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.FontFamily" Scope="User">
       <Value Profile="(Default)">Segoe UI, 9.75pt</Value>
     </Setting>
-    <Setting Name="info_font_color" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">White</Value>
+    <Setting Name="info_font_color" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFFFFFFF</Value>
     </Setting>
-    <Setting Name="non_working_overlay" Type="System.Boolean" Scope="User">
+    <Setting Name="non_working_overlay" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="command_line_switches" Type="System.String" Scope="User">
+    <Setting Name="command_line_switches" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="custom_colors" Type="System.String" Scope="User">
+    <Setting Name="custom_colors" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215</Value>
     </Setting>
-    <Setting Name="hide_mechanical_games" Type="System.Boolean" Scope="User">
+    <Setting Name="hide_mechanical_games" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="filter_on_input" Type="System.Boolean" Scope="User">
+    <Setting Name="filter_on_input" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="show_error" Type="System.Boolean" Scope="User">
+    <Setting Name="show_error" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="filter_search" Type="System.Boolean" Scope="User">
+    <Setting Name="filter_search" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="hide_nonworking" Type="System.Boolean" Scope="User">
+    <Setting Name="hide_nonworking" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="allow_grouping" Type="System.Boolean" Scope="User">
+    <Setting Name="allow_grouping" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="full_screen" Type="System.Boolean" Scope="User">
+    <Setting Name="full_screen" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="hide_clones" Type="System.Boolean" Scope="User">
+    <Setting Name="hide_clones" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="background_repeat" Type="System.Boolean" Scope="User">
+    <Setting Name="background_repeat" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="arrow_key_paging" Type="System.Boolean" Scope="User">
+    <Setting Name="arrow_key_paging" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="audit_games" Type="System.Boolean" Scope="User">
+    <Setting Name="audit_games" Provider="IVPlay.DataAccess.IniSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

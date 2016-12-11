@@ -281,7 +281,7 @@ namespace IVPlay.ViewModel
                 _favoritesMode = FavoritesMode.Games;
 
             Settings.Default.favorites_mode = (int)_favoritesMode;
-            SettingsManager.WriteSettingsToFile();            
+            //SettingsManager.WriteSettingsToFile();            
             _view.Refresh();
             UpdateTitle();
         }

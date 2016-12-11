@@ -52,14 +52,15 @@ namespace IVPlay.ViewModel
 
         public FontFamily Font
         {
-            get { return new FontFamily(Settings.Default.game_list_font.FontFamily.Name); }
+            get { return Settings.Default.game_list_font; }
         }
         
         public Brush TextForeground {
             get
             {
+                Console.WriteLine(Settings.Default.favorites_color);
                 if (IsFavorite)
-                    return Settings.Default.favorites_color.ToBrush();
+                    return new SolidColorBrush(Settings.Default.favorites_color);
 
                 if (IsMechanical)
                     return new SolidColorBrush(Colors.Brown);
@@ -68,9 +69,9 @@ namespace IVPlay.ViewModel
                     return new SolidColorBrush(Colors.Red);
 
                 if (CloneOf == null)
-                    return Settings.Default.game_list_clone_color.ToBrush();
+                    return new SolidColorBrush(Settings.Default.game_list_clone_color);
 
-                return Settings.Default.game_list_color.ToBrush();
+                return new SolidColorBrush(Settings.Default.game_list_color);
             }            
         }
 

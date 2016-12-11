@@ -24,6 +24,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string last_game {
@@ -36,6 +37,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool large_icon {
@@ -48,6 +50,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("120")]
         public int Window_x {
@@ -60,6 +63,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("120")]
         public int Window_y {
@@ -72,6 +76,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1015")]
         public int window_width {
@@ -84,6 +89,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("432")]
         public int window_height {
@@ -96,6 +102,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int art_area {
@@ -108,6 +115,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("75")]
         public int art_opacity {
@@ -120,6 +128,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool art_border {
@@ -132,11 +141,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color art_border_color {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF000000")]
+        public global::System.Windows.Media.Color art_border_color {
             get {
-                return ((global::System.Drawing.Color)(this["art_border_color"]));
+                return ((global::System.Windows.Media.Color)(this["art_border_color"]));
             }
             set {
                 this["art_border_color"] = value;
@@ -144,6 +154,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("11")]
         public int art_border_width {
@@ -156,6 +167,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int art_type {
@@ -168,11 +180,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 9.75pt")]
-        public global::System.Drawing.Font game_list_font {
+        public global::System.Windows.Media.FontFamily game_list_font {
             get {
-                return ((global::System.Drawing.Font)(this["game_list_font"]));
+                return ((global::System.Windows.Media.FontFamily)(this["game_list_font"]));
             }
             set {
                 this["game_list_font"] = value;
@@ -180,11 +193,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("209, 219, 189")]
-        public global::System.Drawing.Color game_list_color {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFD1DBBD")]
+        public global::System.Windows.Media.Color game_list_color {
             get {
-                return ((global::System.Drawing.Color)(this["game_list_color"]));
+                return ((global::System.Windows.Media.Color)(this["game_list_color"]));
             }
             set {
                 this["game_list_color"] = value;
@@ -192,11 +206,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("145, 170, 157")]
-        public global::System.Drawing.Color game_list_clone_color {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF91AA9D")]
+        public global::System.Windows.Media.Color game_list_clone_color {
             get {
-                return ((global::System.Drawing.Color)(this["game_list_clone_color"]));
+                return ((global::System.Windows.Media.Color)(this["game_list_clone_color"]));
             }
             set {
                 this["game_list_clone_color"] = value;
@@ -204,11 +219,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("252, 255, 245")]
-        public global::System.Drawing.Color favorites_color {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFCFFF5")]
+        public global::System.Windows.Media.Color favorites_color {
             get {
-                return ((global::System.Drawing.Color)(this["favorites_color"]));
+                return ((global::System.Windows.Media.Color)(this["favorites_color"]));
             }
             set {
                 this["favorites_color"] = value;
@@ -216,6 +232,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MAME_EXE {
@@ -228,6 +245,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("bkground.png")]
         public string bkground_image {
@@ -240,6 +258,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("bkground\\")]
         public string bkground_directory {
@@ -252,6 +271,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("icons\\")]
         public string icons_directory {
@@ -264,6 +284,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool GameListYear {
@@ -276,6 +297,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool GameListManufacturer {
@@ -288,6 +310,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Favorites.ini")]
         public string favorites_ini {
@@ -300,6 +323,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool rotate_background {
@@ -312,6 +336,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int favorites_mode {
@@ -324,6 +349,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string jumplist {
@@ -336,6 +362,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string art_view_folders {
@@ -348,11 +375,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 9.75pt")]
-        public global::System.Drawing.Font info_font {
+        public global::System.Windows.Media.FontFamily info_font {
             get {
-                return ((global::System.Drawing.Font)(this["info_font"]));
+                return ((global::System.Windows.Media.FontFamily)(this["info_font"]));
             }
             set {
                 this["info_font"] = value;
@@ -360,11 +388,12 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
-        public global::System.Drawing.Color info_font_color {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        public global::System.Windows.Media.Color info_font_color {
             get {
-                return ((global::System.Drawing.Color)(this["info_font_color"]));
+                return ((global::System.Windows.Media.Color)(this["info_font_color"]));
             }
             set {
                 this["info_font_color"] = value;
@@ -372,6 +401,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool non_working_overlay {
@@ -384,6 +414,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string command_line_switches {
@@ -396,6 +427,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215,16777215," +
             "16777215,16777215,16777215,16777215,16777215,16777215,16777215")]
@@ -409,6 +441,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool hide_mechanical_games {
@@ -421,6 +454,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool filter_on_input {
@@ -433,6 +467,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool show_error {
@@ -445,6 +480,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool filter_search {
@@ -457,6 +493,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool hide_nonworking {
@@ -469,6 +506,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool allow_grouping {
@@ -481,6 +519,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool full_screen {
@@ -493,6 +532,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool hide_clones {
@@ -505,6 +545,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool background_repeat {
@@ -517,6 +558,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool arrow_key_paging {
@@ -529,6 +571,7 @@ namespace IVPlay.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IVPlay.DataAccess.IniSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool audit_games {
