@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using IV_Play.Properties;
 using System.Threading.Tasks;
+using IV_Play.Data;
 
 namespace IV_Play
 {
@@ -75,8 +76,9 @@ namespace IV_Play
                 progress.ProgressChanged += Progress_ProgressChanged;
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                 updateList(xmlParser.Games);
-                updating = false;
                 UpdateTitleBar();
+                await Task.Factory.StartNew(() => DatabaseManager.SaveToDisk());                
+                updating = false;                                            
             }
         }
 

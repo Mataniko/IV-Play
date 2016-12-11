@@ -88,8 +88,10 @@ namespace IV_Play
                     progress.ProgressChanged += Progress_ProgressChanged;
                     await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                     updateList(xmlParser.Games);
-                    updating = false;
                     UpdateTitleBar();
+                    await Task.Factory.StartNew(() => DatabaseManager.SaveToDisk());
+                    updating = false;
+                    
                 }
                 else
                 {
@@ -142,8 +144,7 @@ namespace IV_Play
             Settings.Default.Window_y = Location.Y;
             if (_gameList.SelectedGame != null)
                 Settings.Default.last_game = _gameList.SelectedGame.Name;
-            SettingsManager.WriteSettingsToFile();
-            DatabaseManager.SaveToDisk();
+            SettingsManager.WriteSettingsToFile();            
         }
 
         /// <summary>
