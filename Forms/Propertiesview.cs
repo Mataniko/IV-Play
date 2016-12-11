@@ -22,7 +22,7 @@ namespace IV_Play
             InitializeComponent();            
             try
             {
-                _game = new XmlParser().ReadGameByName(game.Name);
+                _game = new XmlParser().ReadGameByName(game.Name.Replace("fav_",""));
             }
             catch
             {
