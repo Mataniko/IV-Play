@@ -82,17 +82,25 @@ namespace IVPlay.ViewModel
             if (CurrentMachine == null)
                 return;
 
-            MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
+            if (CurrentMachine == null)
+                return;
+
+            MachineViewModel startSearchMachine = CurrentMachine.CloneOf == null || CurrentMachine.IsFavorite ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
 
             char nextKey;
-            char key = Char.ToLower(parent.Description[0]);
+            char key = Char.ToLower(startSearchMachine.Description[0]);
 
             nextKey = key == 'a' ? '9' : Char.ToLower((char)(key - 1));
-            var parents = (from MachineViewModel mvm in _view where mvm.CloneOf == null select mvm);
+            IEnumerable<MachineViewModel> searchMachines;
+
+            if (startSearchMachine.IsFavorite)
+                searchMachines = from MachineViewModel mvm in _view where mvm.IsFavorite select mvm;
+            else
+                searchMachines = from MachineViewModel mvm in _view where mvm.CloneOf == null && !mvm.IsFavorite select mvm;
 
             while (true)
             {
-                var machines = (from m in parents where char.ToLower(m.Description[0]) == nextKey select m);
+                var machines = (from m in searchMachines where char.ToLower(m.Description[0]) == nextKey select m);
                 if (machines.Count() > 0)
                 {
                     var newMachine = machines.First();
@@ -119,17 +127,22 @@ namespace IVPlay.ViewModel
             if (CurrentMachine == null)
                 return;
 
-            MachineViewModel parent = CurrentMachine.CloneOf == null ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
+            MachineViewModel startSearchMachine = CurrentMachine.CloneOf == null || CurrentMachine.IsFavorite ? CurrentMachine : (from m in Machines where m.Name == CurrentMachine.CloneOf select m).Single();
 
             char nextKey;
-            char key = Char.ToLower(parent.Description[0]);
+            char key = Char.ToLower(startSearchMachine.Description[0]);
 
             nextKey = key == '9' ? 'a' : Char.ToLower((char)(key + 1));
-            var parents = from MachineViewModel mvm in _view where mvm.CloneOf == null select mvm;
+            IEnumerable<MachineViewModel> searchMachines;
+
+            if (startSearchMachine.IsFavorite)
+                searchMachines = from MachineViewModel mvm in _view where mvm.IsFavorite select mvm;
+            else
+                searchMachines = from MachineViewModel mvm in _view where mvm.CloneOf == null && !mvm.IsFavorite select mvm;
 
             while (true)
             {
-                var machines = (from m in parents where char.ToLower(m.Description[0]) == nextKey select m);
+                var machines = (from m in searchMachines where char.ToLower(m.Description[0]) == nextKey select m);
                 if (machines.Count() > 0)
                 {
                     var newMachine = machines.First();
@@ -149,9 +162,14 @@ namespace IVPlay.ViewModel
                     nextKey++;
             }
         }
+
+        internal void GoToNextLetterFavorite()
+        {
+
+        }
         #endregion
 
-        #region Settings Command (F1)
+            #region Settings Command (F1)
         private RelayCommand _settingsCommand;
         public ICommand SettingsCommand
         {

@@ -69,6 +69,5 @@
                 <DropShadowEffect ShadowDepth="0.2" Color="Green" Opacity="1" BlurRadius="35" ></DropShadowEffect>
             </Image.Effect>
         </Image>
-        <TextBox Name="filterTextBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}" Grid.Column="0"  Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10" Panel.ZIndex="15"/>
     </Grid>
 </UserControl>
