@@ -38,20 +38,20 @@
         <TextBlock HorizontalAlignment="Right" Margin="10" Grid.Column="2" Grid.Row="4" Text="Input:"/>
         <TextBlock HorizontalAlignment="Right" Margin="10" Grid.Column="2" Grid.Row="6" Text="Sound:"/>
         <TextBlock HorizontalAlignment="Right" Margin="10" Grid.Column="2" Grid.Row="7" Text="Screen:"/>
-        
 
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Description, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Manufacturer, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2" Margin="10" Text="{Binding Machine.Name, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Margin="10" Text="{Binding Machine.Year, ElementName=PropertiesWindow}"/>
+
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Description, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Manufacturer, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2" Margin="10" Text="{Binding Machine.Name, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Margin="10" Text="{Binding Machine.Year, ElementName=PropertiesWindow, Mode=OneTime}"/>
         <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="4" Margin="10" />
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Driver, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="6" Margin="10" Text="{Binding Machine.CPU, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="7" Margin="10" Text="{Binding Machine.Roms, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="2" Margin="10" Text="{Binding Machine.CloneOf, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="3" Margin="10" Text="{Binding Machine.SourceFile, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="4" Margin="10" Text="{Binding Machine.Input, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="6" Margin="10" Text="{Binding Machine.Sound, ElementName=PropertiesWindow}"/>
-        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="7" Margin="10" Text="{Binding Machine.Display, ElementName=PropertiesWindow}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="10" Text="{Binding Machine.Driver, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="6" Margin="10" Text="{Binding Machine.CPU, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="7" Margin="10" Text="{Binding Machine.Roms, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="2" Margin="10" Text="{Binding Machine.CloneOf, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="3" Margin="10" Text="{Binding Machine.SourceFile, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="4" Margin="10" Text="{Binding Machine.Input, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="6" Margin="10" Text="{Binding Machine.Sound, ElementName=PropertiesWindow, Mode=OneTime}"/>
+        <TextBox IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="7" Margin="10" Text="{Binding Machine.Display, ElementName=PropertiesWindow, Mode=OneTime}"/>
     </Grid>
 </Window>
