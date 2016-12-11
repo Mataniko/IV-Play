@@ -167,6 +167,15 @@ namespace IVPlay.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IniSettingsProvider.
+        /// </summary>
+        internal static string Settings_Provider_Name {
+            get {
+                return ResourceManager.GetString("Settings_Provider_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Text_Filter_Background {

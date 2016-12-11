@@ -154,4 +154,7 @@
   <data name="Favorites_File_Name" xml:space="preserve">
     <value>Favorites.ini</value>
   </data>
+  <data name="Settings_Provider_Name" xml:space="preserve">
+    <value>IniSettingsProvider</value>
+  </data>
 </root>

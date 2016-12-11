@@ -35,17 +35,13 @@ namespace IVPlay.DataAccess
         {
             get
             {
-                return "IVPlay";
+                return Resources.Application_Name;
             }
-
-            set
-            {
-                
-            }
+            set { }
         }
         public override string Name
         {
-            get { return "IniSettingsProvider"; }
+            get { return Resources.Settings_Provider_Name; }
         }
 
         public override void Initialize(string name, NameValueCollection config)
