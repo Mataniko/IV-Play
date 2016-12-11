@@ -154,13 +154,16 @@ namespace IVPlay.ViewModel
         {
             get
             {
-                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.Name)))
-                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.Name);
+                var parentPath = Path.Combine(Settings.Default.icons_directory, string.Format("{0}.ico", _machine.Name));
+                
+                if (File.Exists(string.Format(parentPath)))
+                    return parentPath;
 
-                if (_machine.CloneOf != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.CloneOf)))
-                    return string.Format(@"D:\Games\Emulators\MAME\icons\{0}.ico", _machine.CloneOf);
+                var clonePath = Path.Combine(Settings.Default.icons_directory, string.Format("{0}.ico", _machine.CloneOf));
+                if (_machine.CloneOf != null && File.Exists(clonePath))
+                    return clonePath;
 
-                return @"D:\Games\Emulators\MAME\icons\unknown.ico";
+                return Path.Combine(Settings.Default.icons_directory, string.Format("unknown.ico"));
             }
         }
         public string Snap
@@ -169,12 +172,17 @@ namespace IVPlay.ViewModel
             {
                 if (!IsSelected) return "";
 
-                if (File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.Name)))
-                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.Name);
-                else if (_machine.CloneOf != null && File.Exists(string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.CloneOf)))
-                    return string.Format(@"D:\Games\Emulators\MAME\snap\{0}.png", _machine.CloneOf);
-                else
-                    return @"D:\Games\Emulators\MAME\snap\005.png";
+                var parentPath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.Name));
+
+                if (File.Exists(parentPath))
+                    return parentPath;
+
+                var clonePath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.CloneOf));
+                if (_machine.CloneOf != null && File.Exists(clonePath))
+                    return clonePath;
+
+
+                return Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("unknown.ico"));
             }
         }     
 

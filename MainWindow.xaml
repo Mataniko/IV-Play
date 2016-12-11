@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:IVPlay"
         xmlns:vw="clr-namespace:IVPlay.View"
-        xmlns:vm="clr-namespace:IVPlay.ViewModel"        
+        xmlns:vm="clr-namespace:IVPlay.ViewModel"    
+        xmlns:resx="clr-namespace:IVPlay.Properties"
         Height="432" Width="1015">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -16,7 +17,7 @@
     <Window.Background>
         <VisualBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,100,100">
             <VisualBrush.Visual>
-                <Image Source="C:\Users\Mataniko\Documents\GitHub\IV-Play\Resources\px_by_Gre3g.png"></Image>
+                <Image Source="/Resources/px_by_Gre3g.png"></Image>
             </VisualBrush.Visual>
         </VisualBrush>
     </Window.Background>
