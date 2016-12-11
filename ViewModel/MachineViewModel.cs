@@ -57,8 +57,7 @@ namespace IVPlay.ViewModel
         
         public Brush TextForeground {
             get
-            {
-                Console.WriteLine(Settings.Default.favorites_color);
+            {                
                 if (IsFavorite)
                     return new SolidColorBrush(Settings.Default.favorites_color);
 
