@@ -169,7 +169,7 @@ namespace IVPlay.ViewModel
         }
         #endregion
 
-            #region Settings Command (F1)
+        #region Settings Command (F1)
         private RelayCommand _settingsCommand;
         public ICommand SettingsCommand
         {

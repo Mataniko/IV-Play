@@ -5,7 +5,10 @@
         xmlns:vw="clr-namespace:IVPlay.View"
         xmlns:vm="clr-namespace:IVPlay.ViewModel"    
         xmlns:resx="clr-namespace:IVPlay.Properties"
-        Height="432" Width="1015">
+        Height="{Binding Source={x:Static resx:Settings.Default}, Path=window_height, Mode=TwoWay}" 
+        Width="{Binding Source={x:Static resx:Settings.Default}, Path=window_width, Mode=TwoWay}"
+        Left="{Binding Source={x:Static resx:Settings.Default}, Path=Window_x, Mode=TwoWay}" 
+        Top="{Binding Source={x:Static resx:Settings.Default}, Path=Window_y, Mode=TwoWay}">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>

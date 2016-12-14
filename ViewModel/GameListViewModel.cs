@@ -73,7 +73,15 @@ namespace IVPlay.ViewModel
             
             _favoritesMode = (FavoritesMode)Settings.Default.favorites_mode;
             _jumpList = new JumpListClass();            
-            LoadMachines();    
+            LoadMachines();
+            Settings.Default.SettingsSaving += Default_SettingsSaving;
+        }
+
+        private void Default_SettingsSaving(object sender, CancelEventArgs e)
+        {
+            if (_view == null) return;
+            
+            _view.Refresh();
         }
 
         private void LoadMachines()
@@ -100,9 +108,15 @@ namespace IVPlay.ViewModel
                 this.Machines.CollectionChanged += this.Machines_CollectionChanged;
                 _view = (CollectionView)CollectionViewSource.GetDefaultView(this.Machines);
                 _view.Filter = UserFilter;
+                _view.CurrentChanged += _view_CurrentChanged;
             }
             
             UpdateTitle();                        
+        }
+
+        private void _view_CurrentChanged(object sender, EventArgs e)
+        {
+            UpdateTitle();
         }
 
         private void UpdateTitle()

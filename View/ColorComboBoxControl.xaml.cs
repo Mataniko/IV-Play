@@ -39,8 +39,7 @@ namespace IVPlay.View
 
         private void cmbColors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var s = (sender as ComboBox);            
-            Console.WriteLine("Selection Changed");
+            var s = (sender as ComboBox);
         }
     }
 }

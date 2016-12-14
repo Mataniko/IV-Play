@@ -18,7 +18,7 @@
         <KeyBinding Key="Return" Command="{Binding StartCommand}"/>
         <KeyBinding Key="Left" Command="{Binding LeftCommand}"/>
         <KeyBinding Key="Right" Command="{Binding RightCommand}"/>
-        <!--<KeyBinding Key="F1" Command="{Binding SettingsCommand}" />-->
+        <KeyBinding Key="F1" Command="{Binding SettingsCommand}" />
         <KeyBinding Key="F5" Command="{Binding RefreshCommand}" />
     </UserControl.InputBindings>
     

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -27,11 +28,12 @@ namespace IVPlay.Properties {
 
             this.PropertyChanged += Settings_PropertyChanged;
             this.SettingsLoaded += Settings_SettingsLoaded;
+            
         }
 
         private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e)
         {
-            if (string.IsNullOrEmpty(this.MAME_EXE))
+            if (string.IsNullOrEmpty(this.MAME_EXE) && !DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
                 try
                 {
@@ -96,27 +98,16 @@ namespace IVPlay.Properties {
             Settings.Default.art_view_folders =
                 string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
                               path.ToLower(), @"snap", @"flyers", @"history.dat", @"cabinets", @"cpanel", @"marquees",
-                              @"pcb", @"titles", @"mameinfo.dat");
+                              @"pcb", @"titles", @"mameinfo.dat");          
 
-            //Art View Paths
-            string Paths = "";
-            ArtPaths.Add("None");
-            foreach (var item in this.art_view_folders.Split('|'))
-            {
-                if (Directory.Exists(item) || File.Exists(item))
-                    ArtPaths.Add(item);
-            }
-            Paths.TrimEnd('|');
-            //Settings.Default.art_view_folders = Paths;
-
-            this.icons_directory = Path.Combine(path, @"icons\");
-            this.bkground_directory = Path.Combine(path, @"bkground\");
+            this.icons_directory = Path.Combine(path, @"icons");
+            this.bkground_directory = Path.Combine(path, @"bkground");
         }
 
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.Save();
+            //this.Save();
         }
 
         private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {

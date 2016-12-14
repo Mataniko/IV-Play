@@ -4,11 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IVPlay.View"
+        xmlns:properties="clr-namespace:IVPlay.Properties"
+        xmlns:vm="clr-namespace:IVPlay.ViewModel"
         xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="SettingsView" Height="565.439" Width="1070.372" Background="Gray">
+
+    <Window.DataContext>
+        <vm:SettingsViewModel/>
+    </Window.DataContext>
+    
     <Grid>
-        <TabControl x:Name="tabControl" TabStripPlacement="Left" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" x:Name="tabControl" TabStripPlacement="Left" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
             <TabItem Header="Appearance">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -28,21 +39,52 @@
                             <local:ColorComboBoxControl Text="Mechnaical Color:" Value="RosyBrown"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox x:Name="fontsAndColorsGroupBox_Copy" Grid.Column="0" Grid.Row="1" Header="Game List" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" >
-                        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="141,187,0,0" VerticalAlignment="Top" Width="75"/>
-                    </GroupBox>
+                    <GroupBox x:Name="fontsAndColorsGroupBox_Copy" Grid.Column="0" Grid.Row="1" Header="Game List" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" />
                 </Grid>
             </TabItem>
             <TabItem Header="Search &amp; Filters">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=hide_mechanical_games}" Content="Hide Mechanical Games" HorizontalAlignment="Left" Margin="5,5,0,0" />
+                        <CheckBox IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=hide_nonworking}" Content="Hide Non-Working Games" HorizontalAlignment="Left" Margin="5,5,0,0"/>
+                        <CheckBox IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=hide_clones}" Content="Hide Clones" HorizontalAlignment="Left" Margin="5,5,0,0" />
+                    </StackPanel>
+                    
+                </Grid>
             </TabItem>
             <TabItem Header="Art Paths">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox x:Name="groupBox" Header="Art Paths" HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <ListBox Background="White" ItemsSource="{Binding ArtPaths}" Margin="5"></ListBox>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
+                                <Button Margin="5" Padding="5">Add Path</Button>
+                                <Button Margin="5" Padding="5">Add DAT File</Button>
+                                <Button Margin="5" Padding="5">Remove</Button>
+                                <Button Margin="5" Padding="5">Move Up</Button>
+                                <Button Margin="5" Padding="5">Move Down</Button>
+                            </StackPanel>
+                        </Grid>
+                        
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Advanced">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
 
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5" HorizontalAlignment="Left">
+            <Button Margin="5" Padding="5">Reset to Default settings</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5" HorizontalAlignment="Right">
+            <Button Margin="5" Padding="5" Width="80">OK</Button>
+            <Button Margin="5" Padding="5" Width="80">Cancel</Button>
+            <Button Margin="5" Padding="5" Width="80" Command="{Binding ApplyCommand}">Apply</Button>
+        </StackPanel>
     </Grid>
 </Window>
