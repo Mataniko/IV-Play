@@ -174,6 +174,11 @@ namespace IVPlay.ViewModel
 
                 var parentPath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.Name));
 
+                var video = Path.Combine(Settings.Default.art_view_folders.Split('|')[0].Replace("snap","videosnaps"), string.Format("{0}.mp4", _machine.Name));
+
+                if (File.Exists(video))
+                    return video;
+
                 if (File.Exists(parentPath))
                     return parentPath;
 

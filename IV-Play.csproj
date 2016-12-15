@@ -123,11 +123,15 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ScrollAndFocusBehavior.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ViewModel\ArtViewModel.cs" />
     <Compile Include="ViewModel\GameListViewModel.cs" />
     <Compile Include="ViewModel\MachineViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\ArtView.xaml.cs">
+      <DependentUpon>ArtView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ColorComboBoxControl.xaml.cs">
       <DependentUpon>ColorComboBoxControl.xaml</DependentUpon>
     </Compile>
@@ -184,6 +188,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="View\ArtView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ColorComboBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

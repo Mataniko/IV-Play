@@ -96,9 +96,9 @@ namespace IVPlay.Properties {
 
             //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo            
             Settings.Default.art_view_folders =
-                string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
+                string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}|{0}{9}",
                               path.ToLower(), @"snap", @"flyers", @"history.dat", @"cabinets", @"cpanel", @"marquees",
-                              @"pcb", @"titles", @"mameinfo.dat");          
+                              @"pcb", @"titles", @"mameinfo.dat",@"videosnap");          
 
             this.icons_directory = Path.Combine(path, @"icons");
             this.bkground_directory = Path.Combine(path, @"bkground");
