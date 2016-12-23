@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Info.cs" />
-    <Compile Include="Classes\InfoParser.cs" />
+    <Compile Include="DataAccess\InfoParser.cs" />
     <Compile Include="Classes\Log.cs" />
     <Compile Include="DataAccess\IniSettingsProvider.cs" />
     <Compile Include="DataAccess\MameWrapper.cs" />

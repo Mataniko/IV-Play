@@ -39,28 +39,17 @@ namespace IVPlay.View
             ArtView control = source as ArtView;
 
             if (e.NewValue.ToString() == e.OldValue.ToString()) return;
-            // Put some update logic here...
+                        
             control.text.Visibility = Visibility.Hidden;
             control.image.Visibility = Visibility.Hidden;
-            control.video.Visibility = Visibility.Hidden;
-            control.text.IsEnabled = false;
-            control.image.IsEnabled = false;
-            control.video.IsEnabled = false;
-
+            
             var value = e.NewValue.ToString();
-            if (value.EndsWith(".png") && File.Exists(value))
+            if ((value.EndsWith(".png")) && File.Exists(value))
             {
-                control.image.IsEnabled = true;
                 control.image.Visibility = Visibility.Visible;
-            }
-            else if (value.EndsWith(".mp4") && File.Exists(value))
-            {
-                control.video.IsEnabled = true;
-                control.video.Visibility = Visibility.Visible;
-            }
+            }            
             else
-            {
-                control.text.IsEnabled = true;
+            {                
                 control.text.Visibility = Visibility.Visible;
             }
         }

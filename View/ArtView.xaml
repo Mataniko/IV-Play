@@ -4,19 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IVPlay.View"
-             xmlns:vm="clr-namespace:IVPlay.ViewModel"             
+             xmlns:vm="clr-namespace:IVPlay.ViewModel"  
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             x:Name="artView"
-             Background="Beige" >
+             x:Name="artView">
 
     <UserControl.DataContext>
         <vm:ArtViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <Image Name="image" IsEnabled="False" Visibility="Hidden" Source="{Binding ElementName=artView, Path=Source}"></Image>
-        <MediaElement Name="video" IsEnabled="False" Visibility="Hidden" Source="{Binding ElementName=artView, Path=Source}"></MediaElement>
-        
-        <TextBlock Name="text" IsEnabled="False" Visibility="Hidden" Text="{Binding ElementName=artView, Path=Source}"></TextBlock>
+        <Image Name="image" Visibility="Hidden" Source="{Binding ElementName=artView, Path=Source}"/>
+        <TextBlock Name="text" Visibility="Hidden" Text="{Binding ElementName=artView, Path=Source}" Foreground="{Binding TextForeground, Mode=OneWay}"/>
     </Grid>
 </UserControl>

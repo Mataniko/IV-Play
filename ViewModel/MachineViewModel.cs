@@ -1,4 +1,5 @@
-﻿using IVPlay.Model;
+﻿using IVPlay.DataAccess;
+using IVPlay.Model;
 using IVPlay.Properties;
 using System;
 using System.ComponentModel;
@@ -172,22 +173,33 @@ namespace IVPlay.ViewModel
             {
                 if (!IsSelected) return "";
 
-                var parentPath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.Name));
+                var snapPath = Settings.Default.art_view_folders.Split('|')[Settings.Default.art_type];
+                
+                if (snapPath.EndsWith(".dat"))
+                {                    
+                    return InfoParser.Instance.GetInfo(snapPath, _machine.Name);
+                }
+                else
+                {
+                    return Path.Combine(snapPath, string.Format("{0}.png", _machine.Name));
+                }
 
-                var video = Path.Combine(Settings.Default.art_view_folders.Split('|')[0].Replace("snap","videosnaps"), string.Format("{0}.mp4", _machine.Name));
+                //var parentPath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.Name));
 
-                if (File.Exists(video))
-                    return video;
+                //var video = Path.Combine(Settings.Default.art_view_folders.Split('|')[0].Replace("snap","videosnaps"), string.Format("{0}.mp4", _machine.Name));
 
-                if (File.Exists(parentPath))
-                    return parentPath;
+                //if (File.Exists(video))
+                //    return video;
 
-                var clonePath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.CloneOf));
-                if (_machine.CloneOf != null && File.Exists(clonePath))
-                    return clonePath;
+                //if (File.Exists(parentPath))
+                //    return parentPath;
+
+                //var clonePath = Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("{0}.png", _machine.CloneOf));
+                //if (_machine.CloneOf != null && File.Exists(clonePath))
+                //    return clonePath;
 
 
-                return Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("unknown.ico"));
+                //return Path.Combine(Settings.Default.art_view_folders.Split('|')[0], string.Format("unknown.ico"));
             }
         }     
 

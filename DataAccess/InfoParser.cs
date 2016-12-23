@@ -3,30 +3,47 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace IVPlay
+namespace IVPlay.DataAccess
 {
     public class InfoParser
     {
-        public Info this[string game]
+        private static InfoParser _instance;
+
+        private Dictionary<string, Dictionary<string, string>> _infoDictionary = new Dictionary<string, Dictionary<string, string>>();
+
+        private InfoParser() { }
+
+        public static InfoParser Instance
         {
-            get { return _infoDictionary.ContainsKey(game) ? _infoDictionary[game] : new Info(); }
+            get
+            {
+                if (_instance == null)
+                    _instance = new InfoParser();
+
+                return _instance;
+            }
         }
 
-        private Dictionary<string, Info> _infoDictionary = new Dictionary<string, Info>();
-
-        public bool Contains(string game)
+        public string GetInfo(string DatFile, string MachineName)
         {
-            return _infoDictionary.ContainsKey(game);
+            if (!_infoDictionary.ContainsKey(DatFile))
+                _infoDictionary.Add(DatFile, ParseDat(DatFile));
+
+            if (!_infoDictionary[DatFile].ContainsKey(MachineName)) return "";
+
+            return _infoDictionary[DatFile][MachineName];
         }
-
-        public InfoParser(string datPath)
+        
+        private Dictionary<string, string> ParseDat(string path)
         {
-            if (!File.Exists(datPath))
-                return;
+            if (!File.Exists(path))
+                return new Dictionary<string, string>();
 
             try
             {
-                using (StringReader stringReader = new StringReader(File.ReadAllText(datPath)))
+
+                var info = new Dictionary<string, string>();
+                using (StringReader stringReader = new StringReader(File.ReadAllText(path)))
                 {
                     StringBuilder stringBuilder = new StringBuilder();
                     string[] keys = new string[0];
@@ -35,7 +52,7 @@ namespace IVPlay
                         string line = stringReader.ReadLine();
 
                         if (line == null)
-                            return;
+                            break;
 
                         if (line.StartsWith("#"))
                             continue;
@@ -52,8 +69,8 @@ namespace IVPlay
 
                             foreach (var key in keys)
                             {
-                                if (!_infoDictionary.ContainsKey(key))
-                                    _infoDictionary.Add(key, CreateInfo(entry));
+                                if (!info.ContainsKey(key))
+                                    info.Add(key, entry);
                             }
 
                             continue;
@@ -73,28 +90,14 @@ namespace IVPlay
                         }
                     }
                 }
+
+                return info;
             }
             catch (Exception)
             {
-
+                return new Dictionary<string, string>();
 
             }
-        }
-
-        private Info CreateInfo(string text)
-        {
-            Info info = new Info();
-            info.Text = text;
-
-            //int count = 1;
-            //int start = 0;
-            //while ((start = text.IndexOf('\n', start)) != -1)
-            //{
-            //    count++;
-            //    start++;
-            //}
-            //info.Rows = count;
-            return info;
         }
     }
 }
