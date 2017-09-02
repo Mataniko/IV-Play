@@ -209,7 +209,12 @@ namespace IV_Play
             {
                 if (Settings.Default.rotate_background)
                 {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(Settings.Default.bkground_directory);
+                    if (!Directory.Exists(Settings.Default.bkground_directory)) {
+                        BackgroundImage = Resources.Default_Background;
+                        return;
+                    }
+                        
+                    DirectoryInfo directoryInfo = new DirectoryInfo(Settings.Default.bkground_directory);                    
                     FileInfo[] fileInfos = directoryInfo.GetFiles();
                     var images =
                         (from entry in fileInfos
