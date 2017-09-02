@@ -77,7 +77,6 @@ namespace IV_Play
                 await Task.Factory.StartNew(() => xmlParser.MakeDat(progress));
                 updateList(xmlParser.Games);
                 UpdateTitleBar();
-                await Task.Factory.StartNew(() => DatabaseManager.SaveToDisk());                
                 updating = false;                                            
             }
         }
