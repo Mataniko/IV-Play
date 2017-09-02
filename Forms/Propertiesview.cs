@@ -57,6 +57,7 @@ namespace IV_Play
             _txtSource.Text = _game.SourceFile;
             _txtInput.Text = _game.Input;
             _txtSound.Text = _game.Sound;
+            _txtFeatures.Text = _game.Features;
             _txtScreen.Text = _game.Display;
         }
 

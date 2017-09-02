@@ -56,6 +56,8 @@
             this._lblScreen = new System.Windows.Forms.Label();
             this._lblControl = new System.Windows.Forms.Label();
             this._btnClose = new System.Windows.Forms.Button();
+            this._lblFeatures = new System.Windows.Forms.Label();
+            this._txtFeatures = new System.Windows.Forms.TextBox();
             this._layoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,8 @@
             this._layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this._layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this._layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this._layoutPanel.Controls.Add(this._txtFeatures, 1, 6);
+            this._layoutPanel.Controls.Add(this._lblFeatures, 0, 6);
             this._layoutPanel.Controls.Add(this._txtSource, 3, 3);
             this._layoutPanel.Controls.Add(this._txtYear, 1, 3);
             this._layoutPanel.Controls.Add(this._txtClone, 3, 2);
@@ -80,19 +84,19 @@
             this._layoutPanel.Controls.Add(this._lblStatus, 0, 5);
             this._layoutPanel.Controls.Add(this._lblClone, 2, 2);
             this._layoutPanel.Controls.Add(this._lblSource, 2, 3);
-            this._layoutPanel.Controls.Add(this._lblCPU, 0, 6);
+            this._layoutPanel.Controls.Add(this._lblCPU, 0, 7);
             this._layoutPanel.Controls.Add(this._txtDesc, 1, 0);
             this._layoutPanel.Controls.Add(this._txtStatus, 1, 5);
             this._layoutPanel.Controls.Add(this._txtColors, 1, 4);
-            this._layoutPanel.Controls.Add(this._txtCPU, 1, 6);
+            this._layoutPanel.Controls.Add(this._txtCPU, 1, 7);
             this._layoutPanel.Controls.Add(this._txtManu, 1, 1);
-            this._layoutPanel.Controls.Add(this._lblSound, 2, 6);
-            this._layoutPanel.Controls.Add(this._txtSound, 3, 6);
-            this._layoutPanel.Controls.Add(this._lblRomInfo, 0, 7);
-            this._layoutPanel.Controls.Add(this._txtRoms, 1, 7);
-            this._layoutPanel.Controls.Add(this._txtScreen, 3, 7);
+            this._layoutPanel.Controls.Add(this._lblSound, 2, 7);
+            this._layoutPanel.Controls.Add(this._txtSound, 3, 7);
+            this._layoutPanel.Controls.Add(this._lblRomInfo, 0, 8);
+            this._layoutPanel.Controls.Add(this._txtRoms, 1, 8);
+            this._layoutPanel.Controls.Add(this._txtScreen, 3, 8);
             this._layoutPanel.Controls.Add(this._txtInput, 3, 4);
-            this._layoutPanel.Controls.Add(this._lblScreen, 2, 7);
+            this._layoutPanel.Controls.Add(this._lblScreen, 2, 8);
             this._layoutPanel.Controls.Add(this._lblControl, 2, 4);
             this._layoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._layoutPanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -100,7 +104,7 @@
             this._layoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this._layoutPanel.Name = "_layoutPanel";
             this._layoutPanel.Padding = new System.Windows.Forms.Padding(5);
-            this._layoutPanel.RowCount = 8;
+            this._layoutPanel.RowCount = 9;
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -109,7 +113,8 @@
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._layoutPanel.Size = new System.Drawing.Size(900, 422);
+            this._layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layoutPanel.Size = new System.Drawing.Size(900, 479);
             this._layoutPanel.TabIndex = 0;
             // 
             // _txtSource
@@ -275,7 +280,7 @@
             this._lblCPU.BackColor = System.Drawing.Color.Transparent;
             this._lblCPU.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblCPU.ForeColor = System.Drawing.Color.White;
-            this._lblCPU.Location = new System.Drawing.Point(104, 170);
+            this._lblCPU.Location = new System.Drawing.Point(104, 197);
             this._lblCPU.Margin = new System.Windows.Forms.Padding(3);
             this._lblCPU.Name = "_lblCPU";
             this._lblCPU.Size = new System.Drawing.Size(31, 15);
@@ -330,7 +335,7 @@
             this._txtCPU.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtCPU.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtCPU.ForeColor = System.Drawing.Color.White;
-            this._txtCPU.Location = new System.Drawing.Point(141, 170);
+            this._txtCPU.Location = new System.Drawing.Point(141, 197);
             this._txtCPU.Multiline = true;
             this._txtCPU.Name = "_txtCPU";
             this._txtCPU.ReadOnly = true;
@@ -359,7 +364,7 @@
             this._lblSound.BackColor = System.Drawing.Color.Transparent;
             this._lblSound.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblSound.ForeColor = System.Drawing.Color.White;
-            this._lblSound.Location = new System.Drawing.Point(533, 170);
+            this._lblSound.Location = new System.Drawing.Point(533, 197);
             this._lblSound.Margin = new System.Windows.Forms.Padding(3);
             this._lblSound.Name = "_lblSound";
             this._lblSound.Size = new System.Drawing.Size(46, 15);
@@ -373,7 +378,7 @@
             this._txtSound.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtSound.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtSound.ForeColor = System.Drawing.Color.White;
-            this._txtSound.Location = new System.Drawing.Point(585, 170);
+            this._txtSound.Location = new System.Drawing.Point(585, 197);
             this._txtSound.Multiline = true;
             this._txtSound.Name = "_txtSound";
             this._txtSound.ReadOnly = true;
@@ -388,7 +393,7 @@
             this._lblRomInfo.BackColor = System.Drawing.Color.Transparent;
             this._lblRomInfo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblRomInfo.ForeColor = System.Drawing.Color.White;
-            this._lblRomInfo.Location = new System.Drawing.Point(92, 270);
+            this._lblRomInfo.Location = new System.Drawing.Point(92, 297);
             this._lblRomInfo.Margin = new System.Windows.Forms.Padding(3);
             this._lblRomInfo.Name = "_lblRomInfo";
             this._lblRomInfo.Size = new System.Drawing.Size(43, 15);
@@ -402,12 +407,12 @@
             this._txtRoms.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtRoms.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtRoms.ForeColor = System.Drawing.Color.White;
-            this._txtRoms.Location = new System.Drawing.Point(141, 270);
+            this._txtRoms.Location = new System.Drawing.Point(141, 297);
             this._txtRoms.Multiline = true;
             this._txtRoms.Name = "_txtRoms";
             this._txtRoms.ReadOnly = true;
             this._txtRoms.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._txtRoms.Size = new System.Drawing.Size(305, 144);
+            this._txtRoms.Size = new System.Drawing.Size(305, 174);
             this._txtRoms.TabIndex = 11;
             // 
             // _txtScreen
@@ -417,12 +422,12 @@
             this._txtScreen.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtScreen.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtScreen.ForeColor = System.Drawing.Color.White;
-            this._txtScreen.Location = new System.Drawing.Point(585, 270);
+            this._txtScreen.Location = new System.Drawing.Point(585, 297);
             this._txtScreen.Multiline = true;
             this._txtScreen.Name = "_txtScreen";
             this._txtScreen.ReadOnly = true;
             this._txtScreen.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._txtScreen.Size = new System.Drawing.Size(307, 144);
+            this._txtScreen.Size = new System.Drawing.Size(307, 174);
             this._txtScreen.TabIndex = 12;
             // 
             // _txtInput
@@ -445,7 +450,7 @@
             this._lblScreen.BackColor = System.Drawing.Color.Transparent;
             this._lblScreen.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblScreen.ForeColor = System.Drawing.Color.White;
-            this._lblScreen.Location = new System.Drawing.Point(528, 267);
+            this._lblScreen.Location = new System.Drawing.Point(528, 294);
             this._lblScreen.Name = "_lblScreen";
             this._lblScreen.Size = new System.Drawing.Size(51, 15);
             this._lblScreen.TabIndex = 6;
@@ -477,13 +482,40 @@
             this._btnClose.Visible = false;
             this._btnClose.Click += new System.EventHandler(this._btnClose_Click);
             // 
+            // _lblFeatures
+            // 
+            this._lblFeatures.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this._lblFeatures.AutoSize = true;
+            this._lblFeatures.BackColor = System.Drawing.Color.Transparent;
+            this._lblFeatures.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblFeatures.ForeColor = System.Drawing.Color.White;
+            this._lblFeatures.Location = new System.Drawing.Point(75, 173);
+            this._lblFeatures.Name = "_lblFeatures";
+            this._lblFeatures.Size = new System.Drawing.Size(60, 15);
+            this._lblFeatures.TabIndex = 24;
+            this._lblFeatures.Text = "Features:";
+            // 
+            // _txtFeatures
+            // 
+            this._txtFeatures.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this._txtFeatures.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._layoutPanel.SetColumnSpan(this._txtFeatures, 3);
+            this._txtFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._txtFeatures.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._txtFeatures.ForeColor = System.Drawing.Color.White;
+            this._txtFeatures.Location = new System.Drawing.Point(141, 170);
+            this._txtFeatures.Name = "_txtFeatures";
+            this._txtFeatures.ReadOnly = true;
+            this._txtFeatures.Size = new System.Drawing.Size(751, 21);
+            this._txtFeatures.TabIndex = 25;
+            // 
             // PropertiesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::IV_Play.Properties.Resources.Default_Background;
             this.CancelButton = this._btnClose;
-            this.ClientSize = new System.Drawing.Size(900, 422);
+            this.ClientSize = new System.Drawing.Size(900, 479);
             this.Controls.Add(this._layoutPanel);
             this.Controls.Add(this._btnClose);
             this.DoubleBuffered = true;
@@ -533,5 +565,7 @@
         private System.Windows.Forms.Label _lblControl;
         private System.Windows.Forms.TextBox _txtRoms;
         private System.Windows.Forms.TextBox _txtInput;
+        private System.Windows.Forms.TextBox _txtFeatures;
+        private System.Windows.Forms.Label _lblFeatures;
     }
 }
