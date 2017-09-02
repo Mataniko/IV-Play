@@ -30,7 +30,7 @@ namespace IV_Play.Data
 
             if (File.Exists(Resources.DB_NAME))
             {
-                using (FileStream infileStream = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+                using (FileStream infileStream = File.Open(Resources.DB_NAME, System.IO.FileMode.OpenOrCreate))
                 {
                     using (GZipStream gZipStream = new GZipStream(infileStream, CompressionMode.Decompress))
                     {
@@ -44,7 +44,7 @@ namespace IV_Play.Data
 
         public static void SaveToDisk()
         {
-            using (FileStream outFile = File.Open(Resources.DB_NAME, FileMode.OpenOrCreate))
+            using (FileStream outFile = File.Open(Resources.DB_NAME, System.IO.FileMode.OpenOrCreate))
             {
                 using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
                 {
@@ -60,8 +60,7 @@ namespace IV_Play.Data
         }
 
         public static void UpdateMachines(List<Machine> machines)
-        {
-
+        {            
             using (database.BeginTrans())
             {
                 var indexes = machinesCollection.FindAll().ToDictionary(x => x.name);
