@@ -139,8 +139,10 @@ namespace IV_Play
             _backgroundPath = Settings.Default.bkground_directory;
             try
             {
-                _picBG.Image =
-                    Image.FromFile(Path.Combine(Settings.Default.bkground_directory, Settings.Default.bkground_image));
+                if (!File.Exists(Path.Combine(Settings.Default.bkground_directory, Settings.Default.bkground_image)))
+                    _picBG.Image = Resources.Default_Background;
+                else
+                    _picBG.Image = Image.FromFile(Path.Combine(Settings.Default.bkground_directory, Settings.Default.bkground_image));
             }
             catch (Exception)
             {
