@@ -155,7 +155,7 @@ namespace IV_Play
                             }
                             else
                             {
-                                _games[machine.cloneof].Children[machine.name] = game;
+                                _games[machine.cloneof].Children[machine.description] = game;
                             }
 
                             progress.Report(counter);
@@ -219,7 +219,7 @@ namespace IV_Play
                 var game = new Game(machine);
                 if (games.ContainsKey(game.ParentSet))
                 {
-                    games[game.ParentSet].Children.Add(game.Name, game);
+                    games[game.ParentSet].Children.Add(game.Description, game);
                 }                
             }
 
