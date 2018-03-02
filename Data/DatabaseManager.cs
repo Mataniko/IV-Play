@@ -68,6 +68,11 @@ namespace IV_Play.Data
                     x.Id = indexes[x.name].Id;
                     machinesCollection.Update(x);
                 });
+
+                // Delete any machines that we didn't update, which are devices.
+                // We can tell which devices these are because they don't have a year.
+                var devices = machinesCollection.FindAll().Where(x => x.year == null);
+                devices.ToList().ForEach(x => { machinesCollection.Delete(x.Id); });
             }
         }
 

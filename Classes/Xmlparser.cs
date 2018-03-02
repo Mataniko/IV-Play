@@ -139,9 +139,10 @@ namespace IV_Play
                     using (XmlReader xmlReader = XmlReader.Create(myOutput, xmlReaderSettings))
                     {
                         while (xmlReader.ReadToFollowing(xmlRootAttribute))
-                        {
+                        {                           
                             // MAME lists all of it's devices at the end, so we can just finish here.
-                            if (xmlReader["isdevice"] == "yes") break;
+                            if (xmlReader["isdevice"] == "yes")
+                                break;
 
                             var machine = (Machine)xmlSerializer.Deserialize(xmlReader.ReadSubtree());
                             counter++;
@@ -160,6 +161,16 @@ namespace IV_Play
 
                             progress.Report(counter);
                         } // end while loop
+
+                        // Delete any games that don't have a year, which are the devices.                        
+                        var devices = _games.Where(x => x.Value.Year == null);
+                        devices.ToList().ForEach(x =>
+                        {
+                            Game game = new Game();
+                            _games.TryRemove(x.Key, out game);
+                        });
+
+
 
                         progress.Report(-1);
                         DatabaseManager.UpdateMachines(machines);
