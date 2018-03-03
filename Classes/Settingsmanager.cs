@@ -15,6 +15,7 @@ using IV_Play.Properties;
 using System.ComponentModel;
 using System.Collections;
 using IV_Play.Data.Models;
+using System.Reflection;
 
 #endregion
 
@@ -256,12 +257,17 @@ namespace IV_Play
                 foreach (FileInfo fileInfo in directoryInfo.GetFiles())
                 {
                     if (fileInfo.Name.StartsWith("MAME", StringComparison.InvariantCultureIgnoreCase) &&
-                        fileInfo.Extension.Equals(".exe", StringComparison.InvariantCultureIgnoreCase))
+                    fileInfo.Extension.Equals(".exe", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Settings.Default.MAME_EXE = fileInfo.FullName;
-                        if (setPaths)
-                            SetPaths(fileInfo.DirectoryName);
-                        return true;
+                        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(fileInfo.FullName);
+                        if (!string.IsNullOrEmpty(fileVersionInfo.ProductName) &&
+                            fileVersionInfo.ProductName.Contains("MAME"))
+                        {
+                            SetMamePath(fileInfo.FullName);
+                            if (setPaths)
+                                SetPaths(fileInfo.DirectoryName);
+                            return true;
+                        }
                     }
                 }
             }
@@ -276,9 +282,7 @@ namespace IV_Play
                 {
                     FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(openFileDialog.FileName);
                     if (!string.IsNullOrEmpty(fileVersionInfo.ProductName) &&
-                        fileVersionInfo.ProductName.Contains("MAME"))
-                        Settings.Default.MAME_EXE = openFileDialog.FileName;
-                    else
+                        !fileVersionInfo.ProductName.Contains("MAME"))
                     {
                         DialogResult error =
                             MessageBox.Show(
@@ -287,12 +291,11 @@ namespace IV_Play
                                 MessageBoxButtons.YesNo);
                         if (error == DialogResult.No)
                             return false;
-
-                        Settings.Default.MAME_EXE = openFileDialog.FileName;
-                    }
+                    }                                            
                     if (setPaths)
                         SetPaths(openFileDialog.FileName.Replace(openFileDialog.SafeFileName, ""));
-                    Settings.Default.MAME_EXE = openFileDialog.FileName;
+
+                    SetMamePath(openFileDialog.FileName);
                     return true;
                 }
             }
@@ -309,8 +312,11 @@ namespace IV_Play
         {
             ArtPaths = new List<string>();
 
+            if (path == Directory.GetCurrentDirectory())
+                path = ".\\";
+
             if (!path.EndsWith("\\"))
-                path = path + "\\";
+                path = path + "\\";            
 
             //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo            
             Settings.Default.art_view_folders =
@@ -334,10 +340,18 @@ namespace IV_Play
 
         }
 
-        /// <summary>
-        /// Create the initial IV/Play.cfg
-        /// </summary>
-        private static void SetDefaultSettings()
+        private static void SetMamePath(string mameExeFileInfo)
+        {            
+            if (Path.GetDirectoryName(mameExeFileInfo) == Directory.GetCurrentDirectory())
+                mameExeFileInfo = ".\\" + Path.GetFileName(mameExeFileInfo);
+
+            Settings.Default.MAME_EXE = mameExeFileInfo;
+        }
+
+            /// <summary>
+            /// Create the initial IV/Play.cfg
+            /// </summary>
+            private static void SetDefaultSettings()
         {
             WriteSettingsToFile();
         }
