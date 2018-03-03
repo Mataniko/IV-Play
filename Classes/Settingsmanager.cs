@@ -101,6 +101,9 @@ namespace IV_Play
                 Type type = null;
                 try
                 {
+                    if (param.Contains("directory") && !value.EndsWith("\\"))
+                        value += "\\";
+
                     type = Settings.Default[param].GetType();
                     Settings.Default[param] = CastHelper(type, value);
                 }
@@ -125,8 +128,13 @@ namespace IV_Play
             ArtPaths.Add("None");
             foreach (var artpath in Settings.Default.art_view_folders.Split('|'))
             {
-                if (!string.IsNullOrEmpty(artpath))
-                    ArtPaths.Add(artpath);
+                if (string.IsNullOrEmpty(artpath))
+                    continue;
+                
+                if (!artpath.EndsWith("\\"))
+                    ArtPaths.Add(artpath + "\\");
+                else
+                    ArtPaths.Add(artpath);                                    
             }
         }
 
