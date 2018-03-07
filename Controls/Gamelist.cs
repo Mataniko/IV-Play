@@ -519,16 +519,10 @@ namespace IV_Play
         /// <returns></returns>
         private string GetArtPath(string gameName)
         {
-            string path = "";
-            try
-            {
-                path = Path.Combine(SettingsManager.ArtPaths[Settings.Default.art_type], gameName);
-            }
-            catch (Exception)
-            {
+            if (Settings.Default.art_type != 0 && Settings.Default.art_type < SettingsManager.ArtPaths.Count)
+                return Path.Combine(SettingsManager.ArtPaths[Settings.Default.art_type], gameName);
+            else
                 return "";
-            }
-            return path;
         }
 
         /// <summary>
@@ -802,9 +796,9 @@ namespace IV_Play
                     gameName = gameName.Replace("fav_", "");
                     gameName += ".png";
                     string path = GetArtPath(gameName);
-                    string parentPath = GetArtPath(SelectedGame.ParentSet + ".png");
+                    string parentPath = SelectedGame.ParentSet == null ? "" : GetArtPath(SelectedGame.ParentSet + ".png");
 
-                    if (SettingsManager.ArtPaths[ArtType].Contains(".dat"))
+                    if (ArtType < SettingsManager.ArtPaths.Count && SettingsManager.ArtPaths[ArtType].Contains(".dat"))
                     {
                         _bgImage = null;
                         return;

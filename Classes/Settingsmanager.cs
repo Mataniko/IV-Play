@@ -131,10 +131,10 @@ namespace IV_Play
                 if (string.IsNullOrEmpty(artpath))
                     continue;
                 
-                if (!artpath.EndsWith("\\"))
-                    ArtPaths.Add(artpath + "\\");
+                if (artpath.EndsWith(".dat") || artpath.EndsWith("\\"))
+                    ArtPaths.Add(artpath);
                 else
-                    ArtPaths.Add(artpath);                                    
+                    ArtPaths.Add(artpath + "\\");                                         
             }
         }
 
@@ -320,28 +320,26 @@ namespace IV_Play
         {
             ArtPaths = new List<string>();
 
-            if (path == Directory.GetCurrentDirectory())
+            if (Path.GetDirectoryName(path) == Directory.GetCurrentDirectory())
                 path = ".\\";
 
             if (!path.EndsWith("\\"))
                 path = path + "\\";            
 
-            //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo            
-            Settings.Default.art_view_folders =
-                string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
+            //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo   
+            var folders = string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
                               path.ToLower(), @"snap", @"flyers", @"history.dat", @"cabinets", @"cpanel", @"marquees",
                               @"pcb", @"titles", @"mameinfo.dat");
 
-            //Art View Paths
-            string Paths = "";
-            ArtPaths.Add("None");
-            foreach (var item in Settings.Default.art_view_folders.Split('|'))
+            //Art View Paths                                 
+            foreach (var item in folders.Split('|'))
             {
                 if (Directory.Exists(item) || File.Exists(item))
                     ArtPaths.Add(item);
             }
-            Paths.TrimEnd('|');
-            //Settings.Default.art_view_folders = Paths;
+
+            Settings.Default.art_view_folders = string.Join("|", ArtPaths.ToArray());
+            ArtPaths.Insert(0, "None");
 
             Settings.Default.icons_directory = Path.Combine(path, @"icons\");
             Settings.Default.bkground_directory = Path.Combine(path, @"bkground\");

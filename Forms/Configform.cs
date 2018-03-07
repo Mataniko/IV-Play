@@ -266,18 +266,15 @@ namespace IV_Play
 
 
             //Art View Paths
-            string Paths = "";
-            SettingsManager.ArtPaths = new List<string>();
-            SettingsManager.ArtPaths.Add("None");
+            SettingsManager.ArtPaths = new List<string>();            
 
             foreach (var item in _listArtViews.Items)
             {
-                SettingsManager.ArtPaths.Add(item.ToString());
-                Paths += item.ToString() + '|';
-            }
-            Paths.TrimEnd('|');
-            Settings.Default.art_view_folders = Paths;
+                SettingsManager.ArtPaths.Add(item.ToString());                
+            }                        
 
+            Settings.Default.art_view_folders = string.Join("|", SettingsManager.ArtPaths);
+            SettingsManager.ArtPaths.Insert(0, "None");
             SettingsManager.WriteSettingsToFile();
 
             if (ConfigSaved != null)
@@ -360,6 +357,8 @@ namespace IV_Play
             foreach (var item in _listArtViews.Items)
             {
                 string itemName = Path.GetFileNameWithoutExtension(item.ToString()).ToLower();
+                if (string.IsNullOrEmpty(itemName))
+                    itemName = new DirectoryInfo(item.ToString()).Name.ToLower();
                 itemName = itemName.Insert(1, Char.ToUpper(itemName[0]).ToString());
                 itemName = itemName.Remove(0, 1);
                 _cmbArtType.Items.Add(itemName);
