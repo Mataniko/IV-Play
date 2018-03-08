@@ -320,7 +320,7 @@ namespace IV_Play
         {
             ArtPaths = new List<string>();
 
-            if (Path.GetDirectoryName(path) == Directory.GetCurrentDirectory())
+            if (Path.GetFullPath(path) == Directory.GetCurrentDirectory())
                 path = ".\\";
 
             if (!path.EndsWith("\\"))
