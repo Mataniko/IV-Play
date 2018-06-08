@@ -8,7 +8,6 @@ namespace IV_Play.Data.Models
 {
     public class MameInfo
     {
-        public Guid Id { get; set; }
         public string Version { get; set; }
         public string Product { get; set; }
         public MameCommands Commands { get; set; }

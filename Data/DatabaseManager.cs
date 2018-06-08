@@ -19,9 +19,7 @@ namespace IV_Play.Data
         
         static DatabaseManager()
         {
-            Open();
-            machinesCollection = database.GetCollection<Machine>("machines");
-            mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");            
+            Open();                      
         }
 
         private static void Open()
@@ -40,6 +38,36 @@ namespace IV_Play.Data
             }
 
             database = new LiteDatabase(dbMemoryStream);
+
+            machinesCollection = database.GetCollection<Machine>("machines");
+            mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");
+        }
+
+        private static void Upgrade()
+        {
+            database.Dispose();
+            dbMemoryStream.Seek(0, SeekOrigin.Begin);
+            using (var tempFile = File.Create("upgrade.db"))
+            {
+                dbMemoryStream.CopyTo(tempFile);
+            }
+
+            var tempDb = new LiteDatabase("filename=upgrade.db;upgrade=true");
+            tempDb.Dispose();
+
+            using (var upgradedDb = File.Open("upgrade.db", System.IO.FileMode.Open))
+            {
+                using (FileStream outFile = File.Open(Resources.DB_NAME, System.IO.FileMode.OpenOrCreate))
+                {
+                    using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
+                    {
+                        upgradedDb.CopyTo(gZipStream);
+                    }
+                }
+            }
+
+            File.Delete("upgrade.db");
+            Open();
         }
 
         public static void SaveToDisk()
@@ -75,7 +103,20 @@ namespace IV_Play.Data
 
         public static List<Machine> GetMachines()
         {
-            return machinesCollection.FindAll().ToList();
+            try
+            {
+                return machinesCollection.FindAll().ToList();
+            } catch (LiteException ex)
+            {
+                if (ex.Message == "Invalid database version: 6")
+                {
+                    Upgrade();                    
+                    return machinesCollection.FindAll().ToList();
+                }
+
+                return new List<Machine>();
+            }
+            
         }
 
         public static Machine GetMachineByName(string name)

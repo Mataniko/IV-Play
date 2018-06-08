@@ -14,8 +14,7 @@ namespace IV_Play.Data.Models
         [BsonId]
         public int Id { get; set; }
 
-        [XmlAttribute]
-        [BsonIndex(unique: true)]        
+        [XmlAttribute]    
         public string name { get; set; }
         [XmlAttribute]
         public string sourcefile { get; set; }
