@@ -60,20 +60,17 @@ namespace IV_Play.Data
         }
 
         public static void UpdateMachines(List<Machine> machines)
-        {            
-            using (database.BeginTrans())
-            {
-                var indexes = machinesCollection.FindAll().ToDictionary(x => x.name);
-                machines.ForEach(x => {
-                    x.Id = indexes[x.name].Id;
-                    machinesCollection.Update(x);
-                });
+        {
+            var indexes = machinesCollection.FindAll().ToDictionary(x => x.name);
+            machines.ForEach(x => {
+                x.Id = indexes[x.name].Id;                    
+            });                
+            machinesCollection.Upsert(machines);                
 
-                // Delete any machines that we didn't update, which are devices.
-                // We can tell which devices these are because they don't have a year.
-                var devices = machinesCollection.FindAll().Where(x => x.year == null);
-                devices.ToList().ForEach(x => { machinesCollection.Delete(x.Id); });
-            }
+            // Delete any machines that we didn't update, which are devices.
+            // We can tell which devices these are because they don't have a year.
+            var devices = machinesCollection.FindAll().Where(x => x.year == null);
+            devices.ToList().ForEach(x => { machinesCollection.Delete(x.Id); });
         }
 
         public static List<Machine> GetMachines()
