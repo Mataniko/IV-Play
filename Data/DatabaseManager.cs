@@ -41,6 +41,19 @@ namespace IV_Play.Data
 
             machinesCollection = database.GetCollection<Machine>("machines");
             mameInfoCollection = database.GetCollection<MameInfo>("mameinfo");
+
+            try
+            {
+                mameInfoCollection.EnsureIndex("Version");
+                machinesCollection.EnsureIndex("name");
+            }
+            catch (LiteException ex)
+            {
+                if (ex.Message == "Invalid database version: 6")
+                {
+                    Upgrade();
+                }
+            }
         }
 
         private static void Upgrade()
@@ -53,6 +66,7 @@ namespace IV_Play.Data
             }
 
             var tempDb = new LiteDatabase("filename=upgrade.db;upgrade=true");
+            
             tempDb.Dispose();
 
             using (var upgradedDb = File.Open("upgrade.db", System.IO.FileMode.Open))
@@ -103,20 +117,7 @@ namespace IV_Play.Data
 
         public static List<Machine> GetMachines()
         {
-            try
-            {
-                return machinesCollection.FindAll().ToList();
-            } catch (LiteException ex)
-            {
-                if (ex.Message == "Invalid database version: 6")
-                {
-                    Upgrade();                    
-                    return machinesCollection.FindAll().ToList();
-                }
-
-                return new List<Machine>();
-            }
-            
+            return machinesCollection.FindAll().ToList();
         }
 
         public static Machine GetMachineByName(string name)
