@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
+using System.Data;
+using System.Linq;
 using IV_Play.Properties;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -164,7 +166,7 @@ namespace IV_Play
         }
 
         private void _btnApply_Click(object sender, EventArgs e)
-        {  
+        {
             SaveSettings();
             UpdateWindow();
         }
@@ -248,7 +250,7 @@ namespace IV_Play
             if (_bgImageChanged)
             {
                 Settings.Default.bkground_image = _backgroundImage;
-                Settings.Default.bkground_directory = _backgroundPath;
+                Settings.Default.bkground_directory = _backgroundPath.AsRelativePath();
             }
 
             //Logic to change background
@@ -266,12 +268,12 @@ namespace IV_Play
 
 
             //Art View Paths
-            SettingsManager.ArtPaths = new List<string>();            
+            SettingsManager.ArtPaths = new List<string>();
 
             foreach (var item in _listArtViews.Items)
             {
-                SettingsManager.ArtPaths.Add(item.ToString());                
-            }                        
+                SettingsManager.ArtPaths.Add(item.ToString());
+            }
 
             Settings.Default.art_view_folders = string.Join("|", SettingsManager.ArtPaths);
             SettingsManager.ArtPaths.Insert(0, "None");
@@ -329,14 +331,13 @@ namespace IV_Play
         {
             try
             {
-
-
-                _folderDialog.SelectedPath = lastDir;
+                _folderDialog.SelectedPath = Path.GetFullPath(lastDir);
                 if (_folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    lastDir = _folderDialog.SelectedPath;
-                    if (!_listArtViews.Items.Contains(lastDir.ToLower()))
-                        _listArtViews.Items.Add(lastDir.ToLower());
+                    lastDir = _folderDialog.SelectedPath.AsRelativePath();
+
+                    if (!ArtViewContains(lastDir))
+                        _listArtViews.Items.Add(lastDir);
                 }
                 UpdateArtTypeDropDown();
                 _btnOK.Select();
@@ -348,7 +349,11 @@ namespace IV_Play
             }
         }
 
-
+        private bool ArtViewContains(string item) {
+            return _listArtViews.Items.OfType<string>().ToList().Exists
+                        (x => Regex.IsMatch(x, $"^{Regex.Escape(item)}$", RegexOptions.IgnoreCase));                    
+        }
+        
         private void UpdateArtTypeDropDown()
         {
             object prevArtType = _cmbArtType.SelectedItem;
@@ -364,11 +369,6 @@ namespace IV_Play
                 _cmbArtType.Items.Add(itemName);
             }
             _cmbArtType.SelectedItem = prevArtType;
-        }
-        private void _listArtViews_DragOver(object sender, DragEventArgs e)
-        {
-            //e.Effect = DragDropEffects.Copy;
-
         }
 
         private void _listArtViews_DragEnter(object sender, DragEventArgs e)
@@ -393,18 +393,19 @@ namespace IV_Play
 
                     //detect whether its a directory or file   
                     string filePath;
-
+                    string fileName = "";
                     if ((attr & FileAttributes.Directory) == FileAttributes.Directory || (Path.GetExtension(path) == ".dat"))
                     {
-                        filePath = path.ToLower();
-                    }
+                        filePath = Path.GetDirectoryName(path);
+                        fileName = Path.GetFileName(path);
+                    }                        
                     else
                         filePath = Path.GetDirectoryName(path);
 
-                    if (!_listArtViews.Items.Contains(filePath.ToLower()))
-                    {
-                        _listArtViews.Items.Add(filePath.ToLower());
-                    }
+                    filePath = Path.Combine(filePath.AsRelativePath(), fileName);
+
+                    if (!ArtViewContains(filePath))
+                        _listArtViews.Items.Add(filePath);
                 }
                 UpdateArtTypeDropDown();
             }
@@ -418,8 +419,9 @@ namespace IV_Play
                 openFileDialog.Multiselect = false;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (!_listArtViews.Items.Contains(openFileDialog.FileName.ToLower()))
-                        _listArtViews.Items.Add(openFileDialog.FileName.ToLower());
+                    var path = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName).AsRelativePath(), Path.GetFileName(openFileDialog.FileName));                    
+                    if (!ArtViewContains(path))
+                        _listArtViews.Items.Add(path);
                 }
             }
             _btnOK.Select();

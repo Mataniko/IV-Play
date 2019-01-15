@@ -66,7 +66,7 @@ namespace IV_Play
             }
             Settings.Default.MAME_EXE = mameExe;
 
-            SetPaths(Path.GetDirectoryName(mameExe) + "\\");
+            SetPaths(Path.GetDirectoryName(mameExe));
             //WriteSettingsToFile();
 
         }
@@ -101,9 +101,6 @@ namespace IV_Play
                 Type type = null;
                 try
                 {
-                    if (param.Contains("directory") && !value.EndsWith("\\"))
-                        value += "\\";
-
                     type = Settings.Default[param].GetType();
                     Settings.Default[param] = CastHelper(type, value);
                 }
@@ -131,10 +128,10 @@ namespace IV_Play
                 if (string.IsNullOrEmpty(artpath))
                     continue;
                 
-                if (artpath.EndsWith(".dat") || artpath.EndsWith("\\"))
+                if (artpath.EndsWith(".dat"))
                     ArtPaths.Add(artpath);
                 else
-                    ArtPaths.Add(artpath + "\\");                                         
+                    ArtPaths.Add(artpath);                                         
             }
         }
 
@@ -315,49 +312,42 @@ namespace IV_Play
         /// <summary>
         /// Sets the default MAME paths once an EXE has been found
         /// </summary>
-        /// <param name="path">MAME path</param>
-        private static void SetPaths(string path)
+        /// <param name="mamePath">MAME path</param>
+        private static void SetPaths(string mamePath)
         {
             ArtPaths = new List<string>();
 
-            if (Path.GetFullPath(path) == Directory.GetCurrentDirectory())
-                path = ".\\";
-
-            if (!path.EndsWith("\\"))
-                path = path + "\\";            
+            mamePath = mamePath.AsRelativePath();
 
             //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo   
-            var folders = string.Format("{0}{1}|{0}{2}|{0}{3}|{0}{4}|{0}{5}|{0}{6}|{0}{7}|{0}{8}|{0}{9}",
-                              path.ToLower(), @"snap", @"flyers", @"history.dat", @"cabinets", @"cpanel", @"marquees",
-                              @"pcb", @"titles", @"mameinfo.dat");
+            string[] defaultPaths = { "snap", "flyers", "cabinets", "cpanel", "marquees",
+                              "pcb", "titles", "history.dat", "mameinfo.dat" };
 
             //Art View Paths                                 
-            foreach (var item in folders.Split('|'))
+            foreach (var item in defaultPaths)
             {
-                if (Directory.Exists(item) || File.Exists(item))
-                    ArtPaths.Add(item);
+                var itemPath = Path.Combine(mamePath, item);
+                if (Directory.Exists(itemPath) || File.Exists(itemPath))
+                    ArtPaths.Add(itemPath);
             }
 
             Settings.Default.art_view_folders = string.Join("|", ArtPaths.ToArray());
             ArtPaths.Insert(0, "None");
 
-            Settings.Default.icons_directory = Path.Combine(path, @"icons\");
-            Settings.Default.bkground_directory = Path.Combine(path, @"bkground\");
+            Settings.Default.icons_directory = Path.Combine(mamePath, @"icons");
+            Settings.Default.bkground_directory = Path.Combine(mamePath, @"bkground");
 
         }
 
         private static void SetMamePath(string mameExeFileInfo)
-        {            
-            if (Path.GetDirectoryName(mameExeFileInfo) == Directory.GetCurrentDirectory())
-                mameExeFileInfo = ".\\" + Path.GetFileName(mameExeFileInfo);
-
-            Settings.Default.MAME_EXE = mameExeFileInfo;
+        {
+            Settings.Default.MAME_EXE = Path.Combine(Path.GetDirectoryName(mameExeFileInfo).AsRelativePath(), Path.GetFileName(mameExeFileInfo));
         }
 
-            /// <summary>
-            /// Create the initial IV/Play.cfg
-            /// </summary>
-            private static void SetDefaultSettings()
+        /// <summary>
+        /// Create the initial IV/Play.cfg
+        /// </summary>
+        private static void SetDefaultSettings()
         {
             WriteSettingsToFile();
         }
@@ -378,7 +368,7 @@ namespace IV_Play
                 }
                 else if (setting.PropertyType.Name == "Font")
                     listSettings.Add(setting.Name + "=" +
-                                     (new FontConverter().ConvertToString(Settings.Default[setting.Name])));
+                                     (new FontConverter().ConvertToString(Settings.Default[setting.Name])));                
                 else
                     listSettings.Add(setting.Name + "=" + Settings.Default[setting.Name]);
             }
@@ -394,9 +384,6 @@ namespace IV_Play
             {
                 Console.WriteLine(ex.Message);
             }
-
-
-
         }
 
         public static void WriteCustomColors(int[] colors)

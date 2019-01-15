@@ -57,10 +57,10 @@
       <Value Profile="(Default)">bkground.png</Value>
     </Setting>
     <Setting Name="bkground_directory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.\bkground\</Value>
+      <Value Profile="(Default)">.\bkground</Value>
     </Setting>
     <Setting Name="icons_directory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.\icons\</Value>
+      <Value Profile="(Default)">.\icons</Value>
     </Setting>
     <Setting Name="GameListYear" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

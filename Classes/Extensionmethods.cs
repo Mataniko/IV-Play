@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -13,10 +14,10 @@ namespace IV_Play
     public static class ExtensionMethods
     {
         public static bool Contains(this string source, string toCheck, StringComparison comp)
-        {
+        { 
             if (string.IsNullOrEmpty(source))
                 return false;
-
+            
             return source.IndexOf(toCheck, comp) >= 0;
         }
 
@@ -34,6 +35,19 @@ namespace IV_Play
         public static bool In(this string instring, params string[] strings)
         {
             return (strings.Any(s => s.Equals(instring)));
+        }
+
+        /// <summary>
+        /// Returns the path as relative if the input is a directory and is relative to the app
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string AsRelativePath(this string path)
+        {
+            if (!Directory.Exists(path) || !Path.IsPathRooted(path))
+                return path;
+
+            return Regex.Replace(Path.GetFullPath(path), Regex.Escape(Directory.GetCurrentDirectory()), @".", RegexOptions.IgnoreCase);                                       
         }
 
         public static void DrawRectangleF(this Graphics graphics, Pen pen, RectangleF rectangleF)

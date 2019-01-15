@@ -241,7 +241,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\bkground\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\bkground")]
         public string bkground_directory {
             get {
                 return ((string)(this["bkground_directory"]));
@@ -253,7 +253,7 @@ namespace IV_Play.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\icons\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\icons")]
         public string icons_directory {
             get {
                 return ((string)(this["icons_directory"]));

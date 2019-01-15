@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.IO;
 
 #endregion
 
@@ -40,7 +41,7 @@ namespace IV_Play
             Sound = ParseSound(machine.chip, machine.sound);
             Working = machine.driver != null ? machine.driver.emulation == "good" : true;
             Year = machine.year;
-            IconPath = Settings.Default.icons_directory + machine.name + ".ico";
+            IconPath = Path.Combine(Settings.Default.icons_directory, machine.name + ".ico");
             Driver = machine.driver != null ? machine.driver.ToString() : null;          
             Input = machine.input != null ? machine.input.ToString() : null;
             Features = ParseFeatures(machine.feature);
