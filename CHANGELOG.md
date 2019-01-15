@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [Unreleased]
 ### Changed
 - Update 3rd party dependencies
 ### Fixed
