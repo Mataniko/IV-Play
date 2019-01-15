@@ -81,6 +81,7 @@ namespace IV_Play.Data
             }
 
             File.Delete("upgrade.db");
+            File.Delete("upgrade-bkp.db");
             Open();
         }
 
