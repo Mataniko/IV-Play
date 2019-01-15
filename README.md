@@ -36,6 +36,7 @@ IV/Play (pronounced `Four Play`) is a desktop oriented GUI front-end for [MAME](
 - [External Files](#external-files)
 	- [IV-Play.cfg](#iv-playcfg)
 	- [IV-Play.dat](#iv-playdat)
+- [Updates] (#updates)
 - [IV/Play vs. MAMEUI](#ivplay-vs-mameui)	
 - [Notes/Hints](#noteshints)
 - [Credits](#credits)
@@ -43,7 +44,7 @@ IV/Play (pronounced `Four Play`) is a desktop oriented GUI front-end for [MAME](
 
 # Requirements
 
-Windows 8.1 is the preferred platform; Vista and XP are supported without Jump List support. Faster modern processors and solid-state drives help with image/resource loading speed. (a 3.6 GHz C2D loads the app in 1 second). On Windows versions prior to 8, IV/Play may require the [Microsoft .NET Framework 4](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en).
+Windows 10 is the preferred platform; 8, 7, (Vista and XP are supported without Jump List support).  Faster modern processors and solid-state drives help with image/resource loading speed. On Windows versions prior to 8, IV/Play may require the [Microsoft .NET Framework 4](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en).
 
 # Installation
 
@@ -245,6 +246,74 @@ The DAT file is created from the contents of the XML output produced by the MAME
 [MAMEUI](http://www.mameui.info/) is an integrated UI to [MAME](http://www.mamedev.org) and is compiled using the base source. It leverages a lot of the underlying MAME code and depends on it to produce its UI and functionality. This is its strength and weakness. As MAMEUI has matured (b. 1997), the original development team has waned and it often takes a long time to catch up with the sweeping core changes that periodically take place in the MAME engine. While the number of supported arcade games and gambling `Fruit machines` has neared 30,000+ the UI has slowed down when all the icons and screenshots are processed by the 18 year old controls; this has also introduced memory leaks over time. Recent changes to the core have also resulted in huge memory footprints and 5x longer load times.
 
 IV/Play was born out of the desire to continue a similar interface to MAMEUI without the attendant issues of being coupled to the core.
+
+# Updates
+## IV/Play 1.5 Features
+
+### Unlimited Art Types
+
+IV/Play allows for the creation of &#39;unlimited&#39; art types.  In the **F1** configuration dialogue, any directory can be added that contains art types following the _gamename_.png format.  IV/Play will automatically add snap, flyers, cabinets, PCB, marquees, cpanel, and titles on initial launch if it finds them.  The view order can be set my moving the folders up or down the list.  The art types will be assigned **Alt-X** shortcut keys depending on position, **Alt-1** through **Alt-0**.
+
+### History.dat / MAMEInfo.dat Support
+
+IV/Play supports history.dat and MAMEInfo.dat.  They are searched for in the MAME.exe directory on initial IV/Play launch and can be added at any time through the **F1** configuration menu. Navigation through the entries are via **Ctrl-Page Up** , **Ctrl-Page Down** , **Ctrl-Up** , **Ctrl-Down** , **Ctrl-Home** , **Ctrl-End**.  A separate font with size and color is selectable for the text area on the **F1** configuration menu.
+
+### Favorites Toggle
+
+Favorites can be cycled with **Alt-D** through off, on with game-list, and favorites only.
+
+### Non-Working game art/history Support
+
+IV/Play will display icons and any art type for non-working games if they are present.  If they are not, nonworking.png and nonworking.ico are used.  If those are not present, then the built-in icons are used. This also allows viewing of history.dat and MAMEInfo.dat entries for non-working games.
+
+### Command Line Override
+
+The command line override in the **F1** configuration dialogue allows the use of various switches to be added to launched games, e.g. –window to play games windowed without having to drop to the mame.ini for editing.
+
+## IV/Play 1.5.3 Feature
+
+### Mechanical Games Filter
+
+The F1 configuration dialogue contains a check box for hiding non-working mechanical games.  These are games that have been added to MAME that contain mechanical or physical elements that cannot currently be emulated; including pinball games and gambling fruit/slot machines.  By toggling this, 8000+ non-working mechanical games are removed from the game list.
+
+## IV/Play 1.5.5 Feature
+
+### Filter on input
+
+The F1 configuration contains an option to filter on input.  This will display progressive results directly in the game list by typing the game name, year, manufacturer, or source file.  Backspace will delete one character at a time and CTRL-backspace will clear the typed filter.  The progressive filtered text will appear on the titlebar. (Note this produces the same functional results as doing a CTRL-F filter search).
+
+## IV/Play 1.6 Features
+
+Updated to work with new XML output of MAME .162.  Source released under MIT license. See [GitHub repository](https://github.com/Mataniko/IV-Play).
+
+## IV/Play 1.7 Features
+
+### Clone and non-working filters
+
+IV/Play now has the ability to filter out clones and/or non-working machines in the **F1** configuration screen.
+
+### Hide games with hidden.ini
+
+Games added to the hidden.ini text file (one set per line) in the same directory as the IV-Play.exe will not be read in the UI.  This file can be produced from a Clrmame audit (missing list button on scan) and is useful for only displaying games in the user&#39;s collection and not the entirety of MAME&#39;s set.
+
+## IV/Play 1.8 Features
+
+### New Database Format &amp; Autobuild
+
+When opening IV/Play the new database (IV-Play.db) will be built on first launch.  When IV/Play is doing its audit with an **F5** it will display the entire machine set quickly and audit in the background until complete, with progress indication on the titlebar.
+
+### Fullscreen Mode &amp; Right/Left Paging
+
+Added for cabinet use cases, fullscreen mode forces the IV/Play UI to take up all the screen and remove the title-bar and borders.  Right and left paging alters the behaviour of the right and left keys in the game list to go one page at a time instead of by the next and previous letter which is the default.
+
+### Additional changes
+
+- New background and modern Windows Segoe UI font as default on first run.
+- Show errors toggle will turn on or off the messages that pop up if ROMs are missing from a launched machine; preferable to turn off in a cabinet setting.
+- ESC will exit IV/Play.
+- It is now possible to un-indent the clones in **F1**.
+- Able to toggle on/off the &#39;typing in the UI&#39; filter search.
+- Relative paths are now used in the IV-Play.cfg file, this allows for easy portability/transport via thumdrive or removeable storage.
 
 # Notes/Hints
 
