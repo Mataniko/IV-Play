@@ -105,7 +105,7 @@ namespace IV_Play
 
             //Enums
             _cmbArtView.SelectedIndex = Settings.Default.art_area;
-            _cmbArtType.SelectedIndex = Settings.Default.art_type;
+            _cmbArtType.SelectedIndex = _cmbArtType.Items.Count <= Settings.Default.art_type ? 0 : Settings.Default.art_type;
 
             //Checkboxes
             _chkManu.Checked = Settings.Default.GameListManufacturer;
