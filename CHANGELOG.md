@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.8.3]
 ### Changed
 - Update 3rd party dependencies
 ### Fixed
@@ -32,6 +32,7 @@
 - IV/Play is now also open source under the MIT License. For more information refer to the LICENSE file.
 
 [Unreleased]: https://github.com/Mataniko/IV-Play/compare/v1.8.2...HEAD
+[1.8.3]: https://github.com/Mataniko/IV-Play/compare/v1.8.2...v1.8.3
 [1.8.2]: https://github.com/Mataniko/IV-Play/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/Mataniko/IV-Play/compare/v1.7.0...v1.8.1
 [1.7.0]: https://github.com/Mataniko/IV-Play/compare/v1.6.0...v1.7.0
