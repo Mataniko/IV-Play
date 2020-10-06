@@ -287,7 +287,6 @@ namespace IV_Play
                 if (SelectedGame != null && Parent.Visible)
                 {
                     ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.MAME_EXE);
-                    psi.RedirectStandardOutput = true;
                     psi.RedirectStandardError = true;
                     psi.WindowStyle = ProcessWindowStyle.Hidden;
                     psi.UseShellExecute = false;
