@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
+using IV_Play.Classes;
 using IV_Play.Properties;
 
 #endregion
@@ -203,7 +204,7 @@ namespace IV_Play
             if (textType.Equals("mameinfo", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (MameInfo == null)
-                    MameInfo = new InfoParser(SettingsManager.ArtPaths[ArtType]);
+                    MameInfo = InfoParser.Create(SettingsManager.ArtPaths[ArtType]);
 
                 if (!MameInfo.Contains(gameName.Replace("fav_", "")))
                     return;
@@ -213,7 +214,9 @@ namespace IV_Play
             else if (textType.Equals("history", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (History == null)
-                    History = new InfoParser(SettingsManager.ArtPaths[ArtType]);
+                {
+                    History = InfoParser.Create(SettingsManager.ArtPaths[ArtType]);
+                }
 
                 if (!History.Contains(gameName.Replace("fav_", "")))
                     return;
@@ -224,7 +227,6 @@ namespace IV_Play
                 return;
 
             _currentInfo = info;
-
 
             text = GetShortInfoText();
             _currentInfoText = text;
@@ -325,8 +327,8 @@ namespace IV_Play
             {
                 try
                 {
-                    if (SettingsManager.ArtPaths[Math.Min(ArtType, SettingsManager.ArtPaths.Count - 1)].Contains(
-                        ".dat", StringComparison.InvariantCultureIgnoreCase))
+                    if (Regex.IsMatch(SettingsManager.ArtPaths[Math.Min(ArtType, SettingsManager.ArtPaths.Count - 1)],
+                        @"(dat|xml)$", RegexOptions.IgnoreCase))
                         DrawTextInfo(g);
                 }
                 catch (Exception)
@@ -423,7 +425,7 @@ namespace IV_Play
                 case DisplayModeEnum.DescriptionYearAndManufacturer:
                     RowText = "{0} {1} {2}";
                     break;
-            }            
+            }
             return string.Format(RowText, game.Description, game.Year, game.Manufacturer);
         }
 

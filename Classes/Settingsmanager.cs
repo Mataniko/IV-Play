@@ -127,11 +127,11 @@ namespace IV_Play
             {
                 if (string.IsNullOrEmpty(artpath))
                     continue;
-                
-                if (artpath.EndsWith(".dat"))
+
+                if (Regex.IsMatch(artpath, @"(dat|xml)$", RegexOptions.IgnoreCase))
                     ArtPaths.Add(artpath);
                 else
-                    ArtPaths.Add(artpath);                                         
+                    ArtPaths.Add(artpath);
             }
         }
 
@@ -219,8 +219,8 @@ namespace IV_Play
                         BackgroundImage = Resources.Default_Background;
                         return;
                     }
-                        
-                    DirectoryInfo directoryInfo = new DirectoryInfo(Settings.Default.bkground_directory);                    
+
+                    DirectoryInfo directoryInfo = new DirectoryInfo(Settings.Default.bkground_directory);
                     FileInfo[] fileInfos = directoryInfo.GetFiles();
                     var images =
                         (from entry in fileInfos
@@ -250,7 +250,7 @@ namespace IV_Play
         }
 
         /// <summary>
-        /// Sets and validates a MAME exe, however the user can load any exe should he wish.       
+        /// Sets and validates a MAME exe, however the user can load any exe should he wish.
         /// </summary>
         /// <param name="TryFindMAME">Try to find MAME in the current folder, used for first start.</param>
         /// <returns>True if MAME was found</returns>
@@ -296,7 +296,7 @@ namespace IV_Play
                                 MessageBoxButtons.YesNo);
                         if (error == DialogResult.No)
                             return false;
-                    }                                            
+                    }
                     if (setPaths)
                         SetPaths(openFileDialog.FileName.Replace(openFileDialog.SafeFileName, ""));
 
@@ -319,14 +319,22 @@ namespace IV_Play
 
             mamePath = mamePath.AsRelativePath();
 
-            //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo   
+            //Snap, Flyer, History, Cabinet, CPanel, Marquee, PCB, Title, MameInfo
             string[] defaultPaths = { "snap", "flyers", "cabinets", "cpanel", "marquees",
-                              "pcb", "titles", "history.dat", "mameinfo.dat" };
+                              "pcb", "titles", "history.xml", "history.dat", "mameinfo.dat" };
 
-            //Art View Paths                                 
+            //Art View Paths
             foreach (var item in defaultPaths)
             {
                 var itemPath = Path.Combine(mamePath, item);
+
+                // Skip history.dat if we have history.xml
+                if (item.Equals("history.dat") && File.Exists(itemPath.Replace(".dat", "xml")))
+                {
+                  continue;
+                }
+
+                // Add default path
                 if (Directory.Exists(itemPath) || File.Exists(itemPath))
                     ArtPaths.Add(itemPath);
             }
@@ -368,7 +376,7 @@ namespace IV_Play
                 }
                 else if (setting.PropertyType.Name == "Font")
                     listSettings.Add(setting.Name + "=" +
-                                     (new FontConverter().ConvertToString(Settings.Default[setting.Name])));                
+                                     (new FontConverter().ConvertToString(Settings.Default[setting.Name])));
                 else
                     listSettings.Add(setting.Name + "=" + Settings.Default[setting.Name]);
             }

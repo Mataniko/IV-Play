@@ -19,6 +19,7 @@ using IV_Play.Properties;
 using IV_Play.Data;
 using System.Collections.Concurrent;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -49,7 +50,7 @@ namespace IV_Play
         public bool ControlKeyPressed { get; set; }
         private Info _currentInfo = null;
         private string _currentInfoText = "";
-        private int infoRow = 0;        
+        private int infoRow = 0;
 
         public static event GameListChanged GameListChanged;
 
@@ -246,9 +247,9 @@ namespace IV_Play
         private void InitializeComponent()
         {
             SuspendLayout();
-            // 
+            //
             // GameList
-            // 
+            //
             Name = "GameList";
             Load += GameList_Load;
             ResumeLayout(false);
@@ -353,7 +354,7 @@ namespace IV_Play
                     }
                     catch (Exception)
                     {
-                        //Not a game, do nothing.                       
+                        //Not a game, do nothing.
                     }
                 }
 
@@ -423,7 +424,7 @@ namespace IV_Play
             }
 
             var nonWorkingParents = new Hashtable();
-           
+
             foreach (var fGame in sortedDict)
             {
                 // Check for non-working children
@@ -433,8 +434,8 @@ namespace IV_Play
                         continue;
                     else
                     {
-                        nonWorkingParents.Add(fGame.Value.Name, true);                        
-                    }                        
+                        nonWorkingParents.Add(fGame.Value.Name, true);
+                    }
                 }
 
                 if ((fGame.Value.Name.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
@@ -442,8 +443,8 @@ namespace IV_Play
                     fGame.Value.SourceFile.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Year.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                     fGame.Value.Description.Contains(_filter, StringComparison.InvariantCultureIgnoreCase)) && !nonWorkingParents.ContainsKey(fGame.Value.Name))
-                {                
-                    fGame.Value.Index = i++;                  
+                {
+                    fGame.Value.Index = i++;
                     Games.Add(fGame.Key, fGame.Value);
                     if (prevGame != null)
                     {
@@ -457,7 +458,7 @@ namespace IV_Play
                     foreach (var child in fGame.Value.Children)
                     {
                         if ((!child.Value.Working && Settings.Default.hide_nonworking)) continue;
-                                               
+
                         if (nonWorkingParents.ContainsKey(child.Value.ParentSet))
                         {
                             child.Value.ShowAsParent = true;
@@ -469,7 +470,7 @@ namespace IV_Play
                             child.Value.SourceFile.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Year.Contains(_filter, StringComparison.InvariantCultureIgnoreCase) ||
                             child.Value.Description.Contains(_filter, StringComparison.InvariantCultureIgnoreCase))
-                        {                            
+                        {
                             child.Value.Index = i++;
                             Games.Add(child.Key, child.Value);
                             if (prevGame != null)
@@ -477,7 +478,7 @@ namespace IV_Play
                                 prevGame.NextGame = child.Value;
                                 fGame.Value.PreviousGame = prevGame;
                             }
-                            prevGame = child.Value;                         
+                            prevGame = child.Value;
                         }
                     }
                 }
@@ -669,7 +670,7 @@ namespace IV_Play
                 SelectedGame = null;
             }
 
-            // Clear out the game collection before filtering.                        
+            // Clear out the game collection before filtering.
             Games.Clear();
             if (_games != null && _games.Count > 0)
             {
@@ -679,7 +680,7 @@ namespace IV_Play
 
                 if (Games.Count > 0)
                     Games.Last().Value.NextGame = null;
-                //Sets up our scrolling 
+                //Sets up our scrolling
 
                 AutoScroll = true;
                 AutoScrollMinSize = new Size(ClientRectangle.Width, Games.Count * RowHeight);
@@ -788,7 +789,7 @@ namespace IV_Play
 
             if (SelectedGame != null)
             {
-                //Load the nonworking image                
+                //Load the nonworking image
                 try
                 {
                     string gameName = SelectedGame.Name;
@@ -797,7 +798,7 @@ namespace IV_Play
                     string path = GetArtPath(gameName);
                     string parentPath = SelectedGame.ParentSet == null ? "" : GetArtPath(SelectedGame.ParentSet + ".png");
 
-                    if (ArtType < SettingsManager.ArtPaths.Count && SettingsManager.ArtPaths[ArtType].Contains(".dat"))
+                    if (ArtType < SettingsManager.ArtPaths.Count && Regex.IsMatch(SettingsManager.ArtPaths[ArtType], @"(dat|xml)$", RegexOptions.IgnoreCase))
                     {
                         _bgImage = null;
                         return;
@@ -872,7 +873,7 @@ namespace IV_Play
 
         internal void LoadGames(Games games)
         {
-            _games = games;           
+            _games = games;
         }
 
         #endregion

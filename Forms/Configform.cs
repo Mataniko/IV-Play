@@ -73,7 +73,7 @@ namespace IV_Play
             _initialBackgroundValue = Settings.Default.rotate_background;
             _listArtViews.Items.Clear();
 
-            //Art Views           
+            //Art Views
             foreach (var s in SettingsManager.ArtPaths)
             {
                 if (s == "None")
@@ -351,9 +351,9 @@ namespace IV_Play
 
         private bool ArtViewContains(string item) {
             return _listArtViews.Items.OfType<string>().ToList().Exists
-                        (x => Regex.IsMatch(x, $"^{Regex.Escape(item)}$", RegexOptions.IgnoreCase));                    
+                        (x => Regex.IsMatch(x, $"^{Regex.Escape(item)}$", RegexOptions.IgnoreCase));
         }
-        
+
         private void UpdateArtTypeDropDown()
         {
             object prevArtType = _cmbArtType.SelectedItem;
@@ -391,14 +391,15 @@ namespace IV_Play
                     // get the file attributes for file or directory
                     FileAttributes attr = File.GetAttributes(path);
 
-                    //detect whether its a directory or file   
+                    //detect whether its a directory or file
                     string filePath;
                     string fileName = "";
-                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory || (Path.GetExtension(path) == ".dat"))
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory || (Regex.IsMatch(Path.GetExtension(path),
+                        @"(dat|xml)$", RegexOptions.IgnoreCase)))
                     {
                         filePath = Path.GetDirectoryName(path);
                         fileName = Path.GetFileName(path);
-                    }                        
+                    }
                     else
                         filePath = Path.GetDirectoryName(path);
 
@@ -415,11 +416,11 @@ namespace IV_Play
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "MAME Information DAT (History, Info, Command)|*.dat";
+                openFileDialog.Filter = "MAME Information DAT (History, Info, Command)|*.dat;*.xml";
                 openFileDialog.Multiselect = false;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var path = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName).AsRelativePath(), Path.GetFileName(openFileDialog.FileName));                    
+                    var path = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName).AsRelativePath(), Path.GetFileName(openFileDialog.FileName));
                     if (!ArtViewContains(path))
                         _listArtViews.Items.Add(path);
                 }

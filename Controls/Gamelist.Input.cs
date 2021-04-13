@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using IV_Play.Properties;
@@ -19,7 +20,8 @@ namespace IV_Play
             Invalidate();
             try
             {
-                if (SettingsManager.ArtPaths[ArtType].Contains(".dat", StringComparison.InvariantCultureIgnoreCase))
+                if (Regex.IsMatch(SettingsManager.ArtPaths[ArtType],
+                        @"(dat|xml)$", RegexOptions.IgnoreCase))
                 {
                     if (ControlKeyPressed || _imageArea.Contains(e.Location))
                     {
@@ -68,8 +70,8 @@ namespace IV_Play
                             break;
                         case MouseButtons.Right:
                             if (
-                                !SettingsManager.ArtPaths[ArtType].Contains(".dat",
-                                                                            StringComparison.InvariantCultureIgnoreCase))
+                                !Regex.IsMatch(SettingsManager.ArtPaths[ArtType],
+                                    @"(dat|xml)$", RegexOptions.IgnoreCase))
                             {
                                 if (Settings.Default.art_area == (int)ArtDisplayMode.superlarge)
                                     Settings.Default.art_area = (int)ArtDisplayMode.normal;
@@ -308,7 +310,7 @@ namespace IV_Play
                         SelectedGame = Games.Last().Value;
                     break;
 
-                case Keys.Enter:                
+                case Keys.Enter:
                     if (Focused)
                         StartGame();
                     break;

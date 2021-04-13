@@ -88,6 +88,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DatInfoParser.cs" />
+    <Compile Include="Classes\XmlInfoParser.cs" />
     <Compile Include="Controls\AutoCompleteTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
