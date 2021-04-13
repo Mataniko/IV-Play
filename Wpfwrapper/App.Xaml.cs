@@ -6,11 +6,11 @@ using System.Windows;
 
 namespace IV_Play
 {
-    /// <summary>
-    /// Our entry point to the application
-    /// </summary>
-    public partial class App : Application
-    {
-      
-    }
+  /// <summary>
+  /// Our entry point to the application
+  /// </summary>
+  public partial class App : Application
+  {
+
+  }
 }
