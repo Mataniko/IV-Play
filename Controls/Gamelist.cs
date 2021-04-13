@@ -335,23 +335,26 @@ namespace IV_Play
       if (File.Exists(Settings.Default.favorites_ini))
       {
         string[] favs = File.ReadAllLines(Settings.Default.favorites_ini);
-        foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
+        using (var dbManager = DatabaseManager.Create())
         {
-          if (s == "") continue;
-          try
+          foreach (string s in favs) //Some of the lines are not favorites, just ignores them.
           {
-            Game game = new Game(DatabaseManager.GetMachineByName(s));
-            if (game != null)
+            if (s == "") continue;
+            try
             {
-              Game g = game.Copy();
-              g.Name = "fav_" + g.Name;
-              g.IsFavorite = true;
-              _gamesFavorites.TryAdd(g.Name, g);
+              Game game = new Game(dbManager.GetMachineByName(s));
+              if (game != null)
+              {
+                Game g = game.Copy();
+                g.Name = "fav_" + g.Name;
+                g.IsFavorite = true;
+                _gamesFavorites.TryAdd(g.Name, g);
+              }
             }
-          }
-          catch (Exception)
-          {
-            //Not a game, do nothing.
+            catch (Exception)
+            {
+              //Not a game, do nothing.
+            }
           }
         }
 

@@ -93,16 +93,20 @@ namespace IV_Play
 
       JumpList.SetJumpList(System.Windows.Application.Current, jumpList);
 
-      foreach (string s in Settings.Default.jumplist.Split(','))
+      using (var dbManager = DatabaseManager.Create())
       {
-        Machine machine = DatabaseManager.GetMachineByName(s);
-        if (machine != null)
+        foreach (string s in Settings.Default.jumplist.Split(','))
         {
-          jumpList.JumpItems.Add(CreateJumpTask(new Game(machine)));
+          Machine machine = dbManager.GetMachineByName(s);
+          if (machine != null)
+          {
+            jumpList.JumpItems.Add(CreateJumpTask(new Game(machine)));
+          }
         }
+
+        jumpList.Apply();
       }
 
-      jumpList.Apply();
     }
   }
 }

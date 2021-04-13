@@ -107,9 +107,11 @@ namespace IV_Play
 
       }
 
-
-      DatabaseManager.SaveMachines(results);
-      DatabaseManager.SaveMameInfo(_mameInfo);
+      using (var dbManager = DatabaseManager.Create())
+      {
+        dbManager.SaveMachines(results);
+        dbManager.SaveMameInfo(_mameInfo);
+      }
 
       _games = CreateGamesFromMachines(results);
       _games.TotalGames = results.Count;
@@ -170,11 +172,13 @@ namespace IV_Play
               _games.TryRemove(x.Key, out game);
             });
 
-
-
             progress.Report(-1);
-            DatabaseManager.UpdateMachines(machines);
-            DatabaseManager.SaveToDisk();
+            using (var dbManager = DatabaseManager.Create())
+            {
+              dbManager.UpdateMachines(machines);
+              dbManager.SaveToDisk();
+            }
+
           } // END XmlReader
         } // END Output Stream
       }
@@ -268,8 +272,12 @@ namespace IV_Play
     /// </summary>
     public void ReadDat()
     {
-      _games = CreateGamesFromMachines(DatabaseManager.GetMachines());
-      _mameInfo = DatabaseManager.GetMameInfo();
+      using (var dbManager = DatabaseManager.Create())
+      {
+        _games = CreateGamesFromMachines(dbManager.GetMachines());
+        _mameInfo = dbManager.GetMameInfo();
+      }
+
       SettingsManager.MameCommands = _mameInfo.Commands;
     }
 
