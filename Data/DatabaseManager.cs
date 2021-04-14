@@ -16,6 +16,7 @@ namespace IV_Play.Data
     private LiteCollection<Machine> _machinesCollection;
     private LiteCollection<MameInfo> _mameInfoCollection;
     private static bool _upgradeCheck = false;
+    private bool _saveChanges = false;
 
     public static DatabaseManager Create()
     {
@@ -95,6 +96,12 @@ namespace IV_Play.Data
 
     public void SaveToDisk()
     {
+      // No need to save if we didn't update the database
+      if (!_saveChanges)
+      {
+        return;
+      }
+
       using (FileStream outFile = File.Open(Resources.DB_NAME, System.IO.FileMode.OpenOrCreate))
       {
         using (GZipStream gZipStream = new GZipStream(outFile, CompressionMode.Compress))
@@ -108,6 +115,7 @@ namespace IV_Play.Data
     {
       _machinesCollection.Delete(Query.All());
       _machinesCollection.Insert(machines);
+      _saveChanges = true;
     }
 
     public void UpdateMachines(List<Machine> machines)
@@ -123,6 +131,7 @@ namespace IV_Play.Data
       // We can tell which devices these are because they don't have a year.
       var devices = _machinesCollection.FindAll().Where(x => x.year == null);
       devices.ToList().ForEach(x => { _machinesCollection.Delete(x.Id); });
+      _saveChanges = true;
     }
 
     public List<Machine> GetMachines()
@@ -139,6 +148,7 @@ namespace IV_Play.Data
     {
       _mameInfoCollection.Delete(Query.All());
       _mameInfoCollection.Insert(mameInfo);
+      _saveChanges = true;
     }
 
     public MameInfo GetMameInfo()
@@ -148,6 +158,7 @@ namespace IV_Play.Data
 
     public void Dispose()
     {
+      SaveToDisk();      
       _database.Dispose();
       _dbMemoryStream.Close();
     }

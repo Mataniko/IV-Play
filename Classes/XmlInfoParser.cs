@@ -38,14 +38,10 @@ namespace IV_Play.Classes
 
                 if (innerReader.ReadToFollowing("text"))
                 {
-                  string entry = innerReader.ReadElementContentAsString().Replace("\r\n\r\n", "\r\n");
-                  entry = entry.TrimStart('\r', '\n');
-                  entry = entry.TrimEnd('\r', '\n');
-
                   foreach (var key in keys)
                   {
                     if (!_infoDictionary.ContainsKey(key))
-                      _infoDictionary.Add(key, entry);
+                      _infoDictionary.Add(key, innerReader.ReadElementContentAsString());
                   }
                 }
               }

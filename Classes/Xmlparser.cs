@@ -49,7 +49,6 @@ namespace IV_Play
     /// </summary>
     public void MakeQuickDat()
     {
-
       _mameInfo = CreateMameInfo();
       SettingsManager.MameCommands = _mameInfo.Commands;
 
@@ -80,13 +79,22 @@ namespace IV_Play
         // Read the header line.
         var line = listFull.ReadLine();
         var regex = new Regex(@"^(\S*)\s+""(.*)""$");
+        var prevName = '0';
         while ((line = listFull.ReadLine()) != null)
         {
           var match = regex.Match(line);
           var name = match.Groups[1].Value;
+          // We've reached the end of the games list and now entered the list of CPUs
+          if (prevName > name[0])
+          {
+            break;
+          }
+          prevName = name[0];
           var description = match.Groups[2].Value;
-          machinesDictionary.Add(name, new Machine() { description = description, name = name });
-
+          if (!machinesDictionary.ContainsKey(name))
+          {
+            machinesDictionary.Add(name, new Machine() { description = description, name = name });
+          }     
         }
       }
 
