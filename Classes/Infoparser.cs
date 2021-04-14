@@ -5,11 +5,11 @@ namespace IV_Play
 {
   public class InfoParser
   {
-    protected Dictionary<string, Info> _infoDictionary = new Dictionary<string, Info>();
+    protected Dictionary<string, string> _infoDictionary = new Dictionary<string, string>();
 
-    public Info this[string game]
+    public string this[string game]
     {
-      get { return _infoDictionary.ContainsKey(game) ? _infoDictionary[game] : new Info(); }
+      get { return _infoDictionary.ContainsKey(game) ? _infoDictionary[game] : ""; }
     }
 
     public bool Contains(string game)
@@ -19,16 +19,6 @@ namespace IV_Play
 
     protected InfoParser()
     {
-    }
-
-    protected Info CreateInfo(string text)
-    {
-      Info info = new Info
-      {
-        Text = text
-      };
-
-      return info;
     }
 
     public static InfoParser Create(string datFile)

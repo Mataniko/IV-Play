@@ -95,7 +95,6 @@
     </Compile>
     <Compile Include="Classes\Events.cs" />
     <Compile Include="Classes\Games.cs" />
-    <Compile Include="Classes\Info.cs" />
     <Compile Include="Classes\InfoParser.cs" />
     <Compile Include="Classes\KeyboardShortcuts.cs">
       <SubType>Form</SubType>

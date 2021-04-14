@@ -26,9 +26,9 @@ namespace IV_Play
           if (ControlKeyPressed || _imageArea.Contains(e.Location))
           {
             if (e.Delta > 0)
-              ScrollInfoText(-5, InfoScrollMode.Line);
-            else
               ScrollInfoText(5, InfoScrollMode.Line);
+            else
+              ScrollInfoText(-5, InfoScrollMode.Line);
           }
           else
           {
@@ -185,44 +185,33 @@ namespace IV_Play
 
     private void ScrollInfoText(int rows, InfoScrollMode scrollMode)
     {
-      SuspendLayout();
-      if (_currentInfo == null)
+      if (_currentInfoText == "")
         return;
-
 
       switch (scrollMode)
       {
         case InfoScrollMode.Line:
-          if (rows > 0 && _currentInfo.TotalRows <= _currentInfo.VisibleRows)
-            return;
-
-          infoRow += rows;
+          rows *= 8;
           break;
         case InfoScrollMode.Page:
-          rows = _currentInfo.VisibleRows * rows;
-          if (rows > 0 && _currentInfo.TotalRows <= _currentInfo.VisibleRows)
-            return;
-
-          infoRow += rows;
+          rows *= ClientRectangle.Height;
           break;
         case InfoScrollMode.All:
-          if (rows < 0)
-          {
-            infoRow = 0;
-          }
-          else
-          {
-            int i = _currentInfo.TotalRows;
-            while (i > _currentInfo.VisibleRows)
-            {
-              infoRow += _currentInfo.VisibleRows;
-              i = GetMaxRows(GetShortInfoText());
-            }
-          }
+          rows *= Int32.MaxValue;
           break;
       }
-      ResumeLayout();
-      infoRow = Math.Max(infoRow, 0);
+      // Scroll down
+      if (rows < 0)
+      {
+        _scrollTextTransform = Math.Max(
+          _maxScrollTextTransform + ClientRectangle.Height,
+          _scrollTextTransform + rows
+        );
+      }
+      else if (rows > 0) // Scroll up
+      {
+        _scrollTextTransform = Math.Min(0, _scrollTextTransform + rows);
+      }
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -249,13 +238,13 @@ namespace IV_Play
           break;
         case Keys.Down:
           if (e.Control)
-            ScrollInfoText(3, InfoScrollMode.Line);
+            ScrollInfoText(-3, InfoScrollMode.Line);
           else
             NavigateForward(1);
           break;
         case Keys.Up:
           if (e.Control)
-            ScrollInfoText(-3, InfoScrollMode.Line);
+            ScrollInfoText(3, InfoScrollMode.Line);
           else
             NavigateBackward(1);
           break;
@@ -264,7 +253,7 @@ namespace IV_Play
           if (e.KeyCode == Keys.PageDown || (e.KeyCode == Keys.Right && Settings.Default.arrow_key_paging))
           {
             if (e.Control)
-              ScrollInfoText(1, InfoScrollMode.Page);
+              ScrollInfoText(-1, InfoScrollMode.Page);
             else
               NavigateForward(ClientRectangle.Height / RowHeight);
           }
@@ -274,14 +263,14 @@ namespace IV_Play
           if (e.KeyCode == Keys.PageUp || (e.KeyCode == Keys.Left && Settings.Default.arrow_key_paging))
           {
             if (e.Control)
-              ScrollInfoText(-1, InfoScrollMode.Page);
+              ScrollInfoText(1, InfoScrollMode.Page);
             else
               NavigateBackward(ClientRectangle.Height / RowHeight);
           }
           break;
         case Keys.Home:
           if (e.Control)
-            ScrollInfoText(-1, InfoScrollMode.All);
+            ScrollInfoText(1, InfoScrollMode.All);
           else if (SelectedGame != null && FavoritesMode == FavoritesMode.FavoritesAndGames)
           {
             Game lastFavorite = GetNodeAtRow(CountFavorites);
@@ -297,7 +286,7 @@ namespace IV_Play
           break;
         case Keys.End:
           if (e.Control)
-            ScrollInfoText(1, InfoScrollMode.All);
+            ScrollInfoText(-1, InfoScrollMode.All);
           else if (SelectedGame != null && FavoritesMode == FavoritesMode.FavoritesAndGames)
           {
             Game lastFavorite = GetNodeAtRow(CountFavorites - 1);

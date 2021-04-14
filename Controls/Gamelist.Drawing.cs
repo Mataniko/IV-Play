@@ -183,21 +183,6 @@ namespace IV_Play
 
       string gameName = SelectedGame.IsParent ? SelectedGame.Name : SelectedGame.ParentSet;
 
-      int maxRows = 0;
-      int chars;
-      Info info = new Info();
-      string text = "";
-      StringFormat stringFormat = new StringFormat();
-
-
-      //Calculate the Area to draw the text in.
-      SizeF size = new SizeF((float)ClientRectangle.Width / 2, 100000);
-
-      RectangleF rectangleF = new RectangleF(((float)ClientRectangle.Width / 2), ArtOffset,
-                                             ((float)ClientRectangle.Width / 2) - ArtOffset,
-                                             ClientRectangle.Height - ArtOffset * 2);
-
-
       //Find out if we are reading MameInfo or History
       string textType = Path.GetFileNameWithoutExtension(SettingsManager.ArtPaths[ArtType]);
       if (textType.Equals("mameinfo", StringComparison.InvariantCultureIgnoreCase))
@@ -208,7 +193,7 @@ namespace IV_Play
         if (!MameInfo.Contains(gameName.Replace("fav_", "")))
           return;
 
-        info = MameInfo[gameName.Replace("fav_", "")];
+        _currentInfoText = MameInfo[gameName.Replace("fav_", "")];
       }
       else if (textType.Equals("history", StringComparison.InvariantCultureIgnoreCase))
       {
@@ -220,35 +205,46 @@ namespace IV_Play
         if (!History.Contains(gameName.Replace("fav_", "")))
           return;
 
-        info = History[gameName.Replace("fav_", "")];
+        _currentInfoText = History[gameName.Replace("fav_", "")];
       }
       else
         return;
 
-      _currentInfo = info;
+      var sizeRect = g.MeasureString(
+        _currentInfoText,
+        Settings.Default.info_font,
+        new SizeF(((float)ClientRectangle.Width / 2), 0),
+        new StringFormat()
+      );
 
-      text = GetShortInfoText();
-      _currentInfoText = text;
+      _maxScrollTextTransform = sizeRect.Height * -1;
 
+      RectangleF rectangleF = new RectangleF(
+        ((float)ClientRectangle.Width / 2),
+        ArtOffset,
+        ((float)ClientRectangle.Width / 2) - ArtOffset,
+        sizeRect.Height
+      );
 
-      g.MeasureString(text, Settings.Default.info_font, size, stringFormat, out chars, out maxRows);
-
-
-      g.DrawString(text, Settings.Default.info_font, new SolidBrush(Settings.Default.info_font_color), rectangleF,
-                   stringFormat);
+      // Scroll the info text
+      g.TranslateTransform(0, _scrollTextTransform);
+      g.DrawString(
+        _currentInfoText,
+        Settings.Default.info_font,
+        new SolidBrush(Settings.Default.info_font_color),
+        rectangleF
+      );
+      g.TranslateTransform(0, 0);
 
       _imageArea = new Rectangle((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width,
                                  (int)rectangleF.Height);
-
-      info.TotalRows = maxRows;
-      info.VisibleRows = GetVisibleRows(_currentInfoText);
     }
 
     private void DrawBackground(Graphics g)
     {
       if (_bgImage != null)
       {
-        _currentInfo = null;
+        _currentInfoText = "";
         //Sets the transparency for our art
         ImageAttributes ia = CreateImageAttributes();
         g.CompositingMode = CompositingMode.SourceOver;
@@ -368,36 +364,19 @@ namespace IV_Play
       return ia;
     }
 
-
-    private string GetShortInfoText()
-    {
-      StringReader stringReader = new StringReader(_currentInfo.Text);
-
-      for (int i = 0; i < infoRow; i++)
-      {
-        stringReader.ReadLine();
-      }
-
-      return stringReader.ReadToEnd();
-    }
-
     private int GetVisibleRows(string text)
     {
       Graphics g = CreateGraphics();
-      int chars = 0;
-      int visibleRows = 0;
-      g.MeasureString(text, Settings.Default.info_font, _imageArea.Size, new StringFormat(), out chars,
-                      out visibleRows);
+      g.MeasureString(text, Settings.Default.info_font, _imageArea.Size, new StringFormat(), out int chars,
+                      out int visibleRows);
       return visibleRows;
     }
 
     private int GetMaxRows(string text)
     {
       Graphics g = CreateGraphics();
-      int chars = 0;
-      int visibleRows = 0;
       g.MeasureString(text, Settings.Default.info_font, new SizeF(_imageArea.Width, 100000), new StringFormat(),
-                      out chars, out visibleRows);
+                      out int chars, out int visibleRows);
       return visibleRows;
     }
 

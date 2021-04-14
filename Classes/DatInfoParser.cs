@@ -63,7 +63,7 @@ namespace IV_Play.Classes
 
               if (!_infoDictionary.ContainsKey(key))
               {
-                _infoDictionary.Add(key, CreateInfo(entry));
+                _infoDictionary.Add(key, entry);
               }
             }
 

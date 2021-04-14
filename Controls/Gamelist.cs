@@ -45,9 +45,9 @@ namespace IV_Play
     private InfoParser MameInfo;
     private InfoParser History;
     public bool ControlKeyPressed { get; set; }
-    private Info _currentInfo = null;
     private string _currentInfoText = "";
-    private int infoRow = 0;
+    private float _scrollTextTransform = 0;
+    private float _maxScrollTextTransform = 0;
 
     public static event GameListChanged GameListChanged;
 
@@ -783,9 +783,8 @@ namespace IV_Play
     /// </summary>
     public void RefreshImage()
     {
-
       //Reset the info row for scrolling
-      infoRow = 0;
+      _scrollTextTransform = 0;
 
       if (SelectedGame != null)
       {

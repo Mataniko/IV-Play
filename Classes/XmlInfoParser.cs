@@ -45,7 +45,7 @@ namespace IV_Play.Classes
                   foreach (var key in keys)
                   {
                     if (!_infoDictionary.ContainsKey(key))
-                      _infoDictionary.Add(key, CreateInfo(entry));
+                      _infoDictionary.Add(key, entry);
                   }
                 }
               }
