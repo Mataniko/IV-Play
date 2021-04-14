@@ -328,7 +328,7 @@ namespace IV_Play
         var itemPath = Path.Combine(mamePath, item);
 
         // Skip history.dat if we have history.xml
-        if (item.Equals("history.dat") && File.Exists(itemPath.Replace(".dat", "xml")))
+        if (item.Equals("history.dat") && File.Exists(itemPath.Replace(".dat", ".xml")))
         {
           continue;
         }
