@@ -38,10 +38,11 @@ namespace IV_Play.Classes
 
                 if (innerReader.ReadToFollowing("text"))
                 {
+                  var entry = innerReader.ReadElementContentAsString();
                   foreach (var key in keys)
                   {
                     if (!_infoDictionary.ContainsKey(key))
-                      _infoDictionary.Add(key, innerReader.ReadElementContentAsString());
+                      _infoDictionary.Add(key, entry.Trim());
                   }
                 }
               }
@@ -49,7 +50,7 @@ namespace IV_Play.Classes
           }
         }
       }
-      catch (Exception)
+      catch (Exception ex)
       {
       }
     }

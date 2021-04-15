@@ -204,7 +204,7 @@ namespace IV_Play
       if (rows < 0)
       {
         _scrollTextTransform = Math.Max(
-          _maxScrollTextTransform + ClientRectangle.Height,
+          _maxScrollTextTransform + ClientRectangle.Height - ArtOffset,
           _scrollTextTransform + rows
         );
       }

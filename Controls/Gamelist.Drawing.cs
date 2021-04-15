@@ -210,11 +210,12 @@ namespace IV_Play
       else
         return;
 
+      var stringFormat = new StringFormat();
       var sizeRect = g.MeasureString(
         _currentInfoText,
         Settings.Default.info_font,
-        new SizeF(((float)ClientRectangle.Width / 2), 0),
-        new StringFormat()
+        new SizeF(((float)ClientRectangle.Width / 2) - 11, 0),
+        stringFormat
       );
 
       _maxScrollTextTransform = sizeRect.Height * -1;
@@ -224,20 +225,26 @@ namespace IV_Play
         ArtOffset,
         ((float)ClientRectangle.Width / 2) - ArtOffset,
         sizeRect.Height
-      );
-
+      );      
       // Scroll the info text
-      g.TranslateTransform(0, _scrollTextTransform);
+      if (sizeRect.Height > ClientRectangle.Height)
+      {
+        g.TranslateTransform(0, _scrollTextTransform);
+      }
+      if (_scrollTextTransform - ClientRectangle.Height + ArtOffset + sizeRect.Height < 0)
+      {
+        _scrollTextTransform = _maxScrollTextTransform + ClientRectangle.Height - ArtOffset;
+      }
       g.DrawString(
-        _currentInfoText,
-        Settings.Default.info_font,
-        new SolidBrush(Settings.Default.info_font_color),
-        rectangleF
-      );
+         _currentInfoText,
+         Settings.Default.info_font,
+         new SolidBrush(Settings.Default.info_font_color),
+         rectangleF,
+         stringFormat
+       );
       g.TranslateTransform(0, 0);
-
       _imageArea = new Rectangle((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width,
-                                 (int)rectangleF.Height);
+                                 (int)rectangleF.Height);      
     }
 
     private void DrawBackground(Graphics g)

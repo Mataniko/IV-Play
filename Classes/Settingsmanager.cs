@@ -223,13 +223,17 @@ namespace IV_Play
           FileInfo[] fileInfos = directoryInfo.GetFiles();
           var images =
               (from entry in fileInfos
-               where entry.Extension.In(".png", ".bmp", ".gif", "jpg")
+               where entry.Extension.In(".png", ".bmp", ".gif", ".jpg")
                select entry);
-          Random rand = new Random();
-          int iRand = rand.Next(0, images.Count());
-          Settings.Default.bkground_image = images.ElementAt(iRand).Name;
-          string bkimg = images.ElementAt(iRand).FullName;
-          BackgroundImage = Image.FromFile(bkimg);
+          
+          if (images.Count() > 0)
+          {
+            Random rand = new Random();
+            int iRand = rand.Next(0, images.Count());
+            Settings.Default.bkground_image = images.ElementAt(iRand).Name;
+            string bkimg = images.ElementAt(iRand).FullName;
+            BackgroundImage = Image.FromFile(bkimg);
+          }                   
           return;
         }
 
