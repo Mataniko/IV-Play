@@ -79,7 +79,6 @@ namespace IV_Play
         // Read the header line.
         var line = listFull.ReadLine();
         var regex = new Regex(@"^(\S*)\s+""(.*)""$");
-        var prevName = '0';
         while ((line = listFull.ReadLine()) != null)
         {
           var match = regex.Match(line);

@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IV/Play")]
-[assembly: AssemblyCopyright("© 2019 John L. Hardy IV / Matan Bareket")]
+[assembly: AssemblyCopyright("© 2019-2021 John L. Hardy IV / Matan Bareket")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.8.3.0")]
-[assembly: AssemblyFileVersion("1.8.3.0")]
+[assembly: AssemblyVersion("1.8.4.0")]
+[assembly: AssemblyFileVersion("1.8.4.0")]
 [assembly: AssemblyTitleAttribute("IV/Play")]
