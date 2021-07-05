@@ -181,7 +181,8 @@ namespace IV_Play
       if (SelectedGame == null)
         return;
 
-      string gameName = SelectedGame.IsParent ? SelectedGame.Name : SelectedGame.ParentSet;
+      string gameName = SelectedGame.Name.Replace("fav_", "");
+      string parentName = SelectedGame.IsParent ? "" : SelectedGame.ParentSet.Replace("fav_", "");
 
       //Find out if we are reading MameInfo or History
       string textType = Path.GetFileNameWithoutExtension(SettingsManager.ArtPaths[ArtType]);
@@ -190,10 +191,18 @@ namespace IV_Play
         if (MameInfo == null)
           MameInfo = InfoParser.Create(SettingsManager.ArtPaths[ArtType]);
 
-        if (!MameInfo.Contains(gameName.Replace("fav_", "")))
+        if (MameInfo.Contains(gameName))
+        {
+          _currentInfoText = MameInfo[gameName];
+        }
+        else if (!SelectedGame.IsParent && MameInfo.Contains(parentName))
+        {
+          _currentInfoText = MameInfo[parentName];
+        }
+        else
+        {
           return;
-
-        _currentInfoText = MameInfo[gameName.Replace("fav_", "")];
+        }
       }
       else if (textType.Equals("history", StringComparison.InvariantCultureIgnoreCase))
       {
@@ -202,10 +211,18 @@ namespace IV_Play
           History = InfoParser.Create(SettingsManager.ArtPaths[ArtType]);
         }
 
-        if (!History.Contains(gameName.Replace("fav_", "")))
+        if (History.Contains(gameName))
+        {
+          _currentInfoText = History[gameName];
+        }
+        else if (!SelectedGame.IsParent && History.Contains(parentName))
+        {
+          _currentInfoText = History[parentName];
+        }
+        else
+        {
           return;
-
-        _currentInfoText = History[gameName.Replace("fav_", "")];
+        }
       }
       else
         return;
@@ -225,7 +242,7 @@ namespace IV_Play
         ArtOffset,
         ((float)ClientRectangle.Width / 2) - ArtOffset,
         sizeRect.Height
-      );      
+      );
       // Scroll the info text
       if (sizeRect.Height > ClientRectangle.Height)
       {
@@ -244,7 +261,7 @@ namespace IV_Play
        );
       g.TranslateTransform(0, 0);
       _imageArea = new Rectangle((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width,
-                                 (int)rectangleF.Height);      
+                                 (int)rectangleF.Height);
     }
 
     private void DrawBackground(Graphics g)
